@@ -4,6 +4,8 @@ certifi==2024.8.30
 charset-normalizer==3.3.2
 click==8.1.7
 colorama==0.4.6
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.4.1
 fastapi==0.115.0
 filelock==3.16.1
 fsspec==2024.9.0
@@ -19,7 +21,7 @@ MarkupSafe==2.1.5
 mpmath==1.3.0
 networkx==3.2.1
 nltk==3.9.1
-numpy==2.1.1
+numpy==1.25.1
 packaging==24.1
 pandas==2.2.3
 parrot @ git+https://github.com/PrithivirajDamodaran/Parrot_Paraphraser.git@03084c54b64019ba5fa0b620b9c70ad81123e458
@@ -49,7 +51,6 @@ sympy==1.12
 textblob==0.18.0.post0
 threadpoolctl==3.5.0
 tokenizers==0.20.0
-torch==2.4.1+cpu
 tqdm==4.66.5
 transformers==4.45.1
 typing_extensions==4.12.2
