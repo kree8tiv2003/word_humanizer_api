@@ -1,0 +1,114 @@
+{
+  "1": {
+    "class_type": "UNETLoader",
+    "_meta": {"title": "Load Wan2.2 S2V 14B"},
+    "inputs": {"unet_name": "wan2.2_s2v_14B_fp8_scaled.safetensors", "weight_dtype": "default"}
+  },
+  "2": {
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {"title": "LightX2V 4-step LoRA (fast mode)"},
+    "inputs": {"model": ["1", 0], "lora_name": "wan2.2_t2v_lightx2v_4steps_lora_v1.1_high_noise.safetensors", "strength_model": 1.0}
+  },
+  "3": {
+    "class_type": "ModelSamplingSD3",
+    "_meta": {"title": "Model Sampling (shift)"},
+    "inputs": {"model": ["2", 0], "shift": 8.0}
+  },
+  "4": {
+    "class_type": "CLIPLoader",
+    "_meta": {"title": "Load UMT5 text encoder"},
+    "inputs": {"clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors", "type": "wan", "device": "default"}
+  },
+  "5": {
+    "class_type": "VAELoader",
+    "_meta": {"title": "Load Wan VAE"},
+    "inputs": {"vae_name": "wan_2.1_vae.safetensors"}
+  },
+  "6": {
+    "class_type": "AudioEncoderLoader",
+    "_meta": {"title": "Load wav2vec2 audio encoder"},
+    "inputs": {"audio_encoder_name": "wav2vec2_large_english_fp16.safetensors"}
+  },
+  "7": {
+    "class_type": "LoadAudio",
+    "_meta": {"title": "Song (use the isolated VOCALS stem for best lip sync)"},
+    "inputs": {"audio": "god_inside_vocals.wav"}
+  },
+  "8": {
+    "class_type": "TrimAudioDuration",
+    "_meta": {"title": "5-second window for this segment"},
+    "inputs": {"audio": ["7", 0], "start_index": 15.0, "duration": 5.0}
+  },
+  "9": {
+    "class_type": "AudioEncoderEncode",
+    "_meta": {"title": "Encode audio for lip sync"},
+    "inputs": {"audio_encoder": ["6", 0], "audio": ["8", 0]}
+  },
+  "10": {
+    "class_type": "LoadImage",
+    "_meta": {"title": "Scene keyframe / character reference"},
+    "inputs": {"image": "scene_B.png"}
+  },
+  "11": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {"title": "Positive prompt (segment)"},
+    "inputs": {"clip": ["4", 0], "text": "Segment prompt is injected here by make_video.py"}
+  },
+  "12": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {"title": "Negative prompt"},
+    "inputs": {"clip": ["4", 0], "text": "static image, frozen face, blurry, low quality, distorted face, deformed mouth, lips out of sync, mouth not moving while singing, identity change"}
+  },
+  "13": {
+    "class_type": "LoadVideo",
+    "_meta": {"title": "Previous clip (continuity) - removed on scene cuts"},
+    "inputs": {"file": "prev_motion.mp4"}
+  },
+  "14": {
+    "class_type": "GetVideoComponents",
+    "_meta": {"title": "Previous clip frames"},
+    "inputs": {"video": ["13", 0]}
+  },
+  "15": {
+    "class_type": "WanSoundImageToVideo",
+    "_meta": {"title": "Wan Sound->Video (80 audio frames = 5.0 s @ 16 fps)"},
+    "inputs": {
+      "positive": ["11", 0],
+      "negative": ["12", 0],
+      "vae": ["5", 0],
+      "width": 832,
+      "height": 480,
+      "length": 77,
+      "batch_size": 1,
+      "audio_encoder_output": ["9", 0],
+      "ref_image": ["10", 0],
+      "ref_motion": ["14", 0]
+    }
+  },
+  "16": {
+    "class_type": "KSampler",
+    "_meta": {"title": "KSampler"},
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["15", 0],
+      "negative": ["15", 1],
+      "latent_image": ["15", 2],
+      "seed": 777,
+      "steps": 4,
+      "cfg": 1.0,
+      "sampler_name": "uni_pc",
+      "scheduler": "simple",
+      "denoise": 1.0
+    }
+  },
+  "17": {
+    "class_type": "VAEDecode",
+    "_meta": {"title": "VAE Decode"},
+    "inputs": {"samples": ["16", 0], "vae": ["5", 0]}
+  },
+  "18": {
+    "class_type": "SaveImage",
+    "_meta": {"title": "Save frames"},
+    "inputs": {"images": ["17", 0], "filename_prefix": "god_inside/seg_04/frame"}
+  }
+}
