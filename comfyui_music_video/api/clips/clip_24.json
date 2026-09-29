@@ -1,0 +1,604 @@
+{
+ "1": {
+  "class_type": "LoadAudio",
+  "inputs": {
+   "audio": "God_Inside.mp3"
+  },
+  "_meta": {
+   "title": "LoadAudio"
+  }
+ },
+ "2": {
+  "class_type": "PrimitiveInt",
+  "inputs": {
+   "value": 1280
+  },
+  "_meta": {
+   "title": "Width"
+  }
+ },
+ "3": {
+  "class_type": "PrimitiveInt",
+  "inputs": {
+   "value": 704
+  },
+  "_meta": {
+   "title": "Height"
+  }
+ },
+ "4": {
+  "class_type": "PrimitiveFloat",
+  "inputs": {
+   "value": 24.0
+  },
+  "_meta": {
+   "title": "FPS"
+  }
+ },
+ "5": {
+  "class_type": "LoadImage",
+  "inputs": {
+   "image": "god_inside_scene_24.png"
+  },
+  "_meta": {
+   "title": "Scene 24 start frame"
+  }
+ },
+ "6": {
+  "class_type": "PrimitiveStringMultiline",
+  "inputs": {
+   "value": "Low-angle push-in. The woman slowly raises her free hand upward while singing. The spotlight warms and widens; the crowd rises behind her."
+  },
+  "_meta": {
+   "title": "Scene 24 motion prompt"
+  }
+ },
+ "7": {
+  "class_type": "PrimitiveString",
+  "inputs": {
+   "value": "2:40"
+  },
+  "_meta": {
+   "title": "audio start (m:ss)"
+  }
+ },
+ "8": {
+  "class_type": "PrimitiveString",
+  "inputs": {
+   "value": "2:46"
+  },
+  "_meta": {
+   "title": "audio end (m:ss)"
+  }
+ },
+ "9": {
+  "class_type": "PrimitiveInt",
+  "inputs": {
+   "value": 145
+  },
+  "_meta": {
+   "title": "frames (8n+1)"
+  }
+ },
+ "10": {
+  "class_type": "PrimitiveFloat",
+  "inputs": {
+   "value": 6.0
+  },
+  "_meta": {
+   "title": "seconds"
+  }
+ },
+ "11:952": {
+  "class_type": "UNETLoader",
+  "inputs": {
+   "unet_name": "ltx-2-19b-distilled_transformer_only_bf16.safetensors",
+   "weight_dtype": "default"
+  },
+  "_meta": {
+   "title": "UNETLoader"
+  }
+ },
+ "11:922": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "text": "still image with no motion, subtitles, text, scene change",
+   "clip": [
+    "11:951",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "CLIPTextEncode"
+  }
+ },
+ "11:819": {
+  "class_type": "LTXVChunkFeedForward",
+  "inputs": {
+   "chunks": 4,
+   "dim_threshold": 4096,
+   "model": [
+    "11:952",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTXVChunkFeedForward"
+  }
+ },
+ "11:927": {
+  "class_type": "LTXVConditioning",
+  "inputs": {
+   "frame_rate": [
+    "11:1001",
+    0
+   ],
+   "positive": [
+    "11:921",
+    0
+   ],
+   "negative": [
+    "11:950",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTXVConditioning"
+  }
+ },
+ "11:855": {
+  "class_type": "EmptyLTXVLatentVideo",
+  "inputs": {
+   "width": [
+    "11:923",
+    1
+   ],
+   "height": [
+    "11:923",
+    2
+   ],
+   "length": [
+    "9",
+    0
+   ],
+   "batch_size": 1
+  },
+  "_meta": {
+   "title": "EmptyLTXVLatentVideo"
+  }
+ },
+ "11:933": {
+  "class_type": "LTX2SamplingPreviewOverride",
+  "inputs": {
+   "preview_rate": 8,
+   "model": [
+    "11:820",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTX2SamplingPreviewOverride"
+  }
+ },
+ "11:951": {
+  "class_type": "DualCLIPLoader",
+  "inputs": {
+   "clip_name1": "gemma_3_12B_it_fp8_scaled.safetensors",
+   "clip_name2": "ltx-2-19b-embeddings_connector_distill_bf16.safetensors",
+   "type": "ltxv",
+   "device": "default"
+  },
+  "_meta": {
+   "title": "DualCLIPLoader"
+  }
+ },
+ "11:895": {
+  "class_type": "VAELoaderKJ",
+  "inputs": {
+   "vae_name": "LTX2_audio_vae_bf16.safetensors",
+   "device": "main_device",
+   "weight_dtype": "bf16"
+  },
+  "_meta": {
+   "title": "VAELoaderKJ"
+  }
+ },
+ "11:842": {
+  "class_type": "LTXVImgToVideoInplaceKJ",
+  "inputs": {
+   "num_images": "1",
+   "num_images.strength_1": 1,
+   "num_images.index_1": 0,
+   "vae": [
+    "11:904",
+    0
+   ],
+   "latent": [
+    "11:855",
+    0
+   ],
+   "num_images.image_1": [
+    "11:821",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTXVImgToVideoInplaceKJ"
+  }
+ },
+ "11:978:883": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "noise": [
+    "11:978:863",
+    0
+   ],
+   "guider": [
+    "11:978:828",
+    0
+   ],
+   "sampler": [
+    "11:978:944",
+    0
+   ],
+   "sigmas": [
+    "11:978:939",
+    0
+   ],
+   "latent_image": [
+    "11:978:822",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "SamplerCustomAdvanced"
+  }
+ },
+ "11:978:828": {
+  "class_type": "CFGGuider",
+  "inputs": {
+   "cfg": 1,
+   "model": [
+    "11:933",
+    0
+   ],
+   "positive": [
+    "11:927",
+    0
+   ],
+   "negative": [
+    "11:927",
+    1
+   ]
+  },
+  "_meta": {
+   "title": "CFGGuider"
+  }
+ },
+ "11:978:825": {
+  "class_type": "LTXVSeparateAVLatent",
+  "inputs": {
+   "av_latent": [
+    "11:978:883",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTXVSeparateAVLatent"
+  }
+ },
+ "11:978:944": {
+  "class_type": "KSamplerSelect",
+  "inputs": {
+   "sampler_name": "lcm"
+  },
+  "_meta": {
+   "title": "KSamplerSelect"
+  }
+ },
+ "11:978:939": {
+  "class_type": "LTXVScheduler",
+  "inputs": {
+   "steps": 8,
+   "max_shift": 2.05,
+   "base_shift": 0.95,
+   "stretch": true,
+   "terminal": 0.1,
+   "latent": [
+    "11:842",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTXVScheduler"
+  }
+ },
+ "11:978:826": {
+  "class_type": "VAEDecodeTiled",
+  "inputs": {
+   "tile_size": 1024,
+   "overlap": 64,
+   "temporal_size": 128,
+   "temporal_overlap": 16,
+   "samples": [
+    "11:978:825",
+    0
+   ],
+   "vae": [
+    "11:904",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "VAEDecodeTiled"
+  }
+ },
+ "11:978:863": {
+  "class_type": "RandomNoise",
+  "inputs": {
+   "noise_seed": 44
+  },
+  "_meta": {
+   "title": "RandomNoise"
+  }
+ },
+ "11:978:818": {
+  "class_type": "SolidMask",
+  "inputs": {
+   "value": 0,
+   "width": 512,
+   "height": 512
+  },
+  "_meta": {
+   "title": "SolidMask"
+  }
+ },
+ "11:978:822": {
+  "class_type": "LTXVConcatAVLatent",
+  "inputs": {
+   "video_latent": [
+    "11:842",
+    0
+   ],
+   "audio_latent": [
+    "11:978:817",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTXVConcatAVLatent"
+  }
+ },
+ "11:978:991": {
+  "class_type": "TrimAudioDuration",
+  "inputs": {
+   "start_index": 0,
+   "duration": [
+    "10",
+    0
+   ],
+   "audio": [
+    "11:890",
+    3
+   ]
+  },
+  "_meta": {
+   "title": "TrimAudioDuration"
+  }
+ },
+ "11:978:907": {
+  "class_type": "LTXVAudioVAEEncode",
+  "inputs": {
+   "audio": [
+    "11:978:991",
+    0
+   ],
+   "audio_vae": [
+    "11:895",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTXVAudioVAEEncode"
+  }
+ },
+ "11:978:817": {
+  "class_type": "SetLatentNoiseMask",
+  "inputs": {
+   "samples": [
+    "11:978:907",
+    0
+   ],
+   "mask": [
+    "11:978:818",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "SetLatentNoiseMask"
+  }
+ },
+ "11:995": {
+  "class_type": "CreateVideo",
+  "inputs": {
+   "fps": [
+    "11:1001",
+    0
+   ],
+   "bit_depth": "auto",
+   "color_space": "sRGB",
+   "codec": "none",
+   "images": [
+    "11:978:826",
+    0
+   ],
+   "audio": [
+    "11:892",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "CreateVideo"
+  }
+ },
+ "11:950": {
+  "class_type": "ConditioningZeroOut",
+  "inputs": {
+   "conditioning": [
+    "11:921",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "ConditioningZeroOut"
+  }
+ },
+ "11:921": {
+  "class_type": "CLIPTextEncode",
+  "inputs": {
+   "text": [
+    "6",
+    0
+   ],
+   "clip": [
+    "11:951",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "CLIPTextEncode"
+  }
+ },
+ "11:820": {
+  "class_type": "LTX2_NAG",
+  "inputs": {
+   "nag_scale": 11,
+   "nag_alpha": 0.25,
+   "nag_tau": 2.5,
+   "inplace": true,
+   "model": [
+    "11:819",
+    0
+   ],
+   "nag_cond_video": [
+    "11:922",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTX2_NAG"
+  }
+ },
+ "11:821": {
+  "class_type": "LTXVPreprocess",
+  "inputs": {
+   "img_compression": 25,
+   "image": [
+    "11:923",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTXVPreprocess"
+  }
+ },
+ "11:923": {
+  "class_type": "ImageResizeKJv2",
+  "inputs": {
+   "width": [
+    "2",
+    0
+   ],
+   "height": [
+    "3",
+    0
+   ],
+   "upscale_method": "lanczos",
+   "keep_proportion": "crop",
+   "pad_color": "0, 0, 0",
+   "crop_position": "center",
+   "divisible_by": 32,
+   "device": "cpu",
+   "image": [
+    "5",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "ImageResizeKJv2"
+  }
+ },
+ "11:892": {
+  "class_type": "AudioCrop",
+  "inputs": {
+   "start_time": [
+    "7",
+    0
+   ],
+   "end_time": [
+    "8",
+    0
+   ],
+   "audio": [
+    "1",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "AudioCrop"
+  }
+ },
+ "11:890": {
+  "class_type": "AudioSeparation",
+  "inputs": {
+   "chunk_fade_shape": "linear",
+   "chunk_length": 10,
+   "chunk_overlap": 0.1,
+   "audio": [
+    "11:892",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "AudioSeparation"
+  }
+ },
+ "11:1001": {
+  "class_type": "PrimitiveFloat",
+  "inputs": {
+   "value": [
+    "4",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "FPS"
+  }
+ },
+ "11:904": {
+  "class_type": "VAELoaderKJ",
+  "inputs": {
+   "vae_name": "LTX2_video_vae_bf16.safetensors",
+   "device": "main_device",
+   "weight_dtype": "bf16"
+  },
+  "_meta": {
+   "title": "VAELoaderKJ"
+  }
+ },
+ "12": {
+  "class_type": "SaveVideo",
+  "inputs": {
+   "filename_prefix": "god_inside/clip_24",
+   "format": "auto",
+   "codec": "auto",
+   "video": [
+    "11:995",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "Scene 24 clip"
+  }
+ }
+}

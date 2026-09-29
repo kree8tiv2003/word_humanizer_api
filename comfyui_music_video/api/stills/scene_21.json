@@ -1,0 +1,227 @@
+{
+ "1": {
+  "class_type": "UNETLoader",
+  "inputs": {
+   "unet_name": "qwen_image_edit_2509_fp8_e4m3fn.safetensors",
+   "weight_dtype": "default"
+  },
+  "_meta": {
+   "title": "UNETLoader"
+  }
+ },
+ "2": {
+  "class_type": "LoraLoaderModelOnly",
+  "inputs": {
+   "lora_name": "Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors",
+   "strength_model": 1.0,
+   "model": [
+    "1",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LoraLoaderModelOnly"
+  }
+ },
+ "3": {
+  "class_type": "ModelSamplingAuraFlow",
+  "inputs": {
+   "shift": 3.0,
+   "model": [
+    "2",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "ModelSamplingAuraFlow"
+  }
+ },
+ "4": {
+  "class_type": "CFGNorm",
+  "inputs": {
+   "strength": 1.0,
+   "model": [
+    "3",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "CFGNorm"
+  }
+ },
+ "5": {
+  "class_type": "CLIPLoader",
+  "inputs": {
+   "clip_name": "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+   "type": "qwen_image",
+   "device": "default"
+  },
+  "_meta": {
+   "title": "CLIPLoader"
+  }
+ },
+ "6": {
+  "class_type": "VAELoader",
+  "inputs": {
+   "vae_name": "qwen_image_vae.safetensors"
+  },
+  "_meta": {
+   "title": "VAELoader"
+  }
+ },
+ "7": {
+  "class_type": "LoadImage",
+  "inputs": {
+   "image": "god_inside_ref_closeup.png"
+  },
+  "_meta": {
+   "title": "Reference: singer close-up (image 1)"
+  }
+ },
+ "8": {
+  "class_type": "LoadImage",
+  "inputs": {
+   "image": "god_inside_ref_sheet.png"
+  },
+  "_meta": {
+   "title": "Reference: character / wardrobe sheet (image 2)"
+  }
+ },
+ "10": {
+  "class_type": "TextEncodeQwenImageEditPlus",
+  "inputs": {
+   "prompt": "Close-up of the woman from image 1 in the red beaded gown from image 2 with a joyful tearful smile, eyes glistening, holding the microphone near her lips under a warm steady spotlight, soft haze, dark blurred nightclub from image 3.",
+   "clip": [
+    "5",
+    0
+   ],
+   "vae": [
+    "6",
+    0
+   ],
+   "image1": [
+    "7",
+    0
+   ],
+   "image2": [
+    "8",
+    0
+   ],
+   "image3": [
+    "16",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "Scene 21 prompt"
+  }
+ },
+ "11": {
+  "class_type": "TextEncodeQwenImageEditPlus",
+  "inputs": {
+   "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render",
+   "clip": [
+    "5",
+    0
+   ],
+   "vae": [
+    "6",
+    0
+   ],
+   "image1": [
+    "7",
+    0
+   ],
+   "image2": [
+    "8",
+    0
+   ],
+   "image3": [
+    "16",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "negative"
+  }
+ },
+ "12": {
+  "class_type": "EmptySD3LatentImage",
+  "inputs": {
+   "width": 1280,
+   "height": 720,
+   "batch_size": 1
+  },
+  "_meta": {
+   "title": "EmptySD3LatentImage"
+  }
+ },
+ "13": {
+  "class_type": "KSampler",
+  "inputs": {
+   "seed": 1021,
+   "steps": 4,
+   "cfg": 1.0,
+   "sampler_name": "euler",
+   "scheduler": "simple",
+   "denoise": 1.0,
+   "model": [
+    "4",
+    0
+   ],
+   "positive": [
+    "10",
+    0
+   ],
+   "negative": [
+    "11",
+    0
+   ],
+   "latent_image": [
+    "12",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "KSampler"
+  }
+ },
+ "14": {
+  "class_type": "VAEDecode",
+  "inputs": {
+   "samples": [
+    "13",
+    0
+   ],
+   "vae": [
+    "6",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "VAEDecode"
+  }
+ },
+ "15": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "filename_prefix": "god_inside_scene_21",
+   "images": [
+    "14",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "Scene 21 still"
+  }
+ },
+ "16": {
+  "class_type": "LoadImage",
+  "inputs": {
+   "image": "god_inside_scene_01.png"
+  },
+  "_meta": {
+   "title": "LoadImage"
+  }
+ }
+}
