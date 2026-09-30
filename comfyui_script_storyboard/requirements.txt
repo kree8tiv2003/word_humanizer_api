@@ -1,0 +1,5 @@
+# Core pipeline needs nothing beyond ComfyUI's own environment (torch, numpy, Pillow).
+pypdf>=4.0          # .pdf scripts
+edge-tts>=6.1       # free neural TTS for dialogue (online). Optional: pyttsx3 / piper via command backend
+imageio-ffmpeg>=0.5 # bundled ffmpeg if the system has none
+# anthropic>=0.60   # only if you use the optional Claude prompt-enhancer

@@ -1,0 +1,354 @@
+{
+ "last_node_id": 7,
+ "last_link_id": 5,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "S2S_SetReferenceImages",
+   "pos": [
+    460,
+    60
+   ],
+   "size": [
+    420,
+    900
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image_1",
+     "type": "IMAGE",
+     "link": 1
+    },
+    {
+     "name": "image_2",
+     "type": "IMAGE",
+     "link": 2
+    },
+    {
+     "name": "image_3",
+     "type": "IMAGE",
+     "link": 3
+    },
+    {
+     "name": "image_4",
+     "type": "IMAGE",
+     "link": 4
+    },
+    {
+     "name": "image_5",
+     "type": "IMAGE",
+     "link": 5
+    }
+   ],
+   "outputs": [
+    {
+     "name": "project_name",
+     "type": "STRING",
+     "links": [],
+     "slot_index": 0
+    },
+    {
+     "name": "summary",
+     "type": "STRING",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "S2S_SetReferenceImages"
+   },
+   "widgets_values": [
+    "my_storyboard",
+    0.65,
+    false,
+    "all",
+    "reference",
+    1.0,
+    "character:NAME_HERE",
+    "reference",
+    1.0,
+    "location:DINER",
+    "reference",
+    1.0,
+    "shot:SC0001_SH001",
+    "use_as_frame",
+    1.0,
+    "style",
+    "reference",
+    1.0
+   ]
+  },
+  {
+   "id": 2,
+   "type": "LoadImage",
+   "pos": [
+    40,
+    60
+   ],
+   "size": [
+    380,
+    320
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      1
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "example.png",
+    "image"
+   ],
+   "title": "Reference 1"
+  },
+  {
+   "id": 3,
+   "type": "LoadImage",
+   "pos": [
+    40,
+    400
+   ],
+   "size": [
+    380,
+    320
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      2
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "example.png",
+    "image"
+   ],
+   "title": "Reference 2"
+  },
+  {
+   "id": 4,
+   "type": "LoadImage",
+   "pos": [
+    40,
+    740
+   ],
+   "size": [
+    380,
+    320
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      3
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "example.png",
+    "image"
+   ],
+   "title": "Reference 3"
+  },
+  {
+   "id": 5,
+   "type": "LoadImage",
+   "pos": [
+    40,
+    1080
+   ],
+   "size": [
+    380,
+    320
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      4
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "example.png",
+    "image"
+   ],
+   "title": "Reference 4"
+  },
+  {
+   "id": 6,
+   "type": "LoadImage",
+   "pos": [
+    40,
+    1420
+   ],
+   "size": [
+    380,
+    320
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      5
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "example.png",
+    "image"
+   ],
+   "title": "Reference 5"
+  },
+  {
+   "id": 7,
+   "type": "Note",
+   "pos": [
+    920,
+    60
+   ],
+   "size": [
+    560,
+    420
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "Note"
+   },
+   "widgets_values": [
+    "REFERENCE IMAGES (up to 5)\n\nUpload an image into each Load Image node (delete the ones you don't need - every slot is optional) and set how each one is used:\n\nbind:  all | style | character:NAME | location:TEXT | scenes:3-10 | shot:SC0003_SH002 | shot:42\nusage:\n  reference     - steers generation (Redux / IP-Adapter) for every matching shot\n  init_image    - img2img starting frame for matching shots (init_denoise)\n  use_as_frame  - this exact image IS the storyboard frame for that shot (or first shot of each scene in a scenes: range); the shot isn't generated\n\nA character: reference also becomes that character's identity reference for every shot they appear in."
+   ]
+  }
+ ],
+ "links": [
+  [
+   1,
+   2,
+   0,
+   1,
+   0,
+   "IMAGE"
+  ],
+  [
+   2,
+   3,
+   0,
+   1,
+   1,
+   "IMAGE"
+  ],
+  [
+   3,
+   4,
+   0,
+   1,
+   2,
+   "IMAGE"
+  ],
+  [
+   4,
+   5,
+   0,
+   1,
+   3,
+   "IMAGE"
+  ],
+  [
+   5,
+   6,
+   0,
+   1,
+   4,
+   "IMAGE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {},
+ "version": 0.4
+}
