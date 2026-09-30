@@ -243,6 +243,11 @@ def main():
     ap.add_argument("--with-claude", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
+    for stream in (sys.stdout, sys.stderr):  # never crash on ✓/↓ in an old Windows console
+        try:
+            stream.reconfigure(errors="replace")
+        except Exception:
+            pass
     interactive = sys.stdin is not None and sys.stdin.isatty()
 
     comfy, shared_models = classify_given(args.comfyui)
