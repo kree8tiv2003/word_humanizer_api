@@ -120,7 +120,7 @@
    "type": "CheckpointLoaderSimple",
    "pos": [
     40,
-    440
+    560
    ],
    "size": [
     380,
@@ -159,7 +159,14 @@
     }
    ],
    "properties": {
-    "Node name for S&R": "CheckpointLoaderSimple"
+    "Node name for S&R": "CheckpointLoaderSimple",
+    "models": [
+     {
+      "name": "flux1-dev-fp8.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/flux1-dev/resolve/main/flux1-dev-fp8.safetensors",
+      "directory": "checkpoints"
+     }
+    ]
    },
    "widgets_values": [
     "flux1-dev-fp8.safetensors"
@@ -521,7 +528,7 @@
    "type": "S2S_ProjectStatus",
    "pos": [
     40,
-    600
+    720
    ],
    "size": [
     380,
@@ -616,7 +623,14 @@
     }
    ],
    "properties": {
-    "Node name for S&R": "StyleModelLoader"
+    "Node name for S&R": "StyleModelLoader",
+    "models": [
+     {
+      "name": "flux1-redux-dev.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/Flux1-Redux-Dev/resolve/main/flux1-redux-dev.safetensors",
+      "directory": "style_models"
+     }
+    ]
    },
    "widgets_values": [
     "flux1-redux-dev.safetensors"
@@ -648,7 +662,14 @@
     }
    ],
    "properties": {
-    "Node name for S&R": "CLIPVisionLoader"
+    "Node name for S&R": "CLIPVisionLoader",
+    "models": [
+     {
+      "name": "sigclip_vision_patch14_384.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/sigclip_vision_384/resolve/main/sigclip_vision_patch14_384.safetensors",
+      "directory": "clip_vision"
+     }
+    ]
    },
    "widgets_values": [
     "sigclip_vision_patch14_384.safetensors"

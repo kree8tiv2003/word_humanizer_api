@@ -91,7 +91,7 @@
    "type": "CheckpointLoaderSimple",
    "pos": [
     40,
-    440
+    560
    ],
    "size": [
     380,
@@ -129,7 +129,14 @@
     }
    ],
    "properties": {
-    "Node name for S&R": "CheckpointLoaderSimple"
+    "Node name for S&R": "CheckpointLoaderSimple",
+    "models": [
+     {
+      "name": "sd_xl_base_1.0.safetensors",
+      "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors",
+      "directory": "checkpoints"
+     }
+    ]
    },
    "widgets_values": [
     "sd_xl_base_1.0.safetensors"

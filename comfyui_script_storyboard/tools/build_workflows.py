@@ -40,6 +40,18 @@ CORE = {
 }
 WIDGET_TYPES = ("INT", "FLOAT", "STRING", "BOOLEAN")
 
+# Download links shown by ComfyUI's "Missing Models" panel (all public Hugging Face files).
+MODEL_URLS = {
+    "sd_xl_base_1.0.safetensors": ("checkpoints",
+        "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors"),
+    "flux1-dev-fp8.safetensors": ("checkpoints",
+        "https://huggingface.co/Comfy-Org/flux1-dev/resolve/main/flux1-dev-fp8.safetensors"),
+    "flux1-redux-dev.safetensors": ("style_models",
+        "https://huggingface.co/Comfy-Org/Flux1-Redux-Dev/resolve/main/flux1-redux-dev.safetensors"),
+    "sigclip_vision_patch14_384.safetensors": ("clip_vision",
+        "https://huggingface.co/Comfy-Org/sigclip_vision_384/resolve/main/sigclip_vision_patch14_384.safetensors"),
+}
+
 
 def s2s_spec(cls):
     it = cls.INPUT_TYPES()
@@ -83,6 +95,10 @@ class Graph:
         }
         if title:
             node["title"] = title
+        models = [{"name": v, "url": MODEL_URLS[v][1], "directory": MODEL_URLS[v][0]}
+                  for v in vals if isinstance(v, str) and v in MODEL_URLS]
+        if models:
+            node["properties"]["models"] = models
         self.nodes.append(node)
         return node
 
@@ -171,7 +187,7 @@ g.dump(os.path.join(OUT, "02_reference_images.json"))
 # ------------------------------------------------------------------ 03 character sheets
 g = Graph()
 it = g.add("S2S_CharacterIterator", (40, 60), size=(380, 330))
-ck = g.add("CheckpointLoaderSimple", (40, 440), size=(380, 110))
+ck = g.add("CheckpointLoaderSimple", (40, 560), size=(380, 110))
 pos = g.add("CLIPTextEncode", (460, 60), title="Positive", size=(380, 160))
 neg = g.add("CLIPTextEncode", (460, 260), title="Negative", size=(380, 160))
 lat = g.add("EmptyLatentImage", (460, 460), size=(300, 110))
@@ -198,7 +214,7 @@ g.dump(os.path.join(OUT, "03_character_sheets.json"))
 def render_graph(flux: bool):
     g = Graph()
     it = g.add("S2S_ShotIterator", (40, 60), size=(380, 330))
-    ck = g.add("CheckpointLoaderSimple", (40, 440), size=(380, 110),
+    ck = g.add("CheckpointLoaderSimple", (40, 560), size=(380, 110),
                ckpt_name="flux1-dev-fp8.safetensors" if flux else "sd_xl_base_1.0.safetensors")
     pos = g.add("CLIPTextEncode", (460, 60), title="Positive (from shot)", size=(380, 160))
     neg = g.add("CLIPTextEncode", (460, 260), title="Negative (from shot)", size=(380, 160))
@@ -207,7 +223,7 @@ def render_graph(flux: bool):
                **({"cfg": 1.0, "sampler_name": "euler", "scheduler": "simple", "steps": 24} if flux else {}))
     dec = g.add("VAEDecode", (1680, 60), size=(200, 50))
     sv = g.add("S2S_SaveShotImage", (1680, 160), size=(420, 420))
-    st = g.add("S2S_ProjectStatus", (40, 600), size=(380, 200))
+    st = g.add("S2S_ProjectStatus", (40, 720), size=(380, 200))
     g.link(it, "positive", pos, "text"); g.link(it, "negative", neg, "text")
     g.link(ck, "CLIP", pos, "clip"); g.link(ck, "CLIP", neg, "clip")
     g.link(ck, "VAE", lat, "vae")
@@ -343,7 +359,7 @@ def all_in_one(flux: bool):
     y4 = 2480
     g.group("4 - RENDER SHOTS IN STORYBOARD ORDER  - set Batch count = shots_remaining (or Auto Queue)",
             [0, y4 - 60, W, 900], "#4a7a3a")
-    ck = g.add("CheckpointLoaderSimple", (X0, y4 + 380), size=(380, 110),
+    ck = g.add("CheckpointLoaderSimple", (X0, y4 + 600), size=(380, 110),
                ckpt_name="flux1-dev-fp8.safetensors" if flux else "sd_xl_base_1.0.safetensors")
     it = g.add("S2S_ShotIterator", (X0, y4), size=(380, 340))
     g.link(refs, "project_name", it, "project_name")
