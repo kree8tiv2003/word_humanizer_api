@@ -1,0 +1,3 @@
+# av, numpy, pillow and torch already ship with ComfyUI.
+# Only needed for script_source = claude_vision (auto prompts from your storyboard):
+anthropic

@@ -1,0 +1,319 @@
+{
+  "10": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "wan2.2_s2v_14B_fp8_scaled.safetensors",
+      "weight_dtype": "default"
+    },
+    "_meta": {
+      "title": "UNETLoader"
+    }
+  },
+  "11": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "lora_name": "wan2.2_t2v_lightx2v_4steps_lora_v1.1_high_noise.safetensors",
+      "strength_model": 1.0,
+      "model": [
+        "10",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "LightX2V 4-step LoRA (bypass for max quality: steps 20 / cfg 6)"
+    }
+  },
+  "12": {
+    "class_type": "ModelSamplingSD3",
+    "inputs": {
+      "shift": 8,
+      "model": [
+        "11",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "ModelSamplingSD3"
+    }
+  },
+  "13": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "type": "wan",
+      "device": "default"
+    },
+    "_meta": {
+      "title": "CLIPLoader"
+    }
+  },
+  "14": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "wan_2.1_vae.safetensors"
+    },
+    "_meta": {
+      "title": "VAELoader"
+    }
+  },
+  "15": {
+    "class_type": "AudioEncoderLoader",
+    "inputs": {
+      "audio_encoder_name": "wav2vec2_large_english_fp16.safetensors"
+    },
+    "_meta": {
+      "title": "AudioEncoderLoader"
+    }
+  },
+  "20": {
+    "class_type": "MVScriptBuilder",
+    "inputs": {
+      "project": "my_music_video",
+      "script_source": "auto",
+      "segment_seconds": 5.0,
+      "style": "cinematic music video, dramatic lighting, shallow depth of field, 35mm film look, rich color grade",
+      "lyrics": "",
+      "claude_model": "claude-opus-5-5",
+      "regenerate": false
+    },
+    "_meta": {
+      "title": "🎬 1. Project, uploads & script"
+    }
+  },
+  "21": {
+    "class_type": "MVSegmentLoader",
+    "inputs": {
+      "segment_index": 0,
+      "width": 832,
+      "height": 480,
+      "base_seed": 42,
+      "continue_motion": true,
+      "negative_prompt": "oversaturated, overexposed, static, frozen face, closed mouth while singing, out of sync lips, blurry details, subtitles, text, watermark, grey overall tone, worst quality, low quality, jpeg artifacts, ugly, deformed, extra fingers, poorly drawn hands, poorly drawn face, disfigured, malformed limbs, fused fingers, cluttered background, three legs, crowd in background, walking backwards",
+      "script_json": [
+        "20",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "🎬 2. Segment loader (queue once per segment)"
+    }
+  },
+  "30": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": [
+        "21",
+        2
+      ],
+      "clip": [
+        "13",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "Positive (from script)"
+    }
+  },
+  "31": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": [
+        "21",
+        3
+      ],
+      "clip": [
+        "13",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "Negative"
+    }
+  },
+  "32": {
+    "class_type": "AudioEncoderEncode",
+    "inputs": {
+      "audio_encoder": [
+        "15",
+        0
+      ],
+      "audio": [
+        "21",
+        1
+      ]
+    },
+    "_meta": {
+      "title": "AudioEncoderEncode"
+    }
+  },
+  "33": {
+    "class_type": "WanSoundImageToVideo",
+    "inputs": {
+      "width": [
+        "21",
+        4
+      ],
+      "height": [
+        "21",
+        5
+      ],
+      "length": [
+        "21",
+        6
+      ],
+      "batch_size": 1,
+      "positive": [
+        "30",
+        0
+      ],
+      "negative": [
+        "31",
+        0
+      ],
+      "vae": [
+        "14",
+        0
+      ],
+      "audio_encoder_output": [
+        "32",
+        0
+      ],
+      "ref_image": [
+        "21",
+        0
+      ],
+      "ref_motion": [
+        "21",
+        8
+      ]
+    },
+    "_meta": {
+      "title": "Wan S2V (audio-driven lip-sync)"
+    }
+  },
+  "40": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": [
+        "21",
+        9
+      ],
+      "steps": 4,
+      "cfg": 1.0,
+      "sampler_name": "uni_pc",
+      "scheduler": "simple",
+      "denoise": 1.0,
+      "model": [
+        "12",
+        0
+      ],
+      "positive": [
+        "33",
+        0
+      ],
+      "negative": [
+        "33",
+        1
+      ],
+      "latent_image": [
+        "33",
+        2
+      ]
+    },
+    "_meta": {
+      "title": "KSampler (4 steps/cfg 1 with LoRA; 20/6 without)"
+    }
+  },
+  "41": {
+    "class_type": "LatentCut",
+    "inputs": {
+      "dim": "t",
+      "index": 0,
+      "amount": 1,
+      "samples": [
+        "40",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "First-frame fix: take 1st latent"
+    }
+  },
+  "42": {
+    "class_type": "LatentConcat",
+    "inputs": {
+      "dim": "t",
+      "samples1": [
+        "41",
+        0
+      ],
+      "samples2": [
+        "40",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "First-frame fix: prepend it"
+    }
+  },
+  "43": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "42",
+        0
+      ],
+      "vae": [
+        "14",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "VAEDecode"
+    }
+  },
+  "44": {
+    "class_type": "ImageFromBatch",
+    "inputs": {
+      "batch_index": 3,
+      "length": 4096,
+      "image": [
+        "43",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "First-frame fix: drop duplicated frames"
+    }
+  },
+  "50": {
+    "class_type": "MVSaveSegment",
+    "inputs": {
+      "auto_assemble": true,
+      "sync_offset_ms": 0,
+      "images": [
+        "44",
+        0
+      ],
+      "script_json": [
+        "20",
+        0
+      ],
+      "segment_index": [
+        "21",
+        10
+      ],
+      "frames": [
+        "21",
+        7
+      ],
+      "audio": [
+        "21",
+        1
+      ]
+    },
+    "_meta": {
+      "title": "🎬 3. Save segment → final video"
+    }
+  }
+}
