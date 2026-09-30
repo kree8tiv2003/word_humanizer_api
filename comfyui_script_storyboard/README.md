@@ -10,10 +10,18 @@ A ComfyUI custom node pack. It takes a screenplay (up to 1000 pages) and turns i
 
 ## Install
 
+**No-code install (zip):**
+1. Unzip `comfyui-script-storyboard.zip` into `ComfyUI/custom_nodes/`, so you end up with `ComfyUI/custom_nodes/comfyui-script-storyboard/`.
+2. Windows: double-click `install.bat` inside that folder. It adds PDF reading, the free TTS voices and ffmpeg. Mac: in ComfyUI Manager use *Install PIP packages* and enter `pypdf edge-tts imageio-ffmpeg`.
+3. Restart ComfyUI and drag `workflows/00_all_in_one_sdxl.json` (or `_flux`) onto the canvas.
+
+**ComfyUI Manager:** *Manager → Install via Git URL* → `https://github.com/kree8tiv2003/comfyui-script-storyboard`
+
+**Manual:**
 ```bash
 cd ComfyUI/custom_nodes
-git clone <this repo> && ln -s <this repo>/comfyui_script_storyboard .   # or copy the folder
-pip install -r comfyui_script_storyboard/requirements.txt
+git clone https://github.com/kree8tiv2003/comfyui-script-storyboard
+pip install -r comfyui-script-storyboard/requirements.txt
 ```
 
 Restart ComfyUI. The nodes appear under **Script2Storyboard**.
@@ -117,6 +125,6 @@ Responses are cached per scene, so very long scripts can be enhanced over severa
 ## Tests
 ```bash
 pip install pytest numpy pillow imageio-ffmpeg torch
-python -m pytest comfyui_script_storyboard/tests -q
-python comfyui_script_storyboard/tools/build_workflows.py   # regenerate example workflows
+python -m pytest tests -q
+python tools/build_workflows.py   # regenerate example workflows
 ```
