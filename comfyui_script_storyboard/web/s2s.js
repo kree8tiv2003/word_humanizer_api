@@ -45,7 +45,8 @@ app.registerExtension({
         }
         input.value = "";
       };
-      this.addWidget("button", "upload script", null, () => input.click(), { serialize: false });
+      const btn = this.addWidget("button", "upload script", null, () => input.click(), { serialize: false });
+      btn.serialize = false; // keep widgets_values identical to the Python widget list
       const onRemoved = this.onRemoved;
       this.onRemoved = function () {
         input.remove();

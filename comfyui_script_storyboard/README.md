@@ -16,7 +16,27 @@ git clone <this repo> && ln -s <this repo>/comfyui_script_storyboard .   # or co
 pip install -r comfyui_script_storyboard/requirements.txt
 ```
 
-Restart ComfyUI. The nodes appear under **Script2Storyboard**. Example workflows are in `workflows/`; drag them onto the canvas.
+Restart ComfyUI. The nodes appear under **Script2Storyboard**.
+
+## Quick start: one workflow file
+Drag **`workflows/00_all_in_one_flux.json`** (or `00_all_in_one_sdxl.json`) onto the ComfyUI canvas, or use *Workflow → Open*. The workflow file only describes the graph; this node pack must be installed first, or ComfyUI will list the `S2S_*` nodes as missing.
+
+The graph is split into five coloured groups that run top to bottom:
+
+| Group | Default | What to do |
+|---|---|---|
+| 1 Script → prompts | on | Click **upload script**, set `project_name`, queue. Re-queues reuse the cached plan. |
+| 2 Reference images | Load Image nodes bypassed | Upload up to 5 images, press Ctrl+B on each one you use, set bind/usage. |
+| 3 Character sheets | muted | Optional. Un-mute, queue once per character, then mute again. |
+| 4 Render shots | on | Each queued run renders the next missing shot. Set Batch count = `shots_remaining`. |
+| 5 Audio → lip-sync → video | muted | When every shot is rendered, mute group 4, un-mute group 5 and queue once. |
+
+- **Flux version:** references are applied automatically with Flux Redux. It needs `flux1-dev-fp8`, `flux1-redux-dev` and `sigclip_vision_patch14_384`.
+- **SDXL version:** works with any SDXL/SD1.5 checkpoint.
+
+Before your first run, pick your own model in the checkpoint loader.
+
+The numbered workflows `01`–`07` are the same stages as separate files.
 
 ## Workflow order
 

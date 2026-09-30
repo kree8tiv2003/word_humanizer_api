@@ -135,7 +135,7 @@
     1234,
     1,
     true,
-    "{\n \"EXAMPLE NAME\": {\n  \"description\": \"tall woman, 40s, cropped silver hair, green field jacket\",\n  \"voice\": \"en-US-JennyNeural\"\n }\n}"
+    ""
    ]
   },
   {
@@ -326,7 +326,7 @@
     "Node name for S&R": "Note"
    },
    "widgets_values": [
-    "STEP 1 - PLAN\n\n1. Click 'upload script' (.fountain .fdx .pdf .docx .txt, up to 1000 pages).\n2. Queue. Read the Character Bible output; fix/extend descriptions in 'overrides' and queue again.\n3. Optional: set Enhance Prompts backend to anthropic (needs ANTHROPIC_API_KEY) or ollama.\n4. Save Project writes output/storyboards/<project_name>/ - use the SAME project_name in every other workflow.\n\nChanging a character's look mid-script: write [[LOOK NAME: new look]] (persists), [[SCENE LOOK NAME: ...]] (one scene), [[LOOK NAME: reset]], [[AGE NAME: 70]] in the script, or plain prose like 'Mara, now wearing a raincoat, ...'."
+    "STEP 1 - PLAN\n\n1. Click 'upload script' (.fountain .fdx .pdf .docx .txt, up to 1000 pages).\n2. Queue. Read the Character Bible output; fix/extend descriptions in 'overrides' and queue again.\n3. Optional: set Enhance Prompts backend to anthropic (needs ANTHROPIC_API_KEY) or ollama.\n4. Save Project writes output/storyboards/<project_name>/ - use the SAME project_name in every other workflow.\n\nOverride example (Character Bible 'overrides'):\n{\"MARA\": {\"description\": \"tall woman, cropped silver hair, green field jacket\", \"voice\": \"en-US-JennyNeural\"}}\n\nChanging a character's look mid-script: write [[LOOK NAME: new look]] (persists), [[SCENE LOOK NAME: ...]] (one scene), [[LOOK NAME: reset]], [[AGE NAME: 70]] in the script, or plain prose like 'Mara, now wearing a raincoat, ...'."
    ]
   }
  ],
