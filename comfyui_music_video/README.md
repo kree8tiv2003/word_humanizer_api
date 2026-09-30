@@ -17,17 +17,17 @@ comfyui_music_video/
 
 The installer sets everything up in one step. It downloads **only the 5 models this workflow needs, about 23.5 GB total**. Files you already have are skipped, an interrupted download picks up where it stopped when you re-run the installer, and it checks free space **before** downloading anything.
 
-**Windows (portable or git install):** download this `comfyui_music_video` folder, then drag your ComfyUI folder onto **`install_windows.bat`**. You can also run it from a command prompt:
+**Windows:** extract this folder, then **drag any one of these onto `install_windows.bat`**, or just double-click it:
+- your **ComfyUI shared folder** (the one with only `input`, `models`, `output`), which is what the ComfyUI Desktop app and some launchers create. Models go into its `models` folder, and the installer finds the actual ComfyUI install (the folder with `custom_nodes`) by itself;
+- your ComfyUI folder (it has `custom_nodes` inside);
+- the portable folder `ComfyUI_windows_portable`.
 
-```bat
-install_windows.bat "C:\ComfyUI_windows_portable\ComfyUI"
-install_windows.bat "C:\ComfyUI_windows_portable\ComfyUI" --models-dir "D:\AI\models"   :: models on another drive
-```
+If the installer can't find ComfyUI, it asks you to drag the folder that contains `custom_nodes` into its window. It uses the Python that came with ComfyUI, so you don't need to install Python separately.
 
 **Any OS:**
 
 ```bash
-python install_music_video.py --comfyui /path/to/ComfyUI --dry-run   # preview: sizes and free space
+python install_music_video.py --comfyui /path/to/ComfyUI-or-shared-folder --dry-run   # preview: sizes and free space
 python install_music_video.py --comfyui /path/to/ComfyUI
 ```
 
