@@ -13,22 +13,50 @@ comfyui_music_video/
     └── build_workflows.py             ← regenerates both workflow JSONs
 ```
 
-## 1. Install
+## 1. Install (fresh ComfyUI)
 
-1. Update ComfyUI to a recent version. It needs the native `WanSoundImageToVideo` and `AudioEncoderLoader` nodes, which were added with Wan2.2-S2V.
+The installer sets everything up in one step. It downloads **only the 5 models this workflow needs, about 23.5 GB total**. Files you already have are skipped, an interrupted download picks up where it stopped when you re-run the installer, and it checks free space **before** downloading anything.
+
+**Windows (portable or git install):** download this `comfyui_music_video` folder, then drag your ComfyUI folder onto **`install_windows.bat`**. You can also run it from a command prompt:
+
+```bat
+install_windows.bat "C:\ComfyUI_windows_portable\ComfyUI"
+install_windows.bat "C:\ComfyUI_windows_portable\ComfyUI" --models-dir "D:\AI\models"   :: models on another drive
+```
+
+**Any OS:**
+
+```bash
+python install_music_video.py --comfyui /path/to/ComfyUI --dry-run   # preview: sizes and free space
+python install_music_video.py --comfyui /path/to/ComfyUI
+```
+
+| Option | What it does |
+|---|---|
+| `--models-dir D:\AI\models` | Keeps the models on another drive and adds that folder to `extra_model_paths.yaml`. For the ComfyUI Desktop app, add the folder in its settings instead. |
+| `--no-lora` | Skips the 1.1 GB speed LoRA. Bypass the LoRA node and use steps 20 / cfg 6. |
+| `--with-claude` | Installs `anthropic` so Claude can write the script from your storyboard. You also need `ANTHROPIC_API_KEY` set. |
+| `--skip-models` | Installs only the nodes and the workflow. |
+
+After it finishes, restart ComfyUI and open **music_video_lipsync** from the **Workflows** sidebar.
+
+<details><summary>Manual install / model list</summary>
+
+1. Use a recent ComfyUI. It needs the built-in `WanSoundImageToVideo` and `AudioEncoderLoader` nodes.
 2. Copy `ComfyUI-MusicVideoKit` into `ComfyUI/custom_nodes/`.
-3. Optional: to have Claude write the script from your storyboard, run `pip install anthropic` in ComfyUI's Python environment and set `ANTHROPIC_API_KEY` before starting ComfyUI.
-4. Download the models. The workflow also lists them, so ComfyUI's missing-models dialog can fetch them for you.
+3. Download the models:
 
-| File | Folder | Source |
-|---|---|---|
-| `wan2.2_s2v_14B_fp8_scaled.safetensors` | `models/diffusion_models` | [Comfy-Org/Wan_2.2_ComfyUI_Repackaged](https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/tree/main/split_files/diffusion_models) |
-| `wav2vec2_large_english_fp16.safetensors` | `models/audio_encoders` | same repo, `split_files/audio_encoders` |
-| `wan_2.1_vae.safetensors` | `models/vae` | same repo, `split_files/vae` |
-| `wan2.2_t2v_lightx2v_4steps_lora_v1.1_high_noise.safetensors` | `models/loras` | same repo, `split_files/loras` |
-| `umt5_xxl_fp8_e4m3fn_scaled.safetensors` | `models/text_encoders` | [Comfy-Org/Wan_2.1_ComfyUI_repackaged](https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/tree/main/split_files/text_encoders) |
+| File | Folder | Size | Source |
+|---|---|---|---|
+| `wan2.2_s2v_14B_fp8_scaled.safetensors` | `models/diffusion_models` | 15.3 GB | [Comfy-Org/Wan_2.2_ComfyUI_Repackaged](https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/tree/main/split_files/diffusion_models) |
+| `umt5_xxl_fp8_e4m3fn_scaled.safetensors` | `models/text_encoders` | 6.3 GB | [Comfy-Org/Wan_2.1_ComfyUI_repackaged](https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/tree/main/split_files/text_encoders) |
+| `wan2.2_t2v_lightx2v_4steps_lora_v1.1_high_noise.safetensors` | `models/loras` | 1.1 GB | Wan_2.2 repo, `split_files/loras` |
+| `wav2vec2_large_english_fp16.safetensors` | `models/audio_encoders` | 0.6 GB | Wan_2.2 repo, `split_files/audio_encoders` |
+| `wan_2.1_vae.safetensors` | `models/vae` | 0.2 GB | Wan_2.2 repo, `split_files/vae` |
 
-A 24 GB GPU is comfortable at the default 832×480. Lower the resolution on the Segment Loader if you have less VRAM.
+</details>
+
+**Disk space:** besides the models, keep a few GB free for renders. A finished 3-minute video plus its 37 clips is well under 1 GB. The installer won't run if less than 3 GB would be left after downloading. A 24 GB GPU is comfortable at the default 832×480; lower the resolution on the Segment Loader if you have less VRAM.
 
 ## 2. Use it in ComfyUI
 
