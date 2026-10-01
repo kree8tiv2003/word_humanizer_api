@@ -142,6 +142,15 @@ def selftest(out_path: str) -> int:
         import ctranslate2  # noqa: F401
         import faster_whisper  # noqa: F401
         from faster_whisper.audio import decode_audio  # noqa: F401
+        if os.getenv('SELFTEST_WHISPER') == '1':   # real run: downloads the model and transcribes on the CPU
+            import numpy as np
+            import soundfile as sf
+            from script_studio import transcribe
+            sr = 16000
+            p = os.path.join(tempfile.mkdtemp(), 's.wav')
+            sf.write(p, (0.01 * np.random.randn(sr * 3)).astype('float32'), sr)
+            transcribe._faster_whisper(p)
+            assert transcribe._FW_DEVICE == 'cpu'
 
     def export():
         from script_studio import exporters  # noqa: F401

@@ -298,3 +298,31 @@ def test_web_app_flow(tmp_path, monkeypatch):
     # persisted to disk and reloadable
     appmod.store.jobs.clear()
     assert c.get(f'/api/jobs/{jid}').json()['result']['segments'][1]['shots'][0]['prompt'] == 'Edited prompt'
+
+
+def test_transcription_falls_back_to_cpu(monkeypatch):
+    from script_studio import transcribe as tr
+    calls = []
+
+    class Seg:
+        def __init__(self, t): self.text, self.start, self.end = t, 0.0, 1.0
+
+    class Model:
+        def __init__(self, device): self.device = device
+
+        def transcribe(self, path, vad_filter=True):
+            def gen():
+                if self.device != 'cpu':
+                    raise RuntimeError('Library cublas64_12.dll is not found or cannot be loaded')
+                yield Seg(' hello ')
+            return gen(), None
+    monkeypatch.setattr(tr, '_FW_MODEL', None)
+    monkeypatch.setattr(tr, '_load_fw', lambda d: calls.append(d) or Model(d))
+    monkeypatch.setenv('WHISPER_DEVICE', 'auto')
+    out = tr._faster_whisper('x.wav')
+    assert [u.text for u in out] == ['hello'] and calls == ['auto', 'cpu']
+    monkeypatch.setattr(tr, '_FW_MODEL', None)
+    monkeypatch.delenv('WHISPER_DEVICE')
+    calls.clear()
+    tr._faster_whisper('x.wav')
+    assert calls == ['cpu']

@@ -58,21 +58,45 @@ def _openai(path: str) -> list[Unit]:
 
 
 _FW_MODEL = None
+_FW_DEVICE = None
+GPU_ERROR = ('cublas', 'cudnn', 'cuda', 'cudart', '.dll', 'libcu', 'gpu')
 
 
-def _faster_whisper(path: str) -> list[Unit]:
-    global _FW_MODEL
+def _load_fw(device: str):
     from faster_whisper import WhisperModel
-    if _FW_MODEL is None:
-        _FW_MODEL = WhisperModel(os.getenv('WHISPER_MODEL', 'small'), device=os.getenv('WHISPER_DEVICE', 'auto'),
-                                 compute_type=os.getenv('WHISPER_COMPUTE', 'int8'))
-    segments, _info = _FW_MODEL.transcribe(path, vad_filter=True)
+    return WhisperModel(os.getenv('WHISPER_MODEL', 'small'), device=device,
+                        compute_type=os.getenv('WHISPER_COMPUTE', 'int8'))
+
+
+def _run_fw(model, path: str) -> list[Unit]:
+    segments, _info = model.transcribe(path, vad_filter=True)
     out = []
-    for s in segments:
+    for s in segments:   # segments is lazy: GPU library errors surface here
         t = s.text.strip()
         if t:
             out.append(Unit(idx=len(out), text=t, start=float(s.start), end=float(s.end)))
     return out
+
+
+def _faster_whisper(path: str) -> list[Unit]:
+    """Run on the CPU by default. The packaged app does not ship NVIDIA CUDA libraries, so a
+    GPU is only used when WHISPER_DEVICE asks for it, and any GPU failure falls back to the CPU."""
+    global _FW_MODEL, _FW_DEVICE
+    want = os.getenv('WHISPER_DEVICE', 'cpu')
+    if _FW_MODEL is None:
+        try:
+            _FW_MODEL, _FW_DEVICE = _load_fw(want), want
+        except Exception as e:
+            if want == 'cpu' or not any(k in str(e).lower() for k in GPU_ERROR):
+                raise
+            _FW_MODEL, _FW_DEVICE = _load_fw('cpu'), 'cpu'
+    try:
+        return _run_fw(_FW_MODEL, path)
+    except Exception as e:
+        if _FW_DEVICE == 'cpu' or not any(k in str(e).lower() for k in GPU_ERROR):
+            raise
+        _FW_MODEL, _FW_DEVICE = _load_fw('cpu'), 'cpu'
+        return _run_fw(_FW_MODEL, path)
 
 
 def transcribe(path: str) -> list[Unit]:

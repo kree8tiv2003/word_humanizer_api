@@ -71,6 +71,7 @@ jobs:
         run: pyinstaller packaging/script_studio.spec --noconfirm
       - name: Self-test the packaged app
         shell: pwsh
+        env: { SELFTEST_WHISPER: '1', WHISPER_MODEL: tiny }
         run: |
           $p = Start-Process -FilePath "dist\Script Studio\Script Studio.exe" -ArgumentList "--selftest","`"$env:RUNNER_TEMP\selftest.txt`"" -Wait -PassThru
           Get-Content "$env:RUNNER_TEMP\selftest.txt"
@@ -109,6 +110,7 @@ jobs:
       - name: Build app
         run: pyinstaller packaging/script_studio.spec --noconfirm
       - name: Self-test the packaged app
+        env: { SELFTEST_WHISPER: '1', WHISPER_MODEL: tiny }
         run: |
           "dist/Script Studio.app/Contents/MacOS/Script Studio" --selftest "$RUNNER_TEMP/selftest.txt" || (cat "$RUNNER_TEMP/selftest.txt"; exit 1)
           cat "$RUNNER_TEMP/selftest.txt"
