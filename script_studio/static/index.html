@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Script Studio</title>
+<link rel="stylesheet" href="/static/styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Cpath d=%22M3 2l11 6-11 6z%22 fill=%22%23d6a440%22/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo">▶</span> Script Studio <small>Director's Manual method</small></div>
+  <div class="status" id="status"></div>
+</header>
+
+<main class="layout">
+  <!-- ======================================================= INPUT -->
+  <section class="panel input" id="inputPanel">
+    <div class="mode">
+      <button class="mode-btn active" data-mode="story">Story → Script</button>
+      <button class="mode-btn" data-mode="music">Music Video</button>
+    </div>
+    <p class="hint" id="modeHint">Upload a story (Word, PDF, text, HTML), a narration or podcast recording, or a link. The script follows its events and pacing.</p>
+
+    <h3>Source</h3>
+    <label class="drop" id="docDrop">
+      <input type="file" id="docInput" multiple accept=".docx,.pdf,.txt,.md,.markdown,.html,.htm,.rtf,.fountain,.srt,.lrc">
+      <strong id="docLabel">Drop documents here</strong>
+      <span>Word (.docx), PDF, text, Markdown, HTML · several files are joined in order</span>
+    </label>
+    <ul class="files" id="docList"></ul>
+
+    <label class="drop" id="audioDrop">
+      <input type="file" id="audioInput" accept="audio/*,.mp3,.wav,.m4a,.aac,.flac,.ogg,.opus,.webm,.mp4">
+      <strong id="audioLabel">Drop audio here</strong>
+      <span id="audioSub">Narration, audiobook or podcast (transcribed and paced to the recording)</span>
+    </label>
+    <ul class="files" id="audioList"></ul>
+
+    <input class="field" id="urlInput" type="url" placeholder="…or paste a link (story page, PDF, document or audio file)">
+    <details>
+      <summary>Paste text instead</summary>
+      <textarea class="field" id="textInput" rows="6" placeholder="Paste a story, treatment, lyrics or script…"></textarea>
+    </details>
+
+    <h3>Output length</h3>
+    <div class="chips" id="incChips">
+      <button data-inc="5">5 s</button><button data-inc="10" class="active">10 s</button><button data-inc="15">15 s</button>
+      <button data-inc="30">30 s</button><button data-inc="60">60 s</button><button data-inc="full">Full script</button>
+    </div>
+    <p class="hint" id="incHint">The script is cut into 10-second segments, each ready to generate as one clip.</p>
+    <div class="row" id="targetRow">
+      <label>Running time for text sources <input class="field small" id="targetInput" placeholder="auto, e.g. 3:00"></label>
+    </div>
+
+    <h3>Look &amp; direction</h3>
+    <div class="grid2">
+      <label>Visual style
+        <select class="field" id="styleSel">
+          <option>cinematic photoreal</option><option>gritty handheld documentary realism</option><option>epic fantasy, painterly light</option>
+          <option>sleek neon sci-fi</option><option>anime, cel-shaded</option><option>3D animated feature, stylized</option>
+          <option>stop-motion, handmade</option><option>vintage 16mm film</option><option>noir, high-contrast black and white</option>
+          <option>premium commercial polish</option><option>dreamy surreal</option><option value="">let the writer decide</option>
+        </select>
+      </label>
+      <label>Tone <input class="field" id="toneInput" placeholder="optional: hopeful, tense, playful…"></label>
+      <label>Aspect ratio
+        <select class="field" id="aspectSel"><option>16:9</option><option>9:16</option><option>2.39:1</option><option>1:1</option><option>4:5</option></select>
+      </label>
+      <label>Video generator
+        <select class="field" id="genSel"><option value="any">Any</option><option value="veo">Veo</option><option value="sora">Sora</option>
+          <option value="kling">Kling</option><option value="runway">Runway</option><option value="luma">Luma</option></select>
+      </label>
+    </div>
+    <label class="check"><input type="checkbox" id="dialogueChk" checked> Include dialogue</label>
+    <textarea class="field" id="directionInput" rows="3" placeholder="Director's notes (optional): setting changes, character looks, must-have shots, things to avoid…"></textarea>
+
+    <button class="go" id="goBtn">Write the script</button>
+    <p class="error" id="formError"></p>
+
+    <h3>Recent scripts</h3>
+    <ul class="recent" id="recentList"></ul>
+  </section>
+
+  <!-- ======================================================= OUTPUT -->
+  <section class="panel output" id="outputPanel">
+    <div class="empty" id="emptyState">
+      <h2>Your script appears here, segment by segment, as it is written.</h2>
+      <p>Every shot comes with a ready-to-paste video prompt built the Director's Manual way: camera first, consistent character looks, motion verbs, layered effects and a look, with transitions that chain one clip into the next.</p>
+    </div>
+
+    <div id="progressBox" class="progress hidden">
+      <div class="bar"><div id="progressFill"></div></div>
+      <div class="stage" id="stage"></div>
+      <button class="ghost hidden" id="resumeBtn">Resume</button>
+    </div>
+
+    <div id="scriptBox" class="hidden">
+      <div class="script-head">
+        <div>
+          <h1 id="sTitle"></h1>
+          <p class="logline" id="sLogline"></p>
+          <p class="meta" id="sMeta"></p>
+        </div>
+        <div class="exports">
+          <span>Export</span>
+          <a data-fmt="pdf">PDF</a><a data-fmt="fountain">Fountain</a><a data-fmt="md">Markdown</a>
+          <a data-fmt="csv">Shot list CSV</a><a data-fmt="prompts">Prompts only</a><a data-fmt="json">JSON</a>
+        </div>
+      </div>
+      <div class="notes" id="sNotes"></div>
+
+      <div class="timeline" id="timeline">
+        <canvas id="energyCanvas" height="34"></canvas>
+        <div class="sections" id="sectionsBar"></div>
+        <div class="segbar" id="segBar"></div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="script">Script</button>
+        <button class="tab" data-tab="bible">Story bible</button>
+      </div>
+      <div id="tab-script" class="tabpane"></div>
+      <div id="tab-bible" class="tabpane hidden"></div>
+    </div>
+  </section>
+</main>
+
+<template id="segTpl">
+  <article class="seg">
+    <header>
+      <span class="num"></span>
+      <span class="time"></span>
+      <h3 class="heading"></h3>
+      <span class="intensity"></span>
+      <div class="actions">
+        <button class="ghost edit">Edit</button>
+        <button class="ghost rewrite">Rewrite…</button>
+      </div>
+    </header>
+    <p class="summary"></p>
+    <div class="shots"></div>
+    <p class="transition"></p>
+    <div class="rewrite-box hidden">
+      <textarea class="field" rows="2" placeholder="What should change? e.g. more aerial shots, slower, add rain, make the chorus bigger…"></textarea>
+      <button class="go small">Rewrite segment</button>
+    </div>
+  </article>
+</template>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

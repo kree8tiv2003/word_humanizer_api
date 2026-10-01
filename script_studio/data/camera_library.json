@@ -1,0 +1,660 @@
+[
+ {
+  "key": "ews",
+  "category": "Shot Size & Framing",
+  "name": "Extreme wide shot",
+  "phrase": "Extreme wide shot",
+  "use": "Subject tiny in a vast environment; establishes scale."
+ },
+ {
+  "key": "ws",
+  "category": "Shot Size & Framing",
+  "name": "Wide shot",
+  "phrase": "Wide shot",
+  "use": "Whole body plus surroundings; shows movement through space."
+ },
+ {
+  "key": "full",
+  "category": "Shot Size & Framing",
+  "name": "Full shot",
+  "phrase": "Full-body shot",
+  "use": "Head to toe; best for dance and athletic form."
+ },
+ {
+  "key": "ms",
+  "category": "Shot Size & Framing",
+  "name": "Medium shot",
+  "phrase": "Medium shot",
+  "use": "Waist up; gestures and upper-body action."
+ },
+ {
+  "key": "mcu",
+  "category": "Shot Size & Framing",
+  "name": "Medium close-up",
+  "phrase": "Medium close-up",
+  "use": "Chest up; performance and emotion."
+ },
+ {
+  "key": "cu",
+  "category": "Shot Size & Framing",
+  "name": "Close-up",
+  "phrase": "Close-up",
+  "use": "Face, hands or a single detail of the movement."
+ },
+ {
+  "key": "ecu",
+  "category": "Shot Size & Framing",
+  "name": "Extreme close-up",
+  "phrase": "Extreme close-up",
+  "use": "A tiny detail fills the frame: an eye, a fingertip, a feather."
+ },
+ {
+  "key": "two",
+  "category": "Shot Size & Framing",
+  "name": "Two-shot",
+  "phrase": "Two-shot",
+  "use": "Two subjects in frame; partner and conversation movement."
+ },
+ {
+  "key": "ots",
+  "category": "Shot Size & Framing",
+  "name": "Over-the-shoulder",
+  "phrase": "Over-the-shoulder shot",
+  "use": "Framed past one subject toward another."
+ },
+ {
+  "key": "silhouette",
+  "category": "Shot Size & Framing",
+  "name": "Silhouette",
+  "phrase": "Backlit silhouette shot",
+  "use": "Subject reduced to a dark shape against bright light; pure body line."
+ },
+ {
+  "key": "eye",
+  "category": "Camera Angle",
+  "name": "Eye-level",
+  "phrase": "Eye-level shot",
+  "use": "Neutral and intimate; at the subject’s own eye height."
+ },
+ {
+  "key": "low",
+  "category": "Camera Angle",
+  "name": "Low angle",
+  "phrase": "Low-angle shot",
+  "use": "Looking up; makes movement feel powerful and heroic."
+ },
+ {
+  "key": "high",
+  "category": "Camera Angle",
+  "name": "High angle",
+  "phrase": "High-angle shot",
+  "use": "Looking down; shows patterns and vulnerability."
+ },
+ {
+  "key": "top",
+  "category": "Camera Angle",
+  "name": "Top-down / bird’s-eye",
+  "phrase": "Top-down bird’s-eye shot",
+  "use": "Directly overhead; reveals formation and floor patterns."
+ },
+ {
+  "key": "worm",
+  "category": "Camera Angle",
+  "name": "Worm’s-eye",
+  "phrase": "Worm’s-eye view",
+  "use": "From the ground looking straight up."
+ },
+ {
+  "key": "ground",
+  "category": "Camera Angle",
+  "name": "Ground level",
+  "phrase": "Ground-level shot",
+  "use": "Lens inches above the floor; feet, paws and impact."
+ },
+ {
+  "key": "dutch",
+  "category": "Camera Angle",
+  "name": "Dutch angle",
+  "phrase": "Dutch-angle shot",
+  "use": "Tilted horizon; tension and disorientation."
+ },
+ {
+  "key": "locked",
+  "category": "Tripod Moves",
+  "name": "Locked-off static",
+  "phrase": "Locked-off static shot",
+  "use": "Camera does not move; the subject provides all motion."
+ },
+ {
+  "key": "pan",
+  "category": "Tripod Moves",
+  "name": "Pan",
+  "phrase": "Smooth panning shot",
+  "use": "Horizontal rotation from a fixed point to follow or reveal."
+ },
+ {
+  "key": "whip",
+  "category": "Tripod Moves",
+  "name": "Whip pan",
+  "phrase": "Whip-pan shot",
+  "use": "Fast snap rotation with motion blur; energetic transitions."
+ },
+ {
+  "key": "tiltup",
+  "category": "Tripod Moves",
+  "name": "Tilt up",
+  "phrase": "Tilt-up shot",
+  "use": "Vertical rotation upward; reveals height or rises from feet to face."
+ },
+ {
+  "key": "tiltdown",
+  "category": "Tripod Moves",
+  "name": "Tilt down",
+  "phrase": "Tilt-down shot",
+  "use": "Vertical rotation downward; descends a subject."
+ },
+ {
+  "key": "roll",
+  "category": "Tripod Moves",
+  "name": "Camera roll",
+  "phrase": "Slow camera-roll shot",
+  "use": "Camera rotates on the lens axis; dreamlike or disorienting."
+ },
+ {
+  "key": "dollyin",
+  "category": "Dolly & Track",
+  "name": "Dolly in / push in",
+  "phrase": "Slow dolly-in shot",
+  "use": "Camera physically moves toward the subject; builds intensity with parallax."
+ },
+ {
+  "key": "dollyout",
+  "category": "Dolly & Track",
+  "name": "Dolly out / pull back",
+  "phrase": "Dolly-out pull-back shot",
+  "use": "Camera retreats; reveals context or isolates the subject."
+ },
+ {
+  "key": "pushpast",
+  "category": "Dolly & Track",
+  "name": "Push past",
+  "phrase": "Push-past shot through the foreground",
+  "use": "Glides forward past a foreground object into the action."
+ },
+ {
+  "key": "truck",
+  "category": "Dolly & Track",
+  "name": "Truck",
+  "phrase": "Lateral truck shot",
+  "use": "Camera slides sideways while facing the same direction."
+ },
+ {
+  "key": "pedup",
+  "category": "Dolly & Track",
+  "name": "Pedestal up",
+  "phrase": "Pedestal-up shot",
+  "use": "Whole camera rises vertically with the lens level."
+ },
+ {
+  "key": "peddown",
+  "category": "Dolly & Track",
+  "name": "Pedestal down",
+  "phrase": "Pedestal-down shot",
+  "use": "Whole camera lowers vertically with the lens level."
+ },
+ {
+  "key": "trackside",
+  "category": "Dolly & Track",
+  "name": "Side tracking",
+  "phrase": "Side tracking shot",
+  "use": "Camera travels parallel to the subject; shows speed in profile."
+ },
+ {
+  "key": "follow",
+  "category": "Dolly & Track",
+  "name": "Follow from behind",
+  "phrase": "Follow shot from behind",
+  "use": "Camera trails the subject; immersive journeys."
+ },
+ {
+  "key": "lead",
+  "category": "Dolly & Track",
+  "name": "Leading / reverse tracking",
+  "phrase": "Leading reverse-tracking shot",
+  "use": "Camera moves backward in front of the subject; faces and forward momentum."
+ },
+ {
+  "key": "tracklow",
+  "category": "Dolly & Track",
+  "name": "Low tracking",
+  "phrase": "Low tracking shot",
+  "use": "Ground-level travel alongside feet, paws or wheels."
+ },
+ {
+  "key": "arc",
+  "category": "Orbit & Crane",
+  "name": "Arc",
+  "phrase": "Quarter-arc shot",
+  "use": "Shallow curve around the subject; adds dimension."
+ },
+ {
+  "key": "orbit",
+  "category": "Orbit & Crane",
+  "name": "Orbit",
+  "phrase": "Slow 360-degree orbit shot",
+  "use": "Full circle around the subject; hero reveals."
+ },
+ {
+  "key": "orbitlow",
+  "category": "Orbit & Crane",
+  "name": "Low orbit",
+  "phrase": "Low-angle orbit shot",
+  "use": "Circling from below; power moves and breaking."
+ },
+ {
+  "key": "craneup",
+  "category": "Orbit & Crane",
+  "name": "Crane up",
+  "phrase": "Crane-up shot",
+  "use": "Rising arc from the subject to a wide reveal."
+ },
+ {
+  "key": "cranedown",
+  "category": "Orbit & Crane",
+  "name": "Crane down",
+  "phrase": "Crane-down shot",
+  "use": "Descending arc from above into the action."
+ },
+ {
+  "key": "jib",
+  "category": "Orbit & Crane",
+  "name": "Jib sweep",
+  "phrase": "Sweeping jib shot",
+  "use": "Short crane arm sweeping across a scene."
+ },
+ {
+  "key": "cable",
+  "category": "Orbit & Crane",
+  "name": "Cable cam",
+  "phrase": "Overhead cable-cam shot",
+  "use": "Camera flies on wires above a field or stage."
+ },
+ {
+  "key": "steadicam",
+  "category": "Stabilized & Handheld",
+  "name": "Steadicam",
+  "phrase": "Steadicam glide",
+  "use": "Smooth walking camera; long flowing takes."
+ },
+ {
+  "key": "gimbal",
+  "category": "Stabilized & Handheld",
+  "name": "Gimbal",
+  "phrase": "Gimbal run-and-gun shot",
+  "use": "Stabilized but agile; chases through tight spaces."
+ },
+ {
+  "key": "handheld",
+  "category": "Stabilized & Handheld",
+  "name": "Handheld",
+  "phrase": "Subtle handheld shot",
+  "use": "Organic sway; documentary realism."
+ },
+ {
+  "key": "snorricam",
+  "category": "Stabilized & Handheld",
+  "name": "Snorricam",
+  "phrase": "Snorricam body-mounted shot",
+  "use": "Rig strapped to the body; face locked while the world lurches."
+ },
+ {
+  "key": "pov",
+  "category": "Stabilized & Handheld",
+  "name": "First-person POV",
+  "phrase": "First-person POV shot",
+  "use": "Through the subject’s own eyes."
+ },
+ {
+  "key": "helmet",
+  "category": "Stabilized & Handheld",
+  "name": "Helmet cam",
+  "phrase": "Helmet-cam shot",
+  "use": "Action-camera POV mounted on a helmet."
+ },
+ {
+  "key": "chest",
+  "category": "Stabilized & Handheld",
+  "name": "Chest mount",
+  "phrase": "Chest-mounted action-cam shot",
+  "use": "Camera on the chest; hands and board in frame."
+ },
+ {
+  "key": "oner",
+  "category": "Stabilized & Handheld",
+  "name": "Oner / long take",
+  "phrase": "Continuous one-take shot",
+  "use": "Unbroken take following the action through space."
+ },
+ {
+  "key": "interior",
+  "category": "Stabilized & Handheld",
+  "name": "Vehicle interior",
+  "phrase": "In-car interior shot",
+  "use": "Rigged inside a vehicle on the driver or passenger."
+ },
+ {
+  "key": "dronerise",
+  "category": "Aerial",
+  "name": "Drone rise",
+  "phrase": "Drone rising reveal shot",
+  "use": "Ascends to reveal the landscape around the subject."
+ },
+ {
+  "key": "dronetop",
+  "category": "Aerial",
+  "name": "Drone top-down",
+  "phrase": "Top-down drone shot",
+  "use": "Directly overhead from altitude; patterns and formations."
+ },
+ {
+  "key": "droneorbit",
+  "category": "Aerial",
+  "name": "Drone orbit",
+  "phrase": "Aerial drone orbit",
+  "use": "Circles the subject from the air."
+ },
+ {
+  "key": "dronechase",
+  "category": "Aerial",
+  "name": "Drone chase",
+  "phrase": "Drone chase shot",
+  "use": "Flies alongside or behind fast-moving subjects."
+ },
+ {
+  "key": "fpv",
+  "category": "Aerial",
+  "name": "FPV drone",
+  "phrase": "FPV drone dive shot",
+  "use": "Agile first-person drone; dives and fly-throughs."
+ },
+ {
+  "key": "zoomin",
+  "category": "Lens & Focus",
+  "name": "Zoom in",
+  "phrase": "Slow zoom-in shot",
+  "use": "Optical magnification toward the subject; no parallax."
+ },
+ {
+  "key": "zoomout",
+  "category": "Lens & Focus",
+  "name": "Zoom out",
+  "phrase": "Slow zoom-out shot",
+  "use": "Optical pull back to reveal context."
+ },
+ {
+  "key": "crash",
+  "category": "Lens & Focus",
+  "name": "Crash zoom",
+  "phrase": "Crash-zoom shot",
+  "use": "Violent snap zoom for punchy emphasis."
+ },
+ {
+  "key": "dollyzoom",
+  "category": "Lens & Focus",
+  "name": "Dolly zoom",
+  "phrase": "Dolly-zoom vertigo shot",
+  "use": "Dolly and zoom in opposite directions; background warps."
+ },
+ {
+  "key": "rack",
+  "category": "Lens & Focus",
+  "name": "Rack focus",
+  "phrase": "Rack-focus shot",
+  "use": "Focus shifts between foreground and background."
+ },
+ {
+  "key": "diopter",
+  "category": "Lens & Focus",
+  "name": "Split diopter",
+  "phrase": "Split-diopter shot",
+  "use": "Near and far planes both in focus."
+ },
+ {
+  "key": "tele",
+  "category": "Lens & Focus",
+  "name": "Telephoto",
+  "phrase": "Long-lens telephoto shot",
+  "use": "Compressed perspective; wildlife and sport from a distance."
+ },
+ {
+  "key": "wide",
+  "category": "Lens & Focus",
+  "name": "Ultra-wide",
+  "phrase": "Ultra-wide 14mm shot",
+  "use": "Exaggerated perspective close to the action."
+ },
+ {
+  "key": "fisheye",
+  "category": "Lens & Focus",
+  "name": "Fisheye",
+  "phrase": "Fisheye-lens shot",
+  "use": "Curved extreme wide angle; skate and street culture."
+ },
+ {
+  "key": "macro",
+  "category": "Lens & Focus",
+  "name": "Macro",
+  "phrase": "Macro close-up shot",
+  "use": "Tiny subjects magnified; texture and detail."
+ },
+ {
+  "key": "probe",
+  "category": "Lens & Focus",
+  "name": "Probe lens",
+  "phrase": "Probe-lens macro shot",
+  "use": "Long thin macro lens that moves through tiny spaces."
+ },
+ {
+  "key": "tiltshift",
+  "category": "Lens & Focus",
+  "name": "Tilt-shift",
+  "phrase": "Tilt-shift miniature shot",
+  "use": "Narrow focus band makes scenes look like toy models."
+ },
+ {
+  "key": "anamorphic",
+  "category": "Lens & Focus",
+  "name": "Anamorphic",
+  "phrase": "Anamorphic widescreen shot",
+  "use": "2.39:1 frame, oval bokeh and horizontal flares."
+ },
+ {
+  "key": "slowmo",
+  "category": "Time & Speed",
+  "name": "Slow motion",
+  "phrase": "240fps slow-motion shot",
+  "use": "Movement slowed about 10x; elegance and detail."
+ },
+ {
+  "key": "phantom",
+  "category": "Time & Speed",
+  "name": "High-speed (Phantom)",
+  "phrase": "1000fps high-speed shot",
+  "use": "Extreme slow motion; impacts, splashes, wingbeats."
+ },
+ {
+  "key": "ramp",
+  "category": "Time & Speed",
+  "name": "Speed ramp",
+  "phrase": "Speed-ramped shot",
+  "use": "Shifts between real time and slow motion at the peak."
+ },
+ {
+  "key": "timelapse",
+  "category": "Time & Speed",
+  "name": "Time-lapse",
+  "phrase": "Time-lapse shot",
+  "use": "Compresses hours into seconds."
+ },
+ {
+  "key": "hyperlapse",
+  "category": "Time & Speed",
+  "name": "Hyperlapse",
+  "phrase": "Hyperlapse shot",
+  "use": "Moving time-lapse traveling through space."
+ },
+ {
+  "key": "bullet",
+  "category": "Time & Speed",
+  "name": "Bullet time",
+  "phrase": "Bullet-time shot",
+  "use": "Action frozen while the camera sweeps around it."
+ },
+ {
+  "key": "freeze",
+  "category": "Time & Speed",
+  "name": "Freeze frame",
+  "phrase": "Freeze-frame push-in shot",
+  "use": "Action stops at the peak moment."
+ },
+ {
+  "key": "reverse",
+  "category": "Time & Speed",
+  "name": "Reverse motion",
+  "phrase": "Reverse-motion shot",
+  "use": "Played backward for surreal or comic effect."
+ },
+ {
+  "key": "loop",
+  "category": "Time & Speed",
+  "name": "Seamless loop",
+  "phrase": "Seamless looping shot",
+  "use": "Last frame matches the first; endless social loops."
+ },
+ {
+  "key": "underwater",
+  "category": "Water",
+  "name": "Underwater",
+  "phrase": "Underwater shot",
+  "use": "Camera fully submerged."
+ },
+ {
+  "key": "splitlevel",
+  "category": "Water",
+  "name": "Split-level",
+  "phrase": "Half-underwater split-level shot",
+  "use": "Lens straddles the waterline: above and below at once."
+ },
+ {
+  "key": "hero",
+  "category": "Advertising Formats",
+  "name": "Hero shot",
+  "phrase": "Low-angle hero shot",
+  "use": "The subject or product shown at its most powerful."
+ },
+ {
+  "key": "mocon",
+  "category": "Advertising Formats",
+  "name": "Motion control",
+  "phrase": "Motion-control robotic camera shot",
+  "use": "Precise repeatable robotic move; high-end commercials."
+ },
+ {
+  "key": "turntable",
+  "category": "Advertising Formats",
+  "name": "Turntable 360",
+  "phrase": "Turntable 360-degree spin shot",
+  "use": "Subject rotates on a turntable before a fixed camera."
+ },
+ {
+  "key": "flatlay",
+  "category": "Advertising Formats",
+  "name": "Flat lay",
+  "phrase": "Top-down flat-lay shot",
+  "use": "Overhead tabletop composition; food and product."
+ },
+ {
+  "key": "beauty",
+  "category": "Advertising Formats",
+  "name": "Beauty shot",
+  "phrase": "Soft-light beauty shot",
+  "use": "Flawless skin, glow and texture in soft wrap-around light."
+ },
+ {
+  "key": "packshot",
+  "category": "Advertising Formats",
+  "name": "Packshot finish",
+  "phrase": "Commercial packshot shot",
+  "use": "Clean product-forward ending frame with room for a logo."
+ },
+ {
+  "key": "lifestyle",
+  "category": "Advertising Formats",
+  "name": "Lifestyle",
+  "phrase": "Natural lifestyle shot",
+  "use": "Real-life context; aspirational but authentic."
+ },
+ {
+  "key": "ugc",
+  "category": "Advertising Formats",
+  "name": "UGC selfie-style",
+  "phrase": "UGC selfie-style phone shot",
+  "use": "User-generated look; handheld phone authenticity."
+ },
+ {
+  "key": "testimonial",
+  "category": "Advertising Formats",
+  "name": "Testimonial",
+  "phrase": "Testimonial-style medium shot",
+  "use": "Subject speaking to camera with sincerity."
+ },
+ {
+  "key": "unbox",
+  "category": "Advertising Formats",
+  "name": "Unboxing",
+  "phrase": "Unboxing-style top-down shot",
+  "use": "Hands open and reveal the product."
+ },
+ {
+  "key": "demo",
+  "category": "Advertising Formats",
+  "name": "Product demo",
+  "phrase": "Product-demo close-up",
+  "use": "Shows exactly how the product is used."
+ },
+ {
+  "key": "split",
+  "category": "Advertising Formats",
+  "name": "Split screen / before-after",
+  "phrase": "Split-screen before-and-after shot",
+  "use": "Two states side by side."
+ },
+ {
+  "key": "match",
+  "category": "Advertising Formats",
+  "name": "Match-cut transition",
+  "phrase": "Seamless match-cut transition shot",
+  "use": "Movement or shape bridges two scenes invisibly."
+ },
+ {
+  "key": "reveal",
+  "category": "Advertising Formats",
+  "name": "Reveal",
+  "phrase": "Wipe-reveal shot",
+  "use": "Foreground wipe or movement reveals the subject."
+ },
+ {
+  "key": "stopmo",
+  "category": "Advertising Formats",
+  "name": "Stop motion",
+  "phrase": "Stop-motion style shot",
+  "use": "Frame-by-frame animated look."
+ },
+ {
+  "key": "vertical",
+  "category": "Advertising Formats",
+  "name": "Vertical 9:16",
+  "phrase": "Vertical 9:16 social shot",
+  "use": "Composed for phones: centered subject, vertical motion."
+ }
+]
