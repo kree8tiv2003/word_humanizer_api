@@ -326,3 +326,14 @@ def test_transcription_falls_back_to_cpu(monkeypatch):
     calls.clear()
     tr._faster_whisper('x.wav')
     assert calls == ['cpu']
+
+
+def test_health_version_and_shutdown_guard(monkeypatch):
+    from fastapi.testclient import TestClient
+    import script_studio.app as appmod
+    c = TestClient(appmod.app)
+    assert c.get('/api/health').json()['version']
+    assert c.get('/api/config').json()['version']
+    assert c.post('/api/shutdown', headers={'X-Script-Studio': 'replace'}).status_code == 403   # only in the desktop app
+    monkeypatch.setattr(appmod.userconfig, 'is_frozen', lambda: True)
+    assert c.post('/api/shutdown').status_code == 403                                             # needs the header

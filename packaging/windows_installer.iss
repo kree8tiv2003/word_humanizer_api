@@ -23,6 +23,20 @@ WizardStyle=modern
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 
+CloseApplications=force
+RestartApplications=no
+
+[Code]
+function PrepareToInstall(var NeedsRestart: Boolean): String;
+var
+  ResultCode: Integer;
+begin
+  { Close a running Script Studio so every file is replaced by the new version. }
+  Exec(ExpandConstant('{sys}\taskkill.exe'), '/F /T /IM "Script Studio.exe"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  Sleep(800);
+  Result := '';
+end;
+
 [Tasks]
 Name: "desktopicon"; Description: "Create a desktop shortcut"; GroupDescription: "Shortcuts:"
 

@@ -11,6 +11,7 @@ async function loadConfig() {
   try {
     state.config = await (await fetch('/api/config')).json();
     const c = state.config;
+    $('#appVersion').textContent = c.version ? 'version ' + c.version : '';
     $('#status').innerHTML =
       `<span class="pill ${c.has_api_key ? 'ok' : 'bad'}">${c.has_api_key ? 'Claude ready · ' + esc(c.model) : 'Add your API key in Settings'}</span>` +
       `<span class="pill ${c.transcription ? 'ok' : ''}">${c.transcription ? 'Transcription: ' + (c.transcription === 'openai' ? 'OpenAI' : 'on this computer') : 'No transcription (text & music only)'}</span>`;

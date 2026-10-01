@@ -67,6 +67,9 @@ jobs:
         with: { python-version: '3.11' }
       - name: Install
         run: pip install --only-binary llvmlite,numba -r script_studio/requirements.txt faster-whisper pyinstaller
+      - name: Stamp version
+        shell: bash
+        run: echo "VERSION = '$APP_VERSION'" > script_studio/_version.py
       - name: Build app
         run: pyinstaller packaging/script_studio.spec --noconfirm
       - name: Self-test the packaged app
@@ -107,6 +110,9 @@ jobs:
         with: { python-version: '3.11' }
       - name: Install
         run: pip install --only-binary llvmlite,numba -r script_studio/requirements.txt faster-whisper pyinstaller
+      - name: Stamp version
+        shell: bash
+        run: echo "VERSION = '$APP_VERSION'" > script_studio/_version.py
       - name: Build app
         run: pyinstaller packaging/script_studio.spec --noconfirm
       - name: Self-test the packaged app

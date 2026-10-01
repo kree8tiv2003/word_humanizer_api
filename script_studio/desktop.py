@@ -32,12 +32,32 @@ def _prepare_environment() -> str:
     return home
 
 
-def _ours(port: int) -> bool:
+def _health(port: int) -> dict | None:
+    import json
     try:
         with urllib.request.urlopen(f'http://127.0.0.1:{port}/api/health', timeout=1.5) as r:
-            return b'script-studio' in r.read()
+            d = json.loads(r.read())
+            return d if d.get('app') == 'script-studio' else None
     except Exception:
-        return False
+        return None
+
+
+def _ours(port: int) -> bool:
+    return _health(port) is not None
+
+
+def _replace_old(port: int) -> None:
+    """Ask an older copy that is still running to quit, and wait until it has."""
+    try:
+        req = urllib.request.Request(f'http://127.0.0.1:{port}/api/shutdown', data=b'', method='POST',
+                                     headers={'X-Script-Studio': 'replace'})
+        urllib.request.urlopen(req, timeout=3).read()
+    except Exception:
+        pass
+    for _ in range(50):
+        if _free(port):
+            return
+        time.sleep(0.2)
 
 
 def _free(port: int) -> bool:
@@ -177,9 +197,13 @@ def main() -> None:
         _prepare_environment()
         os._exit(selftest(sys.argv[2]))
     home = _prepare_environment()
-    if _ours(PREFERRED_PORT):                 # already running: just show it
+    from script_studio._version import VERSION
+    running = _health(PREFERRED_PORT)
+    if running and running.get('version') == VERSION:   # this version is already running: just show it
         webbrowser.open(f'http://127.0.0.1:{PREFERRED_PORT}/')
         return
+    if running:                                          # an older/newer copy is running: replace it
+        _replace_old(PREFERRED_PORT)
     port = _pick_port()
     url = f'http://127.0.0.1:{port}/'
 

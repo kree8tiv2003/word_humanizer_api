@@ -24,6 +24,7 @@ from .jobs import Job, JobStore
 from .models import SegmentOut, Settings
 from .pipeline import Inputs, prepare_source, run
 from .planner import tile_shots
+from ._version import VERSION
 from .writer import Writer, WriterError, current_model
 
 STATIC = os.path.join(os.path.dirname(__file__), 'static')
@@ -56,7 +57,7 @@ def index():
 
 @app.get('/api/config')
 def config():
-    return {'model': current_model(), 'has_api_key': bool(os.getenv('ANTHROPIC_API_KEY')), 'desktop': userconfig.is_frozen(),
+    return {'version': VERSION, 'model': current_model(), 'has_api_key': bool(os.getenv('ANTHROPIC_API_KEY')), 'desktop': userconfig.is_frozen(),
             'transcription': transcribe.backend(), 'max_upload_mb': MAX_UPLOAD // (1024 * 1024),
             'increments': ['5', '10', '15', '30', '60', 'full'],
             'generators': ['any', 'veo', 'sora', 'kling', 'runway', 'luma']}
@@ -64,7 +65,17 @@ def config():
 
 @app.get('/api/health')
 def health():
-    return {'app': 'script-studio', 'ok': True}
+    return {'app': 'script-studio', 'ok': True, 'version': VERSION}
+
+
+@app.post('/api/shutdown')
+def shutdown(request: Request):
+    """Lets a newer copy of the desktop app replace an older one that is still running."""
+    if not userconfig.is_frozen() or request.headers.get('x-script-studio') != 'replace':
+        raise HTTPException(403, 'Not allowed.')
+    import threading
+    threading.Timer(0.5, lambda: os._exit(0)).start()
+    return {'ok': True}
 
 
 @app.get('/api/settings')
