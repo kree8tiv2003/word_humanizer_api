@@ -111,7 +111,7 @@ class MVScriptBuilder:
         summary = (f"Project '{project}': {len(images)} images, {n} segments, "
                    f"{script['total_duration']:.2f}s song ({script['audio_mode']} audio), "
                    f"{script['total_frames']} frames @ {core.S2V_FPS}fps. Prompts: {note}. "
-                   f"Queue the workflow {n} times (segment_index auto-increments 0..{n - 1}). "
+                   f"Queue the workflow {n} times (segment_index -1 renders the next unfinished segment each run). "
                    f"Editable plan saved to output/music_video/{project}/script_used.json")
         log.info(summary)
         return (json.dumps(script), summary)
@@ -125,7 +125,7 @@ class MVSegmentLoader:
         return {
             "required": {
                 "script_json": ("STRING", {"forceInput": True}),
-                "segment_index": ("INT", {"default": 0, "min": 0, "max": 9999, "control_after_generate": True, "tooltip": "Set to 0 and use 'increment', then queue once per segment."}),
+                "segment_index": ("INT", {"default": -1, "min": -1, "max": 9999, "tooltip": "-1 = automatic: render the next segment that isn't done yet (queue the workflow once per segment). Set a number to re-render that one segment."}),
                 "width": ("INT", {"default": 832, "min": 256, "max": 2048, "step": 16}),
                 "height": ("INT", {"default": 480, "min": 256, "max": 2048, "step": 16}),
                 "base_seed": ("INT", {"default": 42, "min": 0, "max": 0xffffffff, "tooltip": "Base seed; each segment uses seed + index so re-renders are reproducible."}),
@@ -141,15 +141,9 @@ class MVSegmentLoader:
     CATEGORY = "MusicVideoKit"
 
     @classmethod
-    def IS_CHANGED(cls, script_json, segment_index, continue_motion, **kwargs):
-        # Re-run when the previous segment (used for reference motion) changes on disk.
-        try:
-            script = json.loads(script_json)
-            _, output_root = _roots()
-            p = core.segment_path(output_root, script["project"], segment_index - 1)
-            return f"{segment_index}:{os.path.getmtime(p) if continue_motion and os.path.exists(p) else 0}"
-        except Exception:
-            return float("nan")
+    def IS_CHANGED(cls, **kwargs):
+        # Always re-run: which segment is next depends on what is already rendered on disk.
+        return float("nan")
 
     def load(self, script_json, segment_index, width, height, base_seed, continue_motion, negative_prompt):
         input_root, output_root = _roots()
@@ -158,6 +152,13 @@ class MVSegmentLoader:
         if segment_index >= len(segs):
             raise ValueError(f"segment_index {segment_index} is past the last segment ({len(segs) - 1}). "
                              f"All segments are queued - check output/music_video/{script['project']}/.")
+        if segment_index < 0:
+            segment_index = core.next_unrendered(output_root, script)
+            if segment_index is None:
+                raise ValueError(f"All {len(segs)} segments are already rendered. Your video is "
+                                 f"output/music_video/{script['project']}/{script['project']}_final.mp4. "
+                                 "To redo one segment, set segment_index to its number; to start over, "
+                                 f"delete the folder output/music_video/{script['project']}/segments.")
         seg = segs[segment_index]
 
         img_path = os.path.join(core.kind_dir(input_root, script["project"], "images"), seg["image"])

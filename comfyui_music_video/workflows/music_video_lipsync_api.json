@@ -83,7 +83,7 @@
   "21": {
     "class_type": "MVSegmentLoader",
     "inputs": {
-      "segment_index": 0,
+      "segment_index": -1,
       "width": 832,
       "height": 480,
       "base_seed": 42,

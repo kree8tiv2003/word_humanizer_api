@@ -228,11 +228,24 @@ def template_prompt(style, scene="", lyric=""):
     return " ".join(p)
 
 
+def read_text(path):
+    """Read a text file whatever program saved it: UTF-8, UTF-16 (Word/Notepad "Unicode") or Windows-1252."""
+    with open(path, "rb") as f:
+        raw = f.read()
+    if raw.startswith((b"\xff\xfe", b"\xfe\xff")):
+        return raw.decode("utf-16")
+    for enc in ("utf-8-sig", "cp1252"):
+        try:
+            return raw.decode(enc)
+        except UnicodeDecodeError:
+            pass
+    return raw.decode("latin-1")
+
+
 def parse_script_file(path):
     """Parse an uploaded script into a list of {image?, prompt, lyric?} entries (one per segment)."""
     ext = os.path.splitext(path)[1].lower()
-    with open(path, "r", encoding="utf-8-sig") as f:
-        text = f.read()
+    text = read_text(path)
     entries = []
     if ext == ".json":
         data = json.loads(text)
@@ -468,6 +481,14 @@ def read_video_frames(path, last_n=None):
 
 def segment_path(output_root, project, index):
     return os.path.join(project_output_dir(output_root, project), "segments", f"seg_{index:03d}.mp4")
+
+
+def next_unrendered(output_root, script):
+    """Index of the first segment without a rendered clip, or None when all are done."""
+    for s in script["segments"]:
+        if not os.path.exists(segment_path(output_root, script["project"], s["index"])):
+            return s["index"]
+    return None
 
 
 def assemble_final(input_root, output_root, script, sync_offset_ms=0, crf=17):

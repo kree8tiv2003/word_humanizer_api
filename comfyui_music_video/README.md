@@ -72,15 +72,15 @@ After it finishes, restart ComfyUI and open **music_video_lipsync** from the **W
    - `claude_vision` / `uploaded_script` / `template` force one mode.
    - Paste your **lyrics** in the `lyrics` box. They're spread across the segments and written into the prompts.
    - The Claude call uses `claude-opus-5-5` with the API's server-side refusal fallback enabled. The result is cached, so you're charged once, not once per segment. Tick `regenerate` to get a new version.
-4. **Render.** On **🎬 2. Segment loader**, leave `segment_index = 0` with **increment**. Set the queue count to the number of segments, which is **37** for 3:03 (the exact number is in the console log and in `script_used.json`), then press **Queue**.
+4. **Render.** On **🎬 2. Segment loader**, leave `segment_index` at **-1** (automatic). Each run renders the next segment that isn't done yet. Set the run count to the number of segments, which is **37** for 3:03 (the exact number is in the console log and in `script_used.json`), then press **Run**. If it stops partway, press Run again and it continues where it left off.
 5. **Result.** After the last segment, **🎬 3. Save segment** writes
    `ComfyUI/output/music_video/<project>/<project>_final.mp4` (16 fps, H.264 + AAC). The individual clips are in `…/segments/seg_000.mp4`, and so on.
 
-To re-render one bad segment, set `segment_index` to that number, set the control to `fixed`, and queue once. The final video is rebuilt automatically. You can also unmute (Ctrl+M) the **Re-stitch final video** node and queue.
+To re-render one bad segment, set `segment_index` to that number and run once, then set it back to -1. The final video is rebuilt automatically. You can also unmute (Ctrl+M) the **Re-stitch final video** node and queue.
 
 ### Script formats
 
-The script has one entry per segment, in order. The storyboard image is optional; if you leave it out, images are spread evenly across the song.
+The script has one entry per segment, in order. The storyboard image is optional; if you leave it out, images are spread evenly across the song. Any plain-text format works: Notepad, Word "Save as .txt", UTF-8 or the older Windows formats.
 
 ```text
 # script.txt: one line per segment, "image | prompt" or just the prompt
@@ -100,7 +100,7 @@ Each run also writes `output/music_video/<project>/script_used.json`, the full p
 - **Frame-exact timeline.** Segment boundaries are rounded on the song's absolute timeline at 16 fps (the model's native rate). The segments add up to exactly `song_length × 16` frames (183 s → 2928 frames), so there's no cumulative drift.
 - **Exact trimming.** The sampler renders a few frames more than needed, using a `4n+1` length and the official "first-frame VAE fix". The save node then keeps exactly the frames for that segment.
 - **One uncut audio track.** The final video uses your original song, not re-joined clips.
-- **Motion continuity.** When consecutive segments use the same storyboard image, the last 73 frames of the previous clip are fed as reference motion (`continue_motion`). A shot held for 10 or 15 seconds then continues smoothly instead of resetting every 5 seconds. Queue the segments in order for this to work; the increment control does that.
+- **Motion continuity.** When consecutive segments use the same storyboard image, the last 73 frames of the previous clip are fed as reference motion (`continue_motion`). A shot held for 10 or 15 seconds then continues smoothly instead of resetting every 5 seconds. Automatic mode (-1) always renders segments in order, which this needs.
 - **Sync nudge.** `sync_offset_ms` on the save node shifts the final audio by ±ms if you ever see a constant offset.
 
 ### Quality tips

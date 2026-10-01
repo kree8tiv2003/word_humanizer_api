@@ -38,7 +38,9 @@ GUIDE = """## 🎬 Music Video — Wan2.2 S2V lip-sync, storyboard + batch
 
 **2. Script**: `auto` uses your script → else Claude writes prompts from the storyboard (needs `ANTHROPIC_API_KEY`) → else template prompts. Paste lyrics to feed them into the prompts.
 
-**3. Render**: set `segment_index` = 0 with **increment**, set the Queue count to the number of segments shown in the log (3:03 at 5s = **37**), press Queue. Each run renders one segment; after the last one the final video with the uncut song is written to `output/music_video/<project>/<project>_final.mp4`.
+**3. Render**: leave `segment_index` at **-1** (automatic: each run renders the next unfinished segment). Set the number next to the **Run** button to the number of segments (3:03 at 5s = **37**) and press **Run**. After the last one, the final video with the uncut song is in `output/music_video/<project>/<project>_final.mp4`. If it stops halfway, just press Run again: it continues where it left off.
+
+**8 GB graphics cards**: keep 832×480 (or lower). Bigger sizes like 1280×720 are much slower and can run out of memory.
 
 **Quality**: 4-step LightX2V LoRA = fast (steps 4, cfg 1). For maximum lip-sync quality bypass the LoRA node and use steps 20, cfg 6. Nudge `sync_offset_ms` on the save node if lips look early/late.
 """
@@ -137,8 +139,8 @@ def build():
     g.out(sb, "summary", "STRING")
 
     ld = g.node(21, "MVSegmentLoader", (0, 580), (440, 420),
-                [0, "increment", 832, 480, 42, True, NEGATIVE],
-                ["segment_index", None, "width", "height", "base_seed", "continue_motion", "negative_prompt"],
+                [-1, 832, 480, 42, True, NEGATIVE],
+                ["segment_index", "width", "height", "base_seed", "continue_motion", "negative_prompt"],
                 title="🎬 2. Segment loader (queue once per segment)", color=purple)
     for name, typ in [("ref_image", "IMAGE"), ("audio", "AUDIO"), ("positive", "STRING"), ("negative", "STRING"),
                       ("width", "INT"), ("height", "INT"), ("length", "INT"), ("frames", "INT"),
