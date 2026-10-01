@@ -12,9 +12,59 @@ async function loadConfig() {
     state.config = await (await fetch('/api/config')).json();
     const c = state.config;
     $('#status').innerHTML =
-      `<span class="pill ${c.has_api_key ? 'ok' : 'bad'}">${c.has_api_key ? 'Claude ready · ' + esc(c.model) : 'ANTHROPIC_API_KEY missing'}</span>` +
-      `<span class="pill ${c.transcription ? 'ok' : ''}">${c.transcription ? 'Transcription: ' + esc(c.transcription) : 'No transcription (text & music only)'}</span>`;
+      `<span class="pill ${c.has_api_key ? 'ok' : 'bad'}">${c.has_api_key ? 'Claude ready · ' + esc(c.model) : 'Add your API key in Settings'}</span>` +
+      `<span class="pill ${c.transcription ? 'ok' : ''}">${c.transcription ? 'Transcription: ' + (c.transcription === 'openai' ? 'OpenAI' : 'on this computer') : 'No transcription (text & music only)'}</span>`;
+    if (!c.has_api_key) openSettings(true);
   } catch { /* offline */ }
+}
+
+// ------------------------------------------------------------------ settings
+async function openSettings(firstRun) {
+  $('#settingsModal').classList.remove('hidden');
+  $('#settingsMsg').textContent = firstRun ? 'Welcome! Add your Anthropic key to start writing scripts.' : '';
+  $('#settingsMsg').className = 'msg';
+  try {
+    const s = await (await fetch('/api/settings')).json();
+    $('#anthHint').textContent = s.ANTHROPIC_API_KEY ? `saved ${s.ANTHROPIC_API_KEY_hint}` : '';
+    $('#oaiHint').textContent = s.OPENAI_API_KEY ? `saved ${s.OPENAI_API_KEY_hint}` : '';
+    $('#modelSel').value = s.SCRIPT_MODEL || '';
+  } catch { /* ignore */ }
+}
+$('#gearBtn').addEventListener('click', () => openSettings(false));
+$('#closeSettings').addEventListener('click', () => $('#settingsModal').classList.add('hidden'));
+$('#saveSettings').addEventListener('click', async () => {
+  const body = { SCRIPT_MODEL: $('#modelSel').value };
+  const a = $('#anthKey').value.trim(), o = $('#oaiKey').value.trim();
+  if (a) body.ANTHROPIC_API_KEY = a;
+  if (o) body.OPENAI_API_KEY = o;
+  const msg = $('#settingsMsg');
+  msg.className = 'msg'; msg.textContent = 'Saving and checking your key…';
+  try {
+    await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    $('#anthKey').value = ''; $('#oaiKey').value = '';
+    const t = await (await fetch('/api/settings/test', { method: 'POST' })).json();
+    msg.className = 'msg ' + (t.ok ? 'ok' : 'bad');
+    msg.textContent = t.ok ? '✓ ' + t.message + ' You can close this window and start writing.' : t.message;
+    await loadConfig2();
+    openSettingsHints();
+  } catch (e) { msg.className = 'msg bad'; msg.textContent = 'Could not save: ' + e.message; }
+});
+$('#clearKeys').addEventListener('click', async () => {
+  if (!confirm('Remove the saved API keys from this computer?')) return;
+  await fetch('/api/settings', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ANTHROPIC_API_KEY: '', OPENAI_API_KEY: '' }) });
+  openSettingsHints(); loadConfig2();
+});
+async function openSettingsHints() {
+  const s = await (await fetch('/api/settings')).json();
+  $('#anthHint').textContent = s.ANTHROPIC_API_KEY ? `saved ${s.ANTHROPIC_API_KEY_hint}` : '';
+  $('#oaiHint').textContent = s.OPENAI_API_KEY ? `saved ${s.OPENAI_API_KEY_hint}` : '';
+}
+async function loadConfig2() {   // refresh the status pills without re-opening the dialog
+  state.config = await (await fetch('/api/config')).json();
+  const c = state.config;
+  $('#status').innerHTML =
+    `<span class="pill ${c.has_api_key ? 'ok' : 'bad'}">${c.has_api_key ? 'Claude ready · ' + esc(c.model) : 'Add your API key in Settings'}</span>` +
+    `<span class="pill ${c.transcription ? 'ok' : ''}">${c.transcription ? 'Transcription: ' + (c.transcription === 'openai' ? 'OpenAI' : 'on this computer') : 'No transcription (text & music only)'}</span>`;
 }
 
 // ------------------------------------------------------------------ mode, chips, files

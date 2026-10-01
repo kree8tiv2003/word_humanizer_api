@@ -1,0 +1,13 @@
+HOW TO OPEN SCRIPT STUDIO THE FIRST TIME
+
+1. Drag "Script Studio" onto the "Applications" folder in this window.
+2. Open your Applications folder.
+3. Hold the Control key, click "Script Studio", and choose "Open".
+4. Click "Open" in the box that appears.
+
+Your Mac shows a warning the first time because the app is not from the App Store.
+You only need to do this once. After that, open it normally.
+
+If the box only offers "Move to Trash" or "Done":
+   open System Settings > Privacy & Security, scroll down,
+   and click "Open Anyway" next to Script Studio.

@@ -1,0 +1,125 @@
+name: Build Script Studio desktop app
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/great-mccarthy-06xr6u, main, master]
+    paths:
+      - 'script_studio/**'
+      - 'packaging/**'
+      - '.github/workflows/desktop-app.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: desktop-app-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  RELEASE_TAG: script-studio-latest
+  APP_VERSION: 1.0.${{ github.run_number }}
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install -r script_studio/requirements.txt pytest
+      - run: python -m pytest script_studio/tests -q
+
+  release:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create or update the download page
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          cat > notes.md <<NOTES
+          **Script Studio $APP_VERSION**: turn stories, audio, links and songs into timed AI-video scripts.
+
+          | Your computer | Download |
+          |---|---|
+          | Windows 10 / 11 | **ScriptStudio-Setup-Windows.exe** |
+          | Mac with Apple chip (M1, M2, M3, M4) | **ScriptStudio-Mac-AppleSilicon.dmg** |
+          | Older Mac with Intel chip | **ScriptStudio-Mac-Intel.dmg** |
+
+          Not sure which Mac you have? Apple menu > About This Mac: "Chip: Apple M…" means Apple Silicon; "Processor: Intel" means Intel.
+
+          Step-by-step instructions: [INSTALL.md](https://github.com/$GITHUB_REPOSITORY/blob/$GITHUB_REF_NAME/INSTALL.md)
+          NOTES
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release edit "$RELEASE_TAG" --title "Script Studio $APP_VERSION" --notes-file notes.md --target "$GITHUB_SHA"
+          else
+            gh release create "$RELEASE_TAG" --title "Script Studio $APP_VERSION" --notes-file notes.md --target "$GITHUB_SHA"
+          fi
+
+  windows:
+    needs: release
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Install
+        run: pip install -r script_studio/requirements.txt faster-whisper pyinstaller
+      - name: Build app
+        run: pyinstaller packaging/script_studio.spec --noconfirm
+      - name: Self-test the packaged app
+        shell: pwsh
+        run: |
+          $p = Start-Process -FilePath "dist\Script Studio\Script Studio.exe" -ArgumentList "--selftest","`"$env:RUNNER_TEMP\selftest.txt`"" -Wait -PassThru
+          Get-Content "$env:RUNNER_TEMP\selftest.txt"
+          if ($p.ExitCode -ne 0) { exit 1 }
+      - name: Build installer
+        shell: pwsh
+        run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress }
+          & $iscc packaging\windows_installer.iss
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+      - name: Upload to the download page
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: gh release upload ${{ env.RELEASE_TAG }} installer/ScriptStudio-Setup-Windows.exe --clobber
+      - uses: actions/upload-artifact@v4
+        with: { name: ScriptStudio-Windows, path: installer/ScriptStudio-Setup-Windows.exe }
+
+  mac:
+    needs: release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-latest
+            name: AppleSilicon
+          - runner: macos-15-intel
+            name: Intel
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Install
+        run: pip install -r script_studio/requirements.txt faster-whisper pyinstaller
+      - name: Build app
+        run: pyinstaller packaging/script_studio.spec --noconfirm
+      - name: Self-test the packaged app
+        run: |
+          "dist/Script Studio.app/Contents/MacOS/Script Studio" --selftest "$RUNNER_TEMP/selftest.txt" || (cat "$RUNNER_TEMP/selftest.txt"; exit 1)
+          cat "$RUNNER_TEMP/selftest.txt"
+      - name: Sign (ad hoc) and make disk image
+        run: |
+          codesign --force --deep --sign - "dist/Script Studio.app"
+          mkdir -p dmg && cp -R "dist/Script Studio.app" dmg/ && ln -s /Applications dmg/Applications
+          cp packaging/mac_first_open.txt "dmg/READ ME FIRST.txt"
+          hdiutil create -volname "Script Studio" -srcfolder dmg -ov -format UDZO "ScriptStudio-Mac-${{ matrix.name }}.dmg"
+      - name: Upload to the download page
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: gh release upload ${{ env.RELEASE_TAG }} "ScriptStudio-Mac-${{ matrix.name }}.dmg" --clobber
+      - uses: actions/upload-artifact@v4
+        with: { name: 'ScriptStudio-Mac-${{ matrix.name }}', path: 'ScriptStudio-Mac-${{ matrix.name }}.dmg' }

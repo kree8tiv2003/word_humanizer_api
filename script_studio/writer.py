@@ -10,7 +10,11 @@ from .models import (BeatsOut, PlannedSegment, Plan, ScriptResult, SegmentOut, S
 from .planner import fmt_time, normalize_beats, tile_shots
 from .principles import GENERATOR_NOTES, system_blocks
 
-DEFAULT_MODEL = os.getenv('SCRIPT_MODEL', 'claude-opus-5-5')
+DEFAULT_MODEL = 'claude-opus-5-5'
+
+
+def current_model() -> str:
+    return os.getenv('SCRIPT_MODEL') or DEFAULT_MODEL
 BIBLE_CHUNK_CHARS = 150_000
 MAX_TOKENS = int(os.getenv('SCRIPT_MAX_TOKENS', '16000'))
 BATCH_TOKEN_BUDGET = 8000
@@ -23,14 +27,14 @@ class WriterError(RuntimeError):
 def make_client():
     import anthropic
     if not os.getenv('ANTHROPIC_API_KEY'):
-        raise WriterError('ANTHROPIC_API_KEY is not set. Add it to the environment to write scripts.')
+        raise WriterError('No Anthropic API key yet. Open Settings (the gear, top right) and paste your key.')
     return anthropic.Anthropic(max_retries=4)
 
 
 class Writer:
     def __init__(self, client=None, model: str | None = None):
         self._client = client
-        self.model = model or DEFAULT_MODEL
+        self.model = model or current_model()
 
     @property
     def client(self):

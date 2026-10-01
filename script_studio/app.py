@@ -8,19 +8,23 @@ import json
 import os
 import re
 
-from fastapi import Body, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import Body, FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import ValidationError
 
-from . import transcribe
+from . import userconfig
+
+userconfig.apply()   # saved API keys -> environment, before anything reads them
+
+from . import transcribe  # noqa: E402
 from .exporters import FORMATS
 from .ingest import IngestError
 from .jobs import Job, JobStore
 from .models import SegmentOut, Settings
 from .pipeline import Inputs, prepare_source, run
 from .planner import tile_shots
-from .writer import DEFAULT_MODEL, Writer, WriterError
+from .writer import Writer, WriterError, current_model
 
 STATIC = os.path.join(os.path.dirname(__file__), 'static')
 MAX_UPLOAD = int(os.getenv('MAX_UPLOAD_MB', '200')) * 1024 * 1024
@@ -28,6 +32,16 @@ MAX_UPLOAD = int(os.getenv('MAX_UPLOAD_MB', '200')) * 1024 * 1024
 app = FastAPI(title='Script Studio', version='1.0')
 app.mount('/static', StaticFiles(directory=STATIC), name='static')
 store = JobStore()
+
+
+@app.middleware('http')
+async def same_origin_only(request: Request, call_next):
+    """The app listens on this computer only; refuse write requests sent by other websites."""
+    if request.method not in ('GET', 'HEAD', 'OPTIONS'):
+        origin = request.headers.get('origin')
+        if origin and origin.split('://', 1)[-1] != request.headers.get('host', ''):
+            return JSONResponse({'detail': 'Cross-site request refused.'}, status_code=403)
+    return await call_next(request)
 
 
 def writer_factory(model: str = '') -> Writer:
@@ -42,10 +56,42 @@ def index():
 
 @app.get('/api/config')
 def config():
-    return {'model': DEFAULT_MODEL, 'has_api_key': bool(os.getenv('ANTHROPIC_API_KEY')),
+    return {'model': current_model(), 'has_api_key': bool(os.getenv('ANTHROPIC_API_KEY')), 'desktop': userconfig.is_frozen(),
             'transcription': transcribe.backend(), 'max_upload_mb': MAX_UPLOAD // (1024 * 1024),
             'increments': ['5', '10', '15', '30', '60', 'full'],
             'generators': ['any', 'veo', 'sora', 'kling', 'runway', 'luma']}
+
+
+@app.get('/api/health')
+def health():
+    return {'app': 'script-studio', 'ok': True}
+
+
+@app.get('/api/settings')
+def get_settings():
+    return userconfig.status()
+
+
+@app.post('/api/settings')
+def set_settings(body: dict = Body(...)):
+    userconfig.save({k: str(v) for k, v in body.items() if isinstance(v, (str, int, float))})
+    return userconfig.status()
+
+
+@app.post('/api/settings/test')
+def test_key():
+    """Check the Anthropic key with a free request (lists models; no tokens used)."""
+    if not os.getenv('ANTHROPIC_API_KEY'):
+        return {'ok': False, 'message': 'No Anthropic key saved yet.'}
+    try:
+        import anthropic
+        anthropic.Anthropic(max_retries=1, timeout=20).models.list(limit=1)
+        return {'ok': True, 'message': 'Your Anthropic key works.'}
+    except Exception as e:
+        msg = str(e)
+        if 'authentication' in msg.lower() or '401' in msg:
+            msg = 'That key was rejected. Check that you copied the whole key.'
+        return {'ok': False, 'message': msg[:300]}
 
 
 async def _read(f: UploadFile) -> bytes:

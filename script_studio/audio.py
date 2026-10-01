@@ -17,7 +17,11 @@ def load(path: str) -> tuple[np.ndarray, int]:
     try:
         y, sr = librosa.load(path, sr=SR, mono=True)
     except Exception as e:
-        raise AudioError(f'Could not decode the audio file ({e}). Try MP3, WAV, FLAC or OGG.')
+        try:   # M4A/AAC/MP4/WMA etc.: decode with PyAV (bundled with faster-whisper) when available
+            from faster_whisper.audio import decode_audio
+            y, sr = decode_audio(path, sampling_rate=SR), SR
+        except Exception:
+            raise AudioError(f'Could not decode the audio file ({e}). Try MP3, WAV, FLAC or OGG.')
     if y.size < sr:
         raise AudioError('The audio is shorter than one second.')
     return y, sr

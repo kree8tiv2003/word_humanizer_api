@@ -136,3 +136,19 @@ label { font-size: 12.5px; color: var(--muted); }
   .input { position: static; max-height: none; border-right: 0; border-bottom: 1px solid var(--line); }
   .shot .dlg { margin-left: 6%; max-width: 88%; }
 }
+
+.top-right { display: flex; gap: 10px; align-items: center; }
+.gear { font-size: 13px; }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.6); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 16px; }
+.modal-card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; width: min(560px, 100%); max-height: 92vh; overflow-y: auto; }
+.modal-card h2 { margin: 0 0 6px; }
+.modal-card label { display: block; margin-top: 10px; }
+.modal-card a { color: var(--gold); }
+.steps { color: var(--ink); padding-left: 20px; font-size: 13.5px; }
+.steps li { margin-bottom: 4px; }
+.keyhint { color: var(--green); font-size: 12px; margin-left: 6px; }
+.msg { min-height: 1.2em; font-size: 13px; }
+.msg.ok { color: var(--green); } .msg.bad { color: var(--red); }
+.modal-actions { display: grid; grid-template-columns: auto 1fr auto auto; gap: 8px; align-items: center; margin-top: 12px; }
+.modal-actions .go.small { margin-top: 0; }
+code { background: var(--card); padding: 1px 5px; border-radius: 4px; }

@@ -14,7 +14,10 @@ from pydantic import BaseModel
 
 from .models import ScriptResult, Settings, SourceDoc
 
-JOBS_DIR = os.getenv('SCRIPT_JOBS_DIR', os.path.join(os.path.dirname(__file__), '..', 'script_jobs'))
+from . import userconfig
+
+JOBS_DIR = os.getenv('SCRIPT_JOBS_DIR') or (os.path.join(userconfig.data_dir(), 'scripts') if userconfig.is_frozen()
+                                            else os.path.join(os.path.dirname(__file__), '..', 'script_jobs'))
 _pool = ThreadPoolExecutor(max_workers=int(os.getenv('SCRIPT_WORKERS', '2')))
 
 

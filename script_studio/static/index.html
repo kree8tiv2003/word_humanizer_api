@@ -10,8 +10,40 @@
 <body>
 <header class="top">
   <div class="brand"><span class="logo">▶</span> Script Studio <small>Director's Manual method</small></div>
-  <div class="status" id="status"></div>
+  <div class="top-right"><div class="status" id="status"></div><button class="ghost gear" id="gearBtn" title="Settings">⚙ Settings</button></div>
 </header>
+
+<div class="modal hidden" id="settingsModal">
+  <div class="modal-card">
+    <h2>Settings</h2>
+    <p class="hint">Script Studio uses Claude, from Anthropic, to write your scripts. You need your own Anthropic API key. It is saved only on this computer.</p>
+    <ol class="steps">
+      <li>Go to <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> and sign in (or create an account and add a little credit under <b>Billing</b>).</li>
+      <li>Click <b>Create Key</b>, give it a name, and copy the key (it starts with <code>sk-ant-</code>).</li>
+      <li>Paste it below and click <b>Save</b>.</li>
+    </ol>
+    <label>Anthropic API key <span class="keyhint" id="anthHint"></span>
+      <input class="field" id="anthKey" type="password" placeholder="sk-ant-…" autocomplete="off"></label>
+    <label>Writing model
+      <select class="field" id="modelSel">
+        <option value="">Claude Opus (best quality, recommended)</option>
+        <option value="claude-sonnet-5-5">Claude Sonnet (faster, lower cost)</option>
+      </select></label>
+    <details>
+      <summary>Speech transcription (for audio stories and lyrics timing)</summary>
+      <p class="hint">Script Studio can transcribe speech on this computer for free. The first time, it downloads a speech model (about 150 MB). If you have an OpenAI account, its transcription is faster and more accurate: paste an OpenAI API key here to use it instead.</p>
+      <label>OpenAI API key (optional) <span class="keyhint" id="oaiHint"></span>
+        <input class="field" id="oaiKey" type="password" placeholder="sk-…" autocomplete="off"></label>
+    </details>
+    <p class="msg" id="settingsMsg"></p>
+    <div class="modal-actions">
+      <button class="ghost" id="clearKeys">Remove saved keys</button>
+      <span></span>
+      <button class="ghost" id="closeSettings">Close</button>
+      <button class="go small" id="saveSettings">Save</button>
+    </div>
+  </div>
+</div>
 
 <main class="layout">
   <!-- ======================================================= INPUT -->

@@ -4,3 +4,6 @@ __pycache__/
 .DS_Store
 script_jobs/
 .pytest_cache/
+build/
+dist/
+installer/
