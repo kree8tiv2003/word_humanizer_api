@@ -66,7 +66,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: '3.11' }
       - name: Install
-        run: pip install -r script_studio/requirements.txt faster-whisper pyinstaller
+        run: pip install --only-binary llvmlite,numba -r script_studio/requirements.txt faster-whisper pyinstaller
       - name: Build app
         run: pyinstaller packaging/script_studio.spec --noconfirm
       - name: Self-test the packaged app
@@ -105,7 +105,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: '3.11' }
       - name: Install
-        run: pip install -r script_studio/requirements.txt faster-whisper pyinstaller
+        run: pip install --only-binary llvmlite,numba -r script_studio/requirements.txt faster-whisper pyinstaller
       - name: Build app
         run: pyinstaller packaging/script_studio.spec --noconfirm
       - name: Self-test the packaged app
