@@ -12,7 +12,7 @@
  "2": {
   "class_type": "LoraLoaderModelOnly",
   "inputs": {
-   "lora_name": "Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors",
+   "lora_name": "Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors",
    "strength_model": 1.0,
    "model": [
     "1",
@@ -90,7 +90,7 @@
  "10": {
   "class_type": "TextEncodeQwenImageEditPlus",
   "inputs": {
-   "prompt": "Low-angle shot from inside the crowd looking up at the woman from image 1 in the red beaded gown from image 2 at the edge of the small stage from image 3, leaning forward, free hand reaching toward the audience while singing into the microphone, spotlight haloing around her, raised hands of patrons reaching into frame.",
+   "prompt": "Low-angle medium shot from inside the crowd of the woman from image 1 in the red beaded gown from image 2 at the edge of the small stage from image 3, leaning slightly toward the audience while singing into the microphone, her free hand open and still, spotlight haloing around her, patrons looking up at her. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands.",
    "clip": [
     "5",
     0
@@ -119,7 +119,7 @@
  "11": {
   "class_type": "TextEncodeQwenImageEditPlus",
   "inputs": {
-   "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render",
+   "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone",
    "clip": [
     "5",
     0
@@ -160,7 +160,7 @@
   "class_type": "KSampler",
   "inputs": {
    "seed": 1008,
-   "steps": 4,
+   "steps": 8,
    "cfg": 1.0,
    "sampler_name": "euler",
    "scheduler": "simple",

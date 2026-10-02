@@ -5,8 +5,8 @@ This folder turns the uploaded LTX-2 audio-to-video workflow, the song `God_Insi
 | File | What it does |
 |---|---|
 | `workflows/01_ltx2_audio_to_video_FIXED.json` | Your original workflow with every error repaired (see below). It makes one continuous ~46 s performance take. |
-| `workflows/02_god_inside_scene_stills.json` | Makes 27 character-consistent start frames with **Qwen-Image-Edit-2509** (+ Lightning 4-step). The singer comes from your references. The venue and the crowd of patrons are generated. Scene 01's empty-stage plate is reused as the venue reference for every later shot. |
-| `workflows/03_god_inside_music_video_ltx2.json` | Renders 27 lip-synced LTX-2 clips, one per scene. Each clip gets its own start frame, motion prompt and exact song slice (vocals isolated for lip-sync). Output: `output/god_inside/clip_XX.mp4`. |
+| `workflows/02_god_inside_scene_stills.json` | Makes 27 character-consistent start frames with **Qwen-Image-Edit-2509** (+ Lightning 8-step). The singer comes from your references. The venue and the crowd of patrons are generated. Scene 01's empty-stage plate is reused as the venue reference for every later shot. |
+| `workflows/03_god_inside_music_video_ltx2.json` | Renders 27 lip-synced LTX-2 clips, one per scene, in two stages: half size, then a 2x latent upscale and refine at full size. Each clip gets its own start frame, motion prompt and exact song slice (vocals isolated for lip-sync). Output: `output/god_inside/clip_XX.mp4`. |
 | `tools/run_music_video.py` | Headless: runs stills, then clips, then the final MP4 against a running ComfyUI (`--server`). You can pick a stage or scenes, for example `--stage clips --scenes 9-12`. |
 | `tools/assemble_video.py` | Cuts clips to the script timecodes and lays the full, untouched song underneath. It adds a 1 s fade-in and fades to black after the last note. Missing clips fall back to their still with a slow push-in (animatic preview). |
 | `tools/collect_stills.py` | Copies workflow-02 outputs to `input/god_inside_scene_XX.png` for workflow 03 (UI route). |
@@ -20,9 +20,27 @@ This folder turns the uploaded LTX-2 audio-to-video workflow, the song `God_Insi
 3. CreateVideo FPS changed from `24.2421875` to 24. The preview writers were 7.75 fps GIF; they are now 24 fps MP4. The 4th preview was also missing its FPS link.
 4. `divisible_by` changed from 2 to 32 (LTX latent grid). The prompt said "the man"; it now describes the singer. The stale embedded API prompt from an unrelated checkpoint was removed, along with duplicate output link ids. The extension subgraph name typo ("VIdeo Extrndion") is fixed.
 
+## Hand-distortion fixes
+Hands distort because a hand is only about 2 latent pixels wide (LTX-2 compresses 32x spatially and 8x in time). The original pipeline also had other problems: one low-step pass, strong motion pressure from NAG, fast-gesture prompts, and start frames that sometimes had bad hands. Changes:
+- **Two-stage sampling (workflow 03).**
+  - Stage 1 renders at half size (10 steps).
+  - Stage 2 upscales the latent 2x with the LTX-2 spatial upscaler and re-applies the start frame at full size.
+  - It then refines with 3 steps (`ManualSigmas 0.909375, 0.725, 0.421875, 0.0`). Fingers get their detail in that last pass.
+  - The audio latent stays frozen (zero noise mask) in both stages, so lip-sync is unchanged.
+- **Settings (workflows 01 and 03).**
+  - NAG negative prompt now names distorted, extra and fused fingers, morphing hands and fast arm movement.
+  - `nag_scale` 11 to 6. Scheduler 8 to 10 steps, `terminal` 0.1 to 0.05.
+  - `img_compression` 25 to 15. Decode tiles 1024/64 to 1536/128, so there is no tile seam through a hand.
+- **Prompts.**
+  - Every motion prompt now asks for slow, steady hand movement on the microphone.
+  - Scenes 6, 8, 9, 12, 17 and 24 are reframed tighter, with no fast gestures, spins or arms flung wide.
+  - Every still prompt now asks for natural five-finger hands, and the still negative prompt lists hand defects.
+- **Stills (workflow 02).** 8-step Lightning instead of 4-step. Check each still's hands before rendering video; the clip inherits its first frame.
+- **Not changed.** The 25-frame extension overlap in workflow 01 stays. It equals the 1 s keep window and the 9/18/27/36 s audio offsets, so changing it breaks lip-sync. Workflow 01 is still single-stage, so use workflow 03 for the best hands.
+
 ## Models (ComfyUI/models/...)
-- LTX-2: `diffusion_models/ltx-2-19b-distilled_transformer_only_bf16.safetensors`, `vae/LTX2_video_vae_bf16.safetensors`, `vae/LTX2_audio_vae_bf16.safetensors` (Kijai/LTXV2_comfy), `text_encoders/gemma_3_12B_it_fp8_scaled.safetensors` (Comfy-Org/ltx-2), `text_encoders/ltx-2-19b-embeddings_connector_distill_bf16.safetensors` (Kijai/LTXV2_comfy)
-- Qwen: `diffusion_models/qwen_image_edit_2509_fp8_e4m3fn.safetensors` (Comfy-Org/Qwen-Image-Edit_ComfyUI), `loras/Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors` (lightx2v/Qwen-Image-Lightning), `text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors`, `vae/qwen_image_vae.safetensors` (Comfy-Org/Qwen-Image_ComfyUI)
+- LTX-2: `diffusion_models/ltx-2-19b-distilled_transformer_only_bf16.safetensors`, `vae/LTX2_video_vae_bf16.safetensors`, `vae/LTX2_audio_vae_bf16.safetensors` (Kijai/LTXV2_comfy), `text_encoders/gemma_3_12B_it_fp8_scaled.safetensors` (Comfy-Org/ltx-2), `text_encoders/ltx-2-19b-embeddings_connector_distill_bf16.safetensors` (Kijai/LTXV2_comfy), `latent_upscale_models/ltx-2-spatial-upscaler-x2-1.0.safetensors` (Lightricks/LTX-2)
+- Qwen: `diffusion_models/qwen_image_edit_2509_fp8_e4m3fn.safetensors` (Comfy-Org/Qwen-Image-Edit_ComfyUI), `loras/Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors` (lightx2v/Qwen-Image-Lightning), `text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors`, `vae/qwen_image_vae.safetensors` (Comfy-Org/Qwen-Image_ComfyUI)
 - Custom nodes: ComfyUI-KJNodes (LTX2_NAG, LTXVChunkFeedForward, ImageResizeKJv2, VAELoaderKJ, LTXVImgToVideoInplaceKJ...). ComfyUI-VideoHelperSuite is optional (only the bypassed previews in workflow 01). Use a ComfyUI build with LTX-2 audio support (LTXVAudioVAEEncode, AudioSeparation, AudioCrop).
 
 ## Run it
@@ -31,7 +49,7 @@ This folder turns the uploaded LTX-2 audio-to-video workflow, the song `God_Insi
 python3 tools/run_music_video.py --server http://127.0.0.1:8188
 # -> output/stills/*.png, output/clips/clip_XX.mp4, output/God_Inside_music_video.mp4 (3:06, 1280x704, 24 fps)
 ```
-Defaults: 1280x704. Drop Width/Height to 960x544 if VRAM runs out, or if the output is black. Re-roll a single shot by changing its seed (stills) or re-running `--stage clips --scenes N`, then `--stage assemble`.
+Defaults: final 1280x704, stage 1 at 640x352. Width/Height must be multiples of 64. Drop to 1024x576 if VRAM runs out, or if the output is black. Re-roll a single shot by changing its seed (stills) or re-running `--stage clips --scenes N`, then `--stage assemble`.
 
 ## Notes
 - The script's text describes wavy hair, gold hoops and a satin slip dress. The prompts follow **your uploaded images** instead: black side-parted bob, silver drop earrings, red beaded mermaid gown.

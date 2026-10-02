@@ -414,10 +414,10 @@
     }
    },
    "widgets_values": [
-    "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage"
+    "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage, holding the microphone steadily in one hand, her other hand relaxed, gentle natural movement"
    ],
    "widgets_values_named": {
-    "value": "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage"
+    "value": "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage, holding the microphone steadily in one hand, her other hand relaxed, gentle natural movement"
    },
    "title": "Prompt",
    "color": "#232",
@@ -709,10 +709,10 @@
     }
    },
    "widgets_values": [
-    "## Fixes applied to the uploaded workflow\n\n1. **Audio to Video (LTX-2.0) node was missing 3 of its 8 inputs** (`text`, `start_time`, `end_time`). The frontend quarantined the prompt, width, height, crop times and FPS (`proxyWidgetErrorQuarantine`). All 8 slots are restored and driven by explicit Primitive nodes, so nothing depends on promoted widgets.\n2. **Basic Sampling + 4 Video Extension subgraphs** declared `noise_seed` / `start_index` / `sampler_name` inputs that the parent nodes never had. This shifted the widget values (`sampler_name = 9, 18, 27, 36`, which is not a sampler) and left the inner TrimAudioDuration / KSamplerSelect / RandomNoise inputs with no source. Those inputs were removed and the values now live on the inner nodes (`lcm`, seed 44/42, audio offsets 9/18/27/36 s).\n3. `CreateVideo` FPS `24.2421875` changed to 24. The preview VHS writers were set to 7.75 fps GIF; they are now 24 fps H.264. The 4th preview writer was also missing its FPS link.\n4. `ImageResizeKJv2 divisible_by` changed from 2 to 32 (LTX latents need multiples of 32). The prompt said \"the man\"; it now describes the singer. The stale embedded API prompt was removed, along with duplicate output link ids.\n5. Defaults: 1280x704 (16:9), song `God_Inside.mp3`, crop 0:56 to 1:46 (Chorus 1 onward, the 48 s the chain needs).\n"
+    "## Fixes applied to the uploaded workflow\n\n1. **Audio to Video (LTX-2.0) node was missing 3 of its 8 inputs** (`text`, `start_time`, `end_time`). The frontend quarantined the prompt, width, height, crop times and FPS (`proxyWidgetErrorQuarantine`). All 8 slots are restored and driven by explicit Primitive nodes, so nothing depends on promoted widgets.\n2. **Basic Sampling + 4 Video Extension subgraphs** declared `noise_seed` / `start_index` / `sampler_name` inputs that the parent nodes never had. This shifted the widget values (`sampler_name = 9, 18, 27, 36`, which is not a sampler) and left the inner TrimAudioDuration / KSamplerSelect / RandomNoise inputs with no source. Those inputs were removed and the values now live on the inner nodes (`lcm`, seed 44/42, audio offsets 9/18/27/36 s).\n3. `CreateVideo` FPS `24.2421875` changed to 24. The preview VHS writers were set to 7.75 fps GIF; they are now 24 fps H.264. The 4th preview writer was also missing its FPS link.\n4. `ImageResizeKJv2 divisible_by` changed from 2 to 32 (LTX latents need multiples of 32). The prompt said \"the man\"; it now describes the singer. The stale embedded API prompt was removed, along with duplicate output link ids.\n5. Defaults: 1280x704 (16:9), song `God_Inside.mp3`, crop 0:56 to 1:46 (Chorus 1 onward, the 48 s the chain needs).\n\n## Hand-distortion fixes\n- Negative prompt (fed to NAG, since CFG is 1) now names distorted/extra/fused fingers, morphing hands and fast arm movement. `nag_scale` changed from 11 to 6, so the model is pushed less toward big movements.\n- Every LTXVScheduler: 8 to 10 steps, `terminal` 0.1 to 0.05, so the final low-noise steps that resolve fingers aren't cut short.\n- `LTXVPreprocess img_compression` 25 to 15. Every VAEDecodeTiled: tile 1024 to 1536 and overlap 64 to 128, so a 1280-wide frame decodes in one tile with no seam through a hand.\n- The extension overlap stays at 25 frames on purpose: it equals the 1 s keep window and the 9/18/27/36 s audio offsets, so changing it would break lip-sync.\n- This single-take workflow has no upscale/refine stage. For the best hands, use workflow 03, which renders at half size, upscales the latent 2x and refines at full size.\n"
    ],
    "widgets_values_named": {
-    "text": "## Fixes applied to the uploaded workflow\n\n1. **Audio to Video (LTX-2.0) node was missing 3 of its 8 inputs** (`text`, `start_time`, `end_time`). The frontend quarantined the prompt, width, height, crop times and FPS (`proxyWidgetErrorQuarantine`). All 8 slots are restored and driven by explicit Primitive nodes, so nothing depends on promoted widgets.\n2. **Basic Sampling + 4 Video Extension subgraphs** declared `noise_seed` / `start_index` / `sampler_name` inputs that the parent nodes never had. This shifted the widget values (`sampler_name = 9, 18, 27, 36`, which is not a sampler) and left the inner TrimAudioDuration / KSamplerSelect / RandomNoise inputs with no source. Those inputs were removed and the values now live on the inner nodes (`lcm`, seed 44/42, audio offsets 9/18/27/36 s).\n3. `CreateVideo` FPS `24.2421875` changed to 24. The preview VHS writers were set to 7.75 fps GIF; they are now 24 fps H.264. The 4th preview writer was also missing its FPS link.\n4. `ImageResizeKJv2 divisible_by` changed from 2 to 32 (LTX latents need multiples of 32). The prompt said \"the man\"; it now describes the singer. The stale embedded API prompt was removed, along with duplicate output link ids.\n5. Defaults: 1280x704 (16:9), song `God_Inside.mp3`, crop 0:56 to 1:46 (Chorus 1 onward, the 48 s the chain needs).\n"
+    "text": "## Fixes applied to the uploaded workflow\n\n1. **Audio to Video (LTX-2.0) node was missing 3 of its 8 inputs** (`text`, `start_time`, `end_time`). The frontend quarantined the prompt, width, height, crop times and FPS (`proxyWidgetErrorQuarantine`). All 8 slots are restored and driven by explicit Primitive nodes, so nothing depends on promoted widgets.\n2. **Basic Sampling + 4 Video Extension subgraphs** declared `noise_seed` / `start_index` / `sampler_name` inputs that the parent nodes never had. This shifted the widget values (`sampler_name = 9, 18, 27, 36`, which is not a sampler) and left the inner TrimAudioDuration / KSamplerSelect / RandomNoise inputs with no source. Those inputs were removed and the values now live on the inner nodes (`lcm`, seed 44/42, audio offsets 9/18/27/36 s).\n3. `CreateVideo` FPS `24.2421875` changed to 24. The preview VHS writers were set to 7.75 fps GIF; they are now 24 fps H.264. The 4th preview writer was also missing its FPS link.\n4. `ImageResizeKJv2 divisible_by` changed from 2 to 32 (LTX latents need multiples of 32). The prompt said \"the man\"; it now describes the singer. The stale embedded API prompt was removed, along with duplicate output link ids.\n5. Defaults: 1280x704 (16:9), song `God_Inside.mp3`, crop 0:56 to 1:46 (Chorus 1 onward, the 48 s the chain needs).\n\n## Hand-distortion fixes\n- Negative prompt (fed to NAG, since CFG is 1) now names distorted/extra/fused fingers, morphing hands and fast arm movement. `nag_scale` changed from 11 to 6, so the model is pushed less toward big movements.\n- Every LTXVScheduler: 8 to 10 steps, `terminal` 0.1 to 0.05, so the final low-noise steps that resolve fingers aren't cut short.\n- `LTXVPreprocess img_compression` 25 to 15. Every VAEDecodeTiled: tile 1024 to 1536 and overlap 64 to 128, so a 1280-wide frame decodes in one tile with no seam through a hand.\n- The extension overlap stays at 25 frames on purpose: it equals the 1 s keep window and the 9/18/27/36 s audio offsets, so changing it would break lip-sync.\n- This single-take workflow has no upscale/refine stage. For the best hands, use workflow 03, which renders at half size, upscales the latent 2x and refines at full size.\n"
    },
    "title": "What was fixed",
    "color": "#222",
@@ -1067,10 +1067,10 @@
        }
       },
       "widgets_values": [
-       "still image with no motion, subtitles, text, scene change"
+       "still image with no motion, subtitles, text, scene change, distorted hands, extra fingers, fused fingers, missing fingers, morphing hands, melting hands, fast arm movement, motion blur"
       ],
       "widgets_values_named": {
-       "text": "still image with no motion, subtitles, text, scene change"
+       "text": "still image with no motion, subtitles, text, scene change, distorted hands, extra fingers, fused fingers, missing fingers, morphing hands, melting hands, fast arm movement, motion blur"
       },
       "color": "#232",
       "bgcolor": "#353"
@@ -1917,10 +1917,10 @@
        }
       },
       "widgets_values": [
-       "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage"
+       "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage, holding the microphone steadily in one hand, her other hand relaxed, gentle natural movement"
       ],
       "widgets_values_named": {
-       "text": "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage"
+       "text": "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage, holding the microphone steadily in one hand, her other hand relaxed, gentle natural movement"
       },
       "color": "#232",
       "bgcolor": "#353"
@@ -1982,13 +1982,13 @@
        }
       },
       "widgets_values": [
-       11,
+       6,
        0.25,
        2.5,
        true
       ],
       "widgets_values_named": {
-       "nag_scale": 11,
+       "nag_scale": 6,
        "nag_alpha": 0.25,
        "nag_tau": 2.5,
        "inplace": true
@@ -2037,10 +2037,10 @@
        }
       },
       "widgets_values": [
-       25
+       15
       ],
       "widgets_values_named": {
-       "img_compression": 25
+       "img_compression": 15
       }
      },
      {
@@ -4908,18 +4908,18 @@
        }
       },
       "widgets_values": [
-       8,
+       10,
        2.05,
        0.95,
        true,
-       0.1
+       0.05
       ],
       "widgets_values_named": {
-       "steps": 8,
+       "steps": 10,
        "max_shift": 2.05,
        "base_shift": 0.95,
        "stretch": true,
-       "terminal": 0.1
+       "terminal": 0.05
       }
      },
      {
@@ -5659,14 +5659,14 @@
        }
       },
       "widgets_values": [
-       1024,
-       64,
+       1536,
+       128,
        256,
        16
       ],
       "widgets_values_named": {
-       "tile_size": 1024,
-       "overlap": 64,
+       "tile_size": 1536,
+       "overlap": 128,
        "temporal_size": 256,
        "temporal_overlap": 16
       }
@@ -6539,18 +6539,18 @@
        }
       },
       "widgets_values": [
-       8,
+       10,
        2.05,
        0.95,
        true,
-       0.1
+       0.05
       ],
       "widgets_values_named": {
-       "steps": 8,
+       "steps": 10,
        "max_shift": 2.05,
        "base_shift": 0.95,
        "stretch": true,
-       "terminal": 0.1
+       "terminal": 0.05
       }
      },
      {
@@ -7240,14 +7240,14 @@
        }
       },
       "widgets_values": [
-       1024,
-       64,
+       1536,
+       128,
        256,
        16
       ],
       "widgets_values_named": {
-       "tile_size": 1024,
-       "overlap": 64,
+       "tile_size": 1536,
+       "overlap": 128,
        "temporal_size": 256,
        "temporal_overlap": 16
       }
@@ -8170,18 +8170,18 @@
        }
       },
       "widgets_values": [
-       8,
+       10,
        2.05,
        0.95,
        true,
-       0.1
+       0.05
       ],
       "widgets_values_named": {
-       "steps": 8,
+       "steps": 10,
        "max_shift": 2.05,
        "base_shift": 0.95,
        "stretch": true,
-       "terminal": 0.1
+       "terminal": 0.05
       }
      },
      {
@@ -8921,14 +8921,14 @@
        }
       },
       "widgets_values": [
-       1024,
-       64,
+       1536,
+       128,
        256,
        16
       ],
       "widgets_values_named": {
-       "tile_size": 1024,
-       "overlap": 64,
+       "tile_size": 1536,
+       "overlap": 128,
        "temporal_size": 256,
        "temporal_overlap": 16
       }
@@ -9889,18 +9889,18 @@
        }
       },
       "widgets_values": [
-       8,
+       10,
        2.05,
        0.95,
        true,
-       0.1
+       0.05
       ],
       "widgets_values_named": {
-       "steps": 8,
+       "steps": 10,
        "max_shift": 2.05,
        "base_shift": 0.95,
        "stretch": true,
-       "terminal": 0.1
+       "terminal": 0.05
       }
      },
      {
@@ -9952,14 +9952,14 @@
        }
       },
       "widgets_values": [
-       1024,
-       64,
+       1536,
+       128,
        128,
        16
       ],
       "widgets_values_named": {
-       "tile_size": 1024,
-       "overlap": 64,
+       "tile_size": 1536,
+       "overlap": 128,
        "temporal_size": 128,
        "temporal_overlap": 16
       }
@@ -10839,18 +10839,18 @@
        }
       },
       "widgets_values": [
-       8,
+       10,
        2.05,
        0.95,
        true,
-       0.1
+       0.05
       ],
       "widgets_values_named": {
-       "steps": 8,
+       "steps": 10,
        "max_shift": 2.05,
        "base_shift": 0.95,
        "stretch": true,
-       "terminal": 0.1
+       "terminal": 0.05
       }
      },
      {
@@ -11520,14 +11520,14 @@
        }
       },
       "widgets_values": [
-       1024,
-       64,
+       1536,
+       128,
        256,
        16
       ],
       "widgets_values_named": {
-       "tile_size": 1024,
-       "overlap": 64,
+       "tile_size": 1536,
+       "overlap": 128,
        "temporal_size": 256,
        "temporal_overlap": 16
       }

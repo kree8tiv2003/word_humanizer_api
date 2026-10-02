@@ -30,7 +30,7 @@
  "994:922": {
   "class_type": "CLIPTextEncode",
   "inputs": {
-   "text": "still image with no motion, subtitles, text, scene change",
+   "text": "still image with no motion, subtitles, text, scene change, distorted hands, extra fingers, fused fingers, missing fingers, morphing hands, melting hands, fast arm movement, motion blur",
    "clip": [
     "994:951",
     0
@@ -224,11 +224,11 @@
  "994:978:939": {
   "class_type": "LTXVScheduler",
   "inputs": {
-   "steps": 8,
+   "steps": 10,
    "max_shift": 2.05,
    "base_shift": 0.95,
    "stretch": true,
-   "terminal": 0.1,
+   "terminal": 0.05,
    "latent": [
     "994:842",
     0
@@ -241,8 +241,8 @@
  "994:978:826": {
   "class_type": "VAEDecodeTiled",
   "inputs": {
-   "tile_size": 1024,
-   "overlap": 64,
+   "tile_size": 1536,
+   "overlap": 128,
    "temporal_size": 128,
    "temporal_overlap": 16,
    "samples": [
@@ -367,11 +367,11 @@
  "994:969:1047": {
   "class_type": "LTXVScheduler",
   "inputs": {
-   "steps": 8,
+   "steps": 10,
    "max_shift": 2.05,
    "base_shift": 0.95,
    "stretch": true,
-   "terminal": 0.1,
+   "terminal": 0.05,
    "latent": [
     "994:842",
     0
@@ -568,8 +568,8 @@
  "994:969:1057": {
   "class_type": "VAEDecodeTiled",
   "inputs": {
-   "tile_size": 1024,
-   "overlap": 64,
+   "tile_size": 1536,
+   "overlap": 128,
    "temporal_size": 256,
    "temporal_overlap": 16,
    "samples": [
@@ -673,11 +673,11 @@
  "994:988:1015": {
   "class_type": "LTXVScheduler",
   "inputs": {
-   "steps": 8,
+   "steps": 10,
    "max_shift": 2.05,
    "base_shift": 0.95,
    "stretch": true,
-   "terminal": 0.1,
+   "terminal": 0.05,
    "latent": [
     "994:842",
     0
@@ -875,8 +875,8 @@
  "994:988:1025": {
   "class_type": "VAEDecodeTiled",
   "inputs": {
-   "tile_size": 1024,
-   "overlap": 64,
+   "tile_size": 1536,
+   "overlap": 128,
    "temporal_size": 256,
    "temporal_overlap": 16,
    "samples": [
@@ -979,11 +979,11 @@
  "994:989:954": {
   "class_type": "LTXVScheduler",
   "inputs": {
-   "steps": 8,
+   "steps": 10,
    "max_shift": 2.05,
    "base_shift": 0.95,
    "stretch": true,
-   "terminal": 0.1,
+   "terminal": 0.05,
    "latent": [
     "994:842",
     0
@@ -1197,8 +1197,8 @@
  "994:989:901": {
   "class_type": "VAEDecodeTiled",
   "inputs": {
-   "tile_size": 1024,
-   "overlap": 64,
+   "tile_size": 1536,
+   "overlap": 128,
    "temporal_size": 256,
    "temporal_overlap": 16,
    "samples": [
@@ -1285,11 +1285,11 @@
  "994:990:1031": {
   "class_type": "LTXVScheduler",
   "inputs": {
-   "steps": 8,
+   "steps": 10,
    "max_shift": 2.05,
    "base_shift": 0.95,
    "stretch": true,
-   "terminal": 0.1,
+   "terminal": 0.05,
    "latent": [
     "994:842",
     0
@@ -1503,8 +1503,8 @@
  "994:990:1042": {
   "class_type": "VAEDecodeTiled",
   "inputs": {
-   "tile_size": 1024,
-   "overlap": 64,
+   "tile_size": 1536,
+   "overlap": 128,
    "temporal_size": 256,
    "temporal_overlap": 16,
    "samples": [
@@ -1621,7 +1621,7 @@
  "994:820": {
   "class_type": "LTX2_NAG",
   "inputs": {
-   "nag_scale": 11,
+   "nag_scale": 6,
    "nag_alpha": 0.25,
    "nag_tau": 2.5,
    "inplace": true,
@@ -1641,7 +1641,7 @@
  "994:821": {
   "class_type": "LTXVPreprocess",
   "inputs": {
-   "img_compression": 25,
+   "img_compression": 15,
    "image": [
     "994:923",
     0
@@ -1802,7 +1802,7 @@
  "1061": {
   "class_type": "PrimitiveStringMultiline",
   "inputs": {
-   "value": "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage"
+   "value": "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage, holding the microphone steadily in one hand, her other hand relaxed, gentle natural movement"
   },
   "_meta": {
    "title": "Prompt"

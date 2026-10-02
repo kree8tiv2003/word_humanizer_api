@@ -32,9 +32,21 @@ REF_SHEET = "god_inside_ref_sheet.png"
 
 # Qwen-Image-Edit-2509 (core ComfyUI nodes) for the start frames
 QWEN_UNET = "qwen_image_edit_2509_fp8_e4m3fn.safetensors"
-QWEN_LORA = "Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors"
+QWEN_LORA = "Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors"
+QWEN_STEPS = 8
 QWEN_CLIP = "qwen_2.5_vl_7b_fp8_scaled.safetensors"
 QWEN_VAE = "qwen_image_vae.safetensors"
+
+# Hand-quality settings (hands are only ~2 latent pixels wide at stage-1 size, so detail comes from
+# a 2x latent upscale + short refine pass, calmer motion, and less aggressive NAG)
+LTX_NEGATIVE = ("still image with no motion, subtitles, text, scene change, distorted hands, extra fingers, "
+                "fused fingers, missing fingers, morphing hands, melting hands, fast arm movement, motion blur")
+NAG_SCALE = 6
+IMG_COMPRESSION = 15
+STAGE1_STEPS, STAGE1_TERMINAL = 10, 0.05
+DECODE_TILE, DECODE_OVERLAP = 1536, 128
+LATENT_UPSCALER = "ltx-2-spatial-upscaler-x2-1.0.safetensors"
+STAGE2_SIGMAS = "0.909375, 0.725, 0.421875, 0.0"  # LTX-2 distilled stage-2 schedule
 
 UE = {"widget_ue_connectable": {}, "version": "7.8", "input_ue_unconnectable": {}}
 SKIP_WIDGETS = {"control_after_generate", "upload", "videopreview"}
@@ -162,6 +174,31 @@ def drop_subgraph_inputs(sg, names):
                 inp["link"] = None
 
 
+def set_widget(node, name, value):
+    named = node["widgets_values_named"]
+    named[name] = value
+    node["widgets_values"][list(named).index(name)] = value
+
+
+def apply_hand_fixes(wf):
+    """Settings that reduce hand/finger distortion, applied to every LTX subgraph."""
+    for s in wf["definitions"]["subgraphs"]:
+        for n in s["nodes"]:
+            t = n["type"]
+            if t == "CLIPTextEncode" and n["id"] == 922:  # negative, fed to NAG (CFG is 1)
+                set_widget(n, "text", LTX_NEGATIVE)
+            elif t == "LTX2_NAG":
+                set_widget(n, "nag_scale", NAG_SCALE)
+            elif t == "LTXVPreprocess":
+                set_widget(n, "img_compression", IMG_COMPRESSION)
+            elif t == "LTXVScheduler":
+                set_widget(n, "steps", STAGE1_STEPS)
+                set_widget(n, "terminal", STAGE1_TERMINAL)
+            elif t == "VAEDecodeTiled":
+                set_widget(n, "tile_size", DECODE_TILE)
+                set_widget(n, "overlap", DECODE_OVERLAP)
+
+
 def fix_instance(node, sg):
     names = [i["name"] for i in sg["inputs"]]
     node["inputs"] = [i for i in node["inputs"] if i["name"] in names]
@@ -192,7 +229,9 @@ def fix_original(wf):
     nodes[995]["widgets_values_named"]["fps"] = 24
     nodes[923]["widgets_values"][6] = 32  # LTX needs width/height divisible by 32
     nodes[923]["widgets_values_named"]["divisible_by"] = 32
-    prompt = "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage"
+    apply_hand_fixes(wf)
+    prompt = ("a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage, "
+              "holding the microphone steadily in one hand, her other hand relaxed, gentle natural movement")
     nodes[921]["widgets_values"] = [prompt]
     nodes[921]["widgets_values_named"]["text"] = prompt
     for vid in (1006, 1007, 1008, 1009):  # preview writers (bypassed by default)
@@ -256,6 +295,13 @@ FIX_NOTES = """## Fixes applied to the uploaded workflow
 3. `CreateVideo` FPS `24.2421875` changed to 24. The preview VHS writers were set to 7.75 fps GIF; they are now 24 fps H.264. The 4th preview writer was also missing its FPS link.
 4. `ImageResizeKJv2 divisible_by` changed from 2 to 32 (LTX latents need multiples of 32). The prompt said "the man"; it now describes the singer. The stale embedded API prompt was removed, along with duplicate output link ids.
 5. Defaults: 1280x704 (16:9), song `God_Inside.mp3`, crop 0:56 to 1:46 (Chorus 1 onward, the 48 s the chain needs).
+
+## Hand-distortion fixes
+- Negative prompt (fed to NAG, since CFG is 1) now names distorted/extra/fused fingers, morphing hands and fast arm movement. `nag_scale` changed from 11 to 6, so the model is pushed less toward big movements.
+- Every LTXVScheduler: 8 to 10 steps, `terminal` 0.1 to 0.05, so the final low-noise steps that resolve fingers aren't cut short.
+- `LTXVPreprocess img_compression` 25 to 15. Every VAEDecodeTiled: tile 1024 to 1536 and overlap 64 to 128, so a 1280-wide frame decodes in one tile with no seam through a hand.
+- The extension overlap stays at 25 frames on purpose: it equals the 1 s keep window and the 9/18/27/36 s audio offsets, so changing it would break lip-sync.
+- This single-take workflow has no upscale/refine stage. For the best hands, use workflow 03, which renders at half size, upscales the latent 2x and refines at full size.
 """
 
 
@@ -299,9 +345,7 @@ def build_scene_clip_sg(fixed):
         nodes[t]["inputs"][tslot]["link"] = lid
         lid += 1
 
-    # sampled frames -> final CreateVideo
-    add_link(978, 0, 995, 0, "IMAGE")
-    # new inputs: frames -> EmptyLTXVLatentVideo.length, duration -> Basic Sampling duration
+    # new inputs: frames -> EmptyLTXVLatentVideo.length, duration -> audio trim
     main["inputs"] += [
         {"id": str(uuid.uuid5(uuid.NAMESPACE_URL, "frames")), "name": "frames", "type": "INT",
          "linkIds": [], "localized_name": "frames", "pos": [-2366, 6634]},
@@ -311,7 +355,143 @@ def build_scene_clip_sg(fixed):
     nodes[855]["inputs"].append({"localized_name": "length", "name": "length", "type": "INT",
                                  "widget": {"name": "length"}, "link": None})
     add_link(-10, 8, 855, 2, "INT")
-    add_link(-10, 9, 978, 7, "FLOAT")
+
+    # ---- two-stage sampling (replaces the single full-size "Basic Sampling" pass) ----
+    def unlink(link_id):
+        l = next(x for x in main["links"] if x["id"] == link_id)
+        main["links"].remove(l)
+        if l["origin_id"] == -10:
+            main["inputs"][l["origin_slot"]]["linkIds"].remove(link_id)
+        elif l["origin_id"] in nodes:
+            nodes[l["origin_id"]]["outputs"][l["origin_slot"]]["links"].remove(link_id)
+        if l["target_id"] in nodes:
+            nodes[l["target_id"]]["inputs"][l["target_slot"]]["link"] = None
+
+    def drop_node(nid):
+        for l in [x for x in main["links"] if nid in (x["origin_id"], x["target_id"])]:
+            unlink(l["id"])
+        main["nodes"].remove(nodes.pop(nid))
+
+    next_id = [max(nodes) + 1]
+
+    def add(proto, pos, title=None, **widgets):
+        n = copy.deepcopy(proto)
+        n["id"], n["pos"] = next_id[0], list(pos)
+        next_id[0] += 1
+        for i in n.get("inputs", []):
+            i["link"] = None
+        for o in n.get("outputs", []):
+            o["links"] = []
+        n.setdefault("widgets_values_named", {})
+        for k, v in widgets.items():
+            set_widget(n, k, v)
+        if title:
+            n["title"] = title
+        main["nodes"].append(n)
+        nodes[n["id"]] = n
+        return n["id"]
+
+    def proto(ntype, named, inputs, outputs):
+        return {"id": 0, "type": ntype, "pos": [0, 0], "size": [300, 90], "flags": {}, "order": 0, "mode": 0,
+                "inputs": inputs, "outputs": outputs,
+                "properties": {"Node name for S&R": ntype, "ue_properties": UE},
+                "widgets_values": list(named.values()), "widgets_values_named": dict(named)}
+
+    def L(o, oslot, t, tname):
+        tslot = next(k for k, i in enumerate(nodes[t]["inputs"]) if i["name"] == tname)
+        typ = nodes[t]["inputs"][tslot]["type"]
+        add_link(o, oslot, t, tslot, "*" if typ == "COMBO" else typ)
+
+    basic = {n["id"]: n for n in sg_by_id(fixed, BASIC_SG)["nodes"]}
+    drop_node(978)
+    for nid in (2101, 2102):  # stage-1 latent is half size; it no longer takes 923's width/height
+        if any(l["id"] == nid for l in main["links"]):
+            unlink(nid)
+    set_widget(nodes[923], "divisible_by", 64)  # final size /2 must still be a multiple of 32
+    nodes[923]["title"] = "Resize start frame to FINAL size"
+
+    # half-size start frame for stage 1
+    half = add(proto("ImageScaleBy", {"upscale_method": "lanczos", "scale_by": 0.5},
+                     [I("image", "IMAGE")], [O("IMAGE", "IMAGE")]), (-190, 6560), "Stage 1: half-size start frame")
+    size = add(proto("GetImageSize", {}, [I("image", "IMAGE")],
+                     [O("width", "INT"), O("height", "INT"), O("batch_size", "INT")]), (-190, 6680))
+    L(821, 0, half, "image")
+    L(half, 0, size, "image")
+    L(size, 0, 855, "width")
+    L(size, 1, 855, "height")
+    for i in nodes[842]["inputs"]:  # stage-1 first-frame guide uses the half-size frame
+        if i["name"] == "num_images.image_1" and i["link"] is not None:
+            unlink(i["link"])
+    L(half, 0, 842, "num_images.image_1")
+    nodes[855]["title"] = "Stage 1 latent (half size)"
+
+    # shared: guider, audio latent (frozen by a zero noise mask)
+    x1, x2 = 1000, 1900
+    guider = add(basic[828], (x1, 5560), "CFG guider (cfg 1)")
+    L(979, 0, guider, "model")
+    L(927, 0, guider, "positive")
+    L(927, 1, guider, "negative")
+    trim = add(basic[991], (x1, 6300), "Trim vocals to scene length")
+    L(966, 0, trim, "audio")
+    add_link(-10, 9, trim, next(k for k, i in enumerate(nodes[trim]["inputs"]) if i["name"] == "duration"), "FLOAT")
+    aenc = add(basic[907], (x1, 6440))
+    L(trim, 0, aenc, "audio")
+    L(964, 0, aenc, "audio_vae")
+    zero = add(basic[818], (x1, 6560), "Audio mask = 0 (keep the song)")
+    am1 = add(basic[817], (x1, 6700))
+    L(aenc, 0, am1, "samples")
+    L(zero, 0, am1, "mask")
+
+    # stage 1: half-size generation
+    cat1 = add(basic[822], (x1, 5700))
+    L(842, 0, cat1, "video_latent")
+    L(am1, 0, cat1, "audio_latent")
+    noise1 = add(basic[863], (x1, 5820), "Stage 1 noise")
+    ksel1 = add(basic[944], (x1, 5940))
+    sched1 = add(basic[939], (x1, 6060), "Stage 1 sigmas (10 steps)")
+    L(842, 0, sched1, "latent")
+    samp1 = add(basic[883], (x1 + 380, 5700), "Stage 1 sample (half size)")
+    for src, name in ((noise1, "noise"), (guider, "guider"), (ksel1, "sampler"), (sched1, "sigmas"),
+                      (cat1, "latent_image")):
+        L(src, 0, samp1, name)
+    sep1 = add(basic[825], (x1 + 380, 5960))
+    L(samp1, 0, sep1, "av_latent")
+
+    # stage 2: 2x latent upscale, re-apply the first frame at full size, short refine
+    uload = add(proto("LatentUpscaleModelLoader", {"model_name": LATENT_UPSCALER}, [],
+                      [O("LATENT_UPSCALE_MODEL", "LATENT_UPSCALE_MODEL")]), (x2, 5560), "LTX-2 spatial upscaler x2")
+    ups = add(proto("LTXVLatentUpsampler", {},
+                    [I("samples", "LATENT"), I("upscale_model", "LATENT_UPSCALE_MODEL"), I("vae", "VAE")],
+                    [O("LATENT", "LATENT")]), (x2, 5700), "Stage 2: upscale latent 2x")
+    L(sep1, 0, ups, "samples")
+    L(uload, 0, ups, "upscale_model")
+    L(962, 0, ups, "vae")
+    guide2 = add(nodes[842], (x2, 5840), "Stage 2: first frame at full size")
+    L(962, 0, guide2, "vae")
+    L(ups, 0, guide2, "latent")
+    L(821, 0, guide2, "num_images.image_1")
+    am2 = add(basic[817], (x2, 6000))
+    L(sep1, 1, am2, "samples")
+    L(zero, 0, am2, "mask")
+    cat2 = add(basic[822], (x2, 6120))
+    L(guide2, 0, cat2, "video_latent")
+    L(am2, 0, cat2, "audio_latent")
+    noise2 = add(basic[863], (x2, 6240), "Stage 2 noise", noise_seed=45)
+    ksel2 = add(basic[944], (x2, 6360), sampler_name="euler")
+    sig2 = add(proto("ManualSigmas", {"sigmas": STAGE2_SIGMAS}, [I("sigmas", "STRING", True)],
+                     [O("SIGMAS", "SIGMAS")]), (x2, 6480), "Stage 2 refine sigmas")
+    samp2 = add(basic[883], (x2 + 380, 5700), "Stage 2 refine (full size)")
+    for src, name in ((noise2, "noise"), (guider, "guider"), (ksel2, "sampler"), (sig2, "sigmas"),
+                      (cat2, "latent_image")):
+        L(src, 0, samp2, name)
+    sep2 = add(basic[825], (x2 + 380, 5960))
+    L(samp2, 0, sep2, "av_latent")
+    dec = add(basic[826], (x2 + 380, 6100), "Decode (single 1536 tile)")
+    L(sep2, 0, dec, "samples")
+    L(962, 0, dec, "vae")
+    L(dec, 0, 995, "images")
+
+    main["state"]["lastNodeId"] = next_id[0]
     main["state"]["lastLinkId"] = lid
     main["groups"] = [gr for gr in main["groups"] if gr["title"] != "Output Preview"]
     return main
@@ -324,11 +504,19 @@ def instance_for(sg, g, pos, title):
                   title=title, size=(420, 260))
 
 
+def motion_prompt(sc):
+    return sc["motion"] + (" " + SCENES["hands_motion"] if sc["singer"] else "")
+
+
+def still_prompt(sc):
+    return sc["still"] + (" " + SCENES["hands_still"] if sc["singer"] else "")
+
+
 def add_scene_clip(g, sg, sc, x, y, shared):
     """One scene: start frame + prompt + audio window -> Scene Clip -> SaveVideo."""
     i, dur = sc["id"], scene_dur(sc)
     img = load_image(g, (x, y), still_name(i), title=f"Scene {i:02d} start frame")
-    txt = prim_string(g, (x, y + 360), sc["motion"], f"Scene {i:02d} motion prompt", multiline=True)
+    txt = prim_string(g, (x, y + 360), motion_prompt(sc), f"Scene {i:02d} motion prompt", multiline=True)
     st = prim_string(g, (x, y + 540), sc["start"], "audio start (m:ss)")
     en = prim_string(g, (x, y + 610), sc["end"], "audio end (m:ss)")
     fr = prim_int(g, (x + 440, y + 540), dur * 24 + 1, "frames (8n+1)")
@@ -357,8 +545,8 @@ def build_music_video(fixed, clip_sg, scenes):
     g = Graph()
     shared_x = -1400
     audio = load_audio(g, (shared_x, 0), AUDIO_FILE)
-    w = prim_int(g, (shared_x, 170), WIDTH, "Width (max 1600, multiple of 32)")
-    h = prim_int(g, (shared_x, 280), HEIGHT, "Height (max 900, multiple of 32)")
+    w = prim_int(g, (shared_x, 170), WIDTH, "FINAL width (multiple of 64; stage 1 renders at half)")
+    h = prim_int(g, (shared_x, 280), HEIGHT, "FINAL height (multiple of 64; stage 1 renders at half)")
     f = prim_float(g, (shared_x, 390), FPS, "FPS")
     note(g, (shared_x, 500), MV_NOTES, "How to run", size=(560, 720))
     shared = {"audio": (audio, 0), "width": (w, 0), "height": (h, 0), "fps": (f, 0)}
@@ -368,8 +556,7 @@ def build_music_video(fixed, clip_sg, scenes):
         add_scene_clip(g, clip_sg, sc, x, y + 40, shared)
         groups.append({"id": k + 1, "title": f"Scene {sc['id']:02d} - {sc['section']} ({sc['start']}-{sc['end']})",
                        "bounding": [x - 20, y - 20, 1420, 780], "color": "#3f789e", "flags": {}})
-    basic = copy.deepcopy(sg_by_id(fixed, BASIC_SG))
-    return workflow_shell(g, [clip_sg, basic], groups)
+    return workflow_shell(g, [clip_sg], groups)
 
 
 MV_NOTES = """# God Inside: LTX-2 music video (27 scenes)
@@ -383,8 +570,10 @@ Each group renders one scene of the script. Each scene takes its start frame (fr
 
 Or run everything headless: `python3 tools/run_music_video.py --server http://127.0.0.1:8188`.
 
-**Models**: see the Model Links note inside any Scene Clip subgraph (LTX-2 19B distilled, Gemma-3 12B, LTX2 video/audio VAE).
-If you run out of VRAM, lower Width/Height to 960x544. If the output is black, the resolution is too high.
+**Two-stage sampling for clean hands**: each Scene Clip renders at half size (640x352), upscales the latent 2x with `latent_upscale_models/ltx-2-spatial-upscaler-x2-1.0.safetensors` (Lightricks/LTX-2), re-applies the start frame at full size, and refines with 3 steps. Fingers get their detail in that last pass.
+
+**Models**: see the Model Links note inside any Scene Clip subgraph (LTX-2 19B distilled, Gemma-3 12B, LTX2 video/audio VAE) plus the spatial upscaler above.
+If you run out of VRAM, lower Width/Height to 1024x576 (must stay a multiple of 64). If the output is black, the resolution is too high.
 """
 
 
@@ -418,7 +607,7 @@ def build_stills(scenes):
         i = sc["id"]
         enc_in = [I("clip", "CLIP"), I("vae", "VAE", shape=7), I("image1", "IMAGE", shape=7),
                   I("image2", "IMAGE", shape=7), I("image3", "IMAGE", shape=7), I("prompt", "STRING", True)]
-        pos = g.node("TextEncodeQwenImageEditPlus", (x, y + 40), [sc["still"]], {"prompt": sc["still"]}, enc_in,
+        pos = g.node("TextEncodeQwenImageEditPlus", (x, y + 40), [still_prompt(sc)], {"prompt": still_prompt(sc)}, enc_in,
                      [O("CONDITIONING", "CONDITIONING")], title=f"Scene {i:02d} prompt", size=(420, 260),
                      color=("#232", "#353"))
         neg = g.node("TextEncodeQwenImageEditPlus", (x, y + 330), [STILL_NEG], {"prompt": STILL_NEG}, enc_in,
@@ -427,8 +616,8 @@ def build_stills(scenes):
                      {"width": WIDTH, "height": 720, "batch_size": 1},
                      [I("width", "INT", True), I("height", "INT", True), I("batch_size", "INT", True)],
                      [O("LATENT", "LATENT")], size=(420, 106))
-        ks = g.node("KSampler", (x + 440, y + 40), [1000 + i, "fixed", 4, 1.0, "euler", "simple", 1.0],
-                    {"seed": 1000 + i, "steps": 4, "cfg": 1.0, "sampler_name": "euler", "scheduler": "simple",
+        ks = g.node("KSampler", (x + 440, y + 40), [1000 + i, "fixed", QWEN_STEPS, 1.0, "euler", "simple", 1.0],
+                    {"seed": 1000 + i, "steps": QWEN_STEPS, "cfg": 1.0, "sampler_name": "euler", "scheduler": "simple",
                      "denoise": 1.0},
                     [I("model", "MODEL"), I("positive", "CONDITIONING"), I("negative", "CONDITIONING"),
                      I("latent_image", "LATENT")], [O("LATENT", "LATENT")], size=(320, 262))
@@ -460,17 +649,17 @@ def build_stills(scenes):
 
 
 STILL_NEG = ("blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, "
-             "blue dress, text, watermark, logo, cartoon, 3d render")
-STILLS_NOTES = """Qwen-Image-Edit-2509 + Lightning 4-step LoRA (all core ComfyUI nodes).
+             "blue dress, text, watermark, logo, cartoon, 3d render, " + SCENES["still_negative_hands"])
+STILLS_NOTES = """Qwen-Image-Edit-2509 + Lightning 8-step LoRA (all core ComfyUI nodes).
 
 image 1 = singer close-up, image 2 = wardrobe/character sheet, image 3 = the Scene 01 empty-stage plate, reused as the venue reference for every later scene so the club stays the same.
 
 Models:
 - diffusion_models/qwen_image_edit_2509_fp8_e4m3fn.safetensors (Comfy-Org/Qwen-Image-Edit_ComfyUI)
-- loras/Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors (lightx2v/Qwen-Image-Lightning)
+- loras/Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors (lightx2v/Qwen-Image-Lightning)
 - text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors, vae/qwen_image_vae.safetensors (Comfy-Org/Qwen-Image_ComfyUI)
 
-Change a scene's KSampler seed to re-roll only that shot.
+Check every still's hands before rendering video: the LTX clip inherits whatever hand is in its first frame. Change a scene's KSampler seed to re-roll only that shot.
 """
 
 
@@ -564,7 +753,7 @@ def single_scene_api(clip_sg, basic, sc):
     h = prim_int(g, (0, 0), HEIGHT, "Height")
     f = prim_float(g, (0, 0), FPS, "FPS")
     add_scene_clip(g, clip_sg, sc, 0, 0, {"audio": (audio, 0), "width": (w, 0), "height": (h, 0), "fps": (f, 0)})
-    return to_api(workflow_shell(g, [clip_sg, basic], []))
+    return to_api(workflow_shell(g, [clip_sg], []))
 
 
 def single_still_api(sc):

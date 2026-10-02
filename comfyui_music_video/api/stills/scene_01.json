@@ -12,7 +12,7 @@
  "2": {
   "class_type": "LoraLoaderModelOnly",
   "inputs": {
-   "lora_name": "Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors",
+   "lora_name": "Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors",
    "strength_model": 1.0,
    "model": [
     "1",
@@ -107,7 +107,7 @@
  "11": {
   "class_type": "TextEncodeQwenImageEditPlus",
   "inputs": {
-   "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render",
+   "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone",
    "clip": [
     "5",
     0
@@ -136,7 +136,7 @@
   "class_type": "KSampler",
   "inputs": {
    "seed": 1001,
-   "steps": 4,
+   "steps": 8,
    "cfg": 1.0,
    "sampler_name": "euler",
    "scheduler": "simple",

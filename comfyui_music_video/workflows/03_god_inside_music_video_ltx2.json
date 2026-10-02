@@ -1,5 +1,5 @@
 {
- "id": "f64aff30-1bdd-4d72-a986-8f1c59b2c379",
+ "id": "40b2774f-469e-4149-853a-eadac08cfebe",
  "revision": 0,
  "last_node_id": 221,
  "last_link_id": 297,
@@ -148,7 +148,7 @@
    "widgets_values_named": {
     "value": 1280
    },
-   "title": "Width (max 1600, multiple of 32)"
+   "title": "FINAL width (multiple of 64; stage 1 renders at half)"
   },
   {
    "id": 3,
@@ -226,7 +226,7 @@
    "widgets_values_named": {
     "value": 704
    },
-   "title": "Height (max 900, multiple of 32)"
+   "title": "FINAL height (multiple of 64; stage 1 renders at half)"
   },
   {
    "id": 4,
@@ -330,10 +330,10 @@
     }
    },
    "widgets_values": [
-    "# God Inside: LTX-2 music video (27 scenes)\n\nEach group renders one scene of the script. Each scene takes its start frame (from workflow 02), the exact slice of the song for that scene (vocals are isolated so the model lip-syncs), and a motion prompt. It saves `output/god_inside/clip_XX.mp4`.\n\n**Order**\n1. Run `02_god_inside_scene_stills` first. Copy `output/god_inside_scene_XX_00001_.png` to `input/god_inside_scene_XX.png` (`python3 tools/collect_stills.py <ComfyUI dir>` does this).\n2. Queue this workflow. For low RAM, queue a few groups at a time: select the group's SaveVideo, then right-click > *Queue Selected Output Nodes*.\n3. Assemble with the full song: `python3 tools/assemble_video.py --clips <ComfyUI>/output/god_inside`.\n\nOr run everything headless: `python3 tools/run_music_video.py --server http://127.0.0.1:8188`.\n\n**Models**: see the Model Links note inside any Scene Clip subgraph (LTX-2 19B distilled, Gemma-3 12B, LTX2 video/audio VAE).\nIf you run out of VRAM, lower Width/Height to 960x544. If the output is black, the resolution is too high.\n"
+    "# God Inside: LTX-2 music video (27 scenes)\n\nEach group renders one scene of the script. Each scene takes its start frame (from workflow 02), the exact slice of the song for that scene (vocals are isolated so the model lip-syncs), and a motion prompt. It saves `output/god_inside/clip_XX.mp4`.\n\n**Order**\n1. Run `02_god_inside_scene_stills` first. Copy `output/god_inside_scene_XX_00001_.png` to `input/god_inside_scene_XX.png` (`python3 tools/collect_stills.py <ComfyUI dir>` does this).\n2. Queue this workflow. For low RAM, queue a few groups at a time: select the group's SaveVideo, then right-click > *Queue Selected Output Nodes*.\n3. Assemble with the full song: `python3 tools/assemble_video.py --clips <ComfyUI>/output/god_inside`.\n\nOr run everything headless: `python3 tools/run_music_video.py --server http://127.0.0.1:8188`.\n\n**Two-stage sampling for clean hands**: each Scene Clip renders at half size (640x352), upscales the latent 2x with `latent_upscale_models/ltx-2-spatial-upscaler-x2-1.0.safetensors` (Lightricks/LTX-2), re-applies the start frame at full size, and refines with 3 steps. Fingers get their detail in that last pass.\n\n**Models**: see the Model Links note inside any Scene Clip subgraph (LTX-2 19B distilled, Gemma-3 12B, LTX2 video/audio VAE) plus the spatial upscaler above.\nIf you run out of VRAM, lower Width/Height to 1024x576 (must stay a multiple of 64). If the output is black, the resolution is too high.\n"
    ],
    "widgets_values_named": {
-    "text": "# God Inside: LTX-2 music video (27 scenes)\n\nEach group renders one scene of the script. Each scene takes its start frame (from workflow 02), the exact slice of the song for that scene (vocals are isolated so the model lip-syncs), and a motion prompt. It saves `output/god_inside/clip_XX.mp4`.\n\n**Order**\n1. Run `02_god_inside_scene_stills` first. Copy `output/god_inside_scene_XX_00001_.png` to `input/god_inside_scene_XX.png` (`python3 tools/collect_stills.py <ComfyUI dir>` does this).\n2. Queue this workflow. For low RAM, queue a few groups at a time: select the group's SaveVideo, then right-click > *Queue Selected Output Nodes*.\n3. Assemble with the full song: `python3 tools/assemble_video.py --clips <ComfyUI>/output/god_inside`.\n\nOr run everything headless: `python3 tools/run_music_video.py --server http://127.0.0.1:8188`.\n\n**Models**: see the Model Links note inside any Scene Clip subgraph (LTX-2 19B distilled, Gemma-3 12B, LTX2 video/audio VAE).\nIf you run out of VRAM, lower Width/Height to 960x544. If the output is black, the resolution is too high.\n"
+    "text": "# God Inside: LTX-2 music video (27 scenes)\n\nEach group renders one scene of the script. Each scene takes its start frame (from workflow 02), the exact slice of the song for that scene (vocals are isolated so the model lip-syncs), and a motion prompt. It saves `output/god_inside/clip_XX.mp4`.\n\n**Order**\n1. Run `02_god_inside_scene_stills` first. Copy `output/god_inside_scene_XX_00001_.png` to `input/god_inside_scene_XX.png` (`python3 tools/collect_stills.py <ComfyUI dir>` does this).\n2. Queue this workflow. For low RAM, queue a few groups at a time: select the group's SaveVideo, then right-click > *Queue Selected Output Nodes*.\n3. Assemble with the full song: `python3 tools/assemble_video.py --clips <ComfyUI>/output/god_inside`.\n\nOr run everything headless: `python3 tools/run_music_video.py --server http://127.0.0.1:8188`.\n\n**Two-stage sampling for clean hands**: each Scene Clip renders at half size (640x352), upscales the latent 2x with `latent_upscale_models/ltx-2-spatial-upscaler-x2-1.0.safetensors` (Lightricks/LTX-2), re-applies the start frame at full size, and refines with 3 steps. Fingers get their detail in that last pass.\n\n**Models**: see the Model Links note inside any Scene Clip subgraph (LTX-2 19B distilled, Gemma-3 12B, LTX2 video/audio VAE) plus the spatial upscaler above.\nIf you run out of VRAM, lower Width/Height to 1024x576 (must stay a multiple of 64). If the output is black, the resolution is too high.\n"
    },
    "title": "How to run",
    "color": "#222",
@@ -431,10 +431,10 @@
     }
    },
    "widgets_values": [
-    "Slow crane drift forward through the haze toward the empty microphone stand. The spotlight beam sweeps slowly across the stage. Silhouetted patrons murmur and shift in their seats. No people on stage."
+    "Slow crane drift forward through the haze toward the empty microphone stand. The spotlight beam sweeps slowly across the stage. Silhouetted patrons sit still at their tables. No people on stage."
    ],
    "widgets_values_named": {
-    "value": "Slow crane drift forward through the haze toward the empty microphone stand. The spotlight beam sweeps slowly across the stage. Silhouetted patrons murmur and shift in their seats. No people on stage."
+    "value": "Slow crane drift forward through the haze toward the empty microphone stand. The spotlight beam sweeps slowly across the stage. Silhouetted patrons sit still at their tables. No people on stage."
    },
    "title": "Scene 01 motion prompt",
    "color": "#232",
@@ -893,10 +893,10 @@
     }
    },
    "widgets_values": [
-    "The woman in the red beaded gown steps forward into the spotlight, slowly lifts her head and raises the microphone to her lips. Low-angle push-in. The crowd hushes, haze drifts through the beam."
+    "The woman in the red beaded gown steps slowly forward into the spotlight and gently lifts her head, holding the microphone near her chin. Slow low-angle push-in. The crowd is hushed, haze drifts through the beam. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "The woman in the red beaded gown steps forward into the spotlight, slowly lifts her head and raises the microphone to her lips. Low-angle push-in. The crowd hushes, haze drifts through the beam."
+    "value": "The woman in the red beaded gown steps slowly forward into the spotlight and gently lifts her head, holding the microphone near her chin. Slow low-angle push-in. The crowd is hushed, haze drifts through the beam. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 02 motion prompt",
    "color": "#232",
@@ -1355,10 +1355,10 @@
     }
    },
    "widgets_values": [
-    "Static close-up. The woman sings softly into the microphone with her eyes closed, lips moving with the lyrics, subtle breathing and head movement. Haze drifts behind her."
+    "Static close-up on her face. The woman sings softly into the microphone with her eyes closed, lips moving with the lyrics, subtle breathing and small head movements. Haze drifts behind her. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Static close-up. The woman sings softly into the microphone with her eyes closed, lips moving with the lyrics, subtle breathing and head movement. Haze drifts behind her."
+    "value": "Static close-up on her face. The woman sings softly into the microphone with her eyes closed, lips moving with the lyrics, subtle breathing and small head movements. Haze drifts behind her. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 03 motion prompt",
    "color": "#232",
@@ -1817,10 +1817,10 @@
     }
    },
    "widgets_values": [
-    "The woman sings with one hand over her heart, gently swaying to the music. Slow handheld camera drift circling slightly. Patrons sway softly in the foreground."
+    "The woman sings with her free hand resting still over her heart, swaying gently from side to side. Slow handheld camera drift. Patrons sway softly in the foreground. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "The woman sings with one hand over her heart, gently swaying to the music. Slow handheld camera drift circling slightly. Patrons sway softly in the foreground."
+    "value": "The woman sings with her free hand resting still over her heart, swaying gently from side to side. Slow handheld camera drift. Patrons sway softly in the foreground. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 04 motion prompt",
    "color": "#232",
@@ -2279,10 +2279,10 @@
     }
    },
    "widgets_values": [
-    "Wide shot from behind the crowd. The woman on stage sings into the microphone under the spotlight. Patrons in the foreground smile and nod along. Very slow push forward."
+    "Wide shot from behind the crowd. The woman on stage sings into the microphone under the spotlight, barely moving. Patrons in the foreground smile and nod slowly. Very slow push forward. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Wide shot from behind the crowd. The woman on stage sings into the microphone under the spotlight. Patrons in the foreground smile and nod along. Very slow push forward."
+    "value": "Wide shot from behind the crowd. The woman on stage sings into the microphone under the spotlight, barely moving. Patrons in the foreground smile and nod slowly. Very slow push forward. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 05 motion prompt",
    "color": "#232",
@@ -2741,10 +2741,10 @@
     }
    },
    "widgets_values": [
-    "Slow push-in on the woman's hand gripping the microphone, rising to her face as she sings with building intensity. The spotlight warms slightly."
+    "Slow push-in to a tight close-up of her face as she sings with building intensity, the microphone held steady below her lips. The spotlight warms slightly. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Slow push-in on the woman's hand gripping the microphone, rising to her face as she sings with building intensity. The spotlight warms slightly."
+    "value": "Slow push-in to a tight close-up of her face as she sings with building intensity, the microphone held steady below her lips. The spotlight warms slightly. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 06 motion prompt",
    "color": "#232",
@@ -3203,10 +3203,10 @@
     }
    },
    "widgets_values": [
-    "Tracking side dolly. The woman walks slowly across the stage while singing passionately, the spotlight sweeping to follow her. Crowd heads turn to follow her."
+    "Slow tracking side dolly. The woman walks slowly across the stage singing, the microphone held steadily at her lips, her free arm relaxed at her side. The spotlight glides to follow her. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Tracking side dolly. The woman walks slowly across the stage while singing passionately, the spotlight sweeping to follow her. Crowd heads turn to follow her."
+    "value": "Slow tracking side dolly. The woman walks slowly across the stage singing, the microphone held steadily at her lips, her free arm relaxed at her side. The spotlight glides to follow her. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 07 motion prompt",
    "color": "#232",
@@ -3665,10 +3665,10 @@
     }
    },
    "widgets_values": [
-    "Low angle from the crowd. The woman leans toward the audience, reaching out with her free hand while singing. Patrons' hands reach up toward her. Energy rising."
+    "Low angle from the crowd. The woman leans slightly toward the audience while singing, her free hand held still and open toward them. Patrons look up at her. Energy rising, gentle movement. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Low angle from the crowd. The woman leans toward the audience, reaching out with her free hand while singing. Patrons' hands reach up toward her. Energy rising."
+    "value": "Low angle from the crowd. The woman leans slightly toward the audience while singing, her free hand held still and open toward them. Patrons look up at her. Energy rising, gentle movement. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 08 motion prompt",
    "color": "#232",
@@ -4127,10 +4127,10 @@
     }
    },
    "widgets_values": [
-    "Slow-motion medium shot. The woman belts the chorus with her head tilted back and one arm raised high. The spotlight blooms wider and brighter, lens flare through the haze."
+    "Medium close-up. The woman tilts her head back slightly and belts the chorus, the microphone steady at her lips, her free hand lifted slowly to shoulder height. The spotlight blooms brighter, soft lens flare. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Slow-motion medium shot. The woman belts the chorus with her head tilted back and one arm raised high. The spotlight blooms wider and brighter, lens flare through the haze."
+    "value": "Medium close-up. The woman tilts her head back slightly and belts the chorus, the microphone steady at her lips, her free hand lifted slowly to shoulder height. The spotlight blooms brighter, soft lens flare. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 09 motion prompt",
    "color": "#232",
@@ -4589,10 +4589,10 @@
     }
    },
    "widgets_values": [
-    "Crane pull-back revealing the whole room. The woman sings center stage while the standing crowd raises their hands and waves phone lights, singing along."
+    "Slow crane pull-back revealing the whole room. The woman sings center stage while the standing crowd sways with phone lights glowing. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Crane pull-back revealing the whole room. The woman sings center stage while the standing crowd raises their hands and waves phone lights, singing along."
+    "value": "Slow crane pull-back revealing the whole room. The woman sings center stage while the standing crowd sways with phone lights glowing. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 10 motion prompt",
    "color": "#232",
@@ -5051,10 +5051,10 @@
     }
    },
    "widgets_values": [
-    "Close-up. The woman sings with intense emotion, eyes wide, glistening skin. Blurred crowd moves and sings at the edges of the frame."
+    "Close-up. The woman sings with intense emotion, eyes wide, glistening skin, head moving slightly with the phrasing. Blurred crowd sways at the edges of the frame. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Close-up. The woman sings with intense emotion, eyes wide, glistening skin. Blurred crowd moves and sings at the edges of the frame."
+    "value": "Close-up. The woman sings with intense emotion, eyes wide, glistening skin, head moving slightly with the phrasing. Blurred crowd sways at the edges of the frame. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 11 motion prompt",
    "color": "#232",
@@ -5513,10 +5513,10 @@
     }
    },
    "widgets_values": [
-    "Circular dolly around the woman as she turns gently with her arms open wide, still singing, her beaded gown sparkling in the spotlight. Haze swirls."
+    "Slow circular dolly around the woman from the waist up as she sways gently and sings, her free arm relaxed, the beaded gown sparkling in the spotlight. Haze swirls. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Circular dolly around the woman as she turns gently with her arms open wide, still singing, her beaded gown sparkling in the spotlight. Haze swirls."
+    "value": "Slow circular dolly around the woman from the waist up as she sways gently and sings, her free arm relaxed, the beaded gown sparkling in the spotlight. Haze swirls. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 12 motion prompt",
    "color": "#232",
@@ -5975,10 +5975,10 @@
     }
    },
    "widgets_values": [
-    "Slow push-in from the front. The woman walks slowly downstage, singing with quiet intensity and looking out at the crowd. Softer warm light."
+    "Slow push-in from the front. The woman walks slowly downstage, singing with quiet intensity and looking out at the crowd, the microphone held steady. Softer warm light. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Slow push-in from the front. The woman walks slowly downstage, singing with quiet intensity and looking out at the crowd. Softer warm light."
+    "value": "Slow push-in from the front. The woman walks slowly downstage, singing with quiet intensity and looking out at the crowd, the microphone held steady. Softer warm light. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 13 motion prompt",
    "color": "#232",
@@ -6437,10 +6437,10 @@
     }
    },
    "widgets_values": [
-    "The woman crouches at the stage edge and gently holds a patron's outstretched hand while singing with a warm smile. Tender moment, slow camera drift."
+    "The woman crouches at the stage edge and holds a patron's outstretched hand still in hers while singing with a warm smile. Minimal movement, slow camera drift. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "The woman crouches at the stage edge and gently holds a patron's outstretched hand while singing with a warm smile. Tender moment, slow camera drift."
+    "value": "The woman crouches at the stage edge and holds a patron's outstretched hand still in hers while singing with a warm smile. Minimal movement, slow camera drift. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 14 motion prompt",
    "color": "#232",
@@ -6899,10 +6899,10 @@
     }
    },
    "widgets_values": [
-    "Slow reverse dolly. The woman rises and turns back toward center stage, singing, as the spotlight narrows into a tight beam around her."
+    "Slow reverse dolly. The woman rises and turns back toward center stage, singing, as the spotlight narrows into a tight beam around her. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Slow reverse dolly. The woman rises and turns back toward center stage, singing, as the spotlight narrows into a tight beam around her."
+    "value": "Slow reverse dolly. The woman rises and turns back toward center stage, singing, as the spotlight narrows into a tight beam around her. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 15 motion prompt",
    "color": "#232",
@@ -7361,10 +7361,10 @@
     }
    },
    "widgets_values": [
-    "Handheld tracking shot. The woman paces the stage singing with bigger gestures. The spotlight pulses with the music; patrons begin to stand up."
+    "Slow handheld tracking shot. The woman paces slowly across the stage singing, small controlled gestures with her free hand. The spotlight pulses with the music; patrons begin to stand up. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Handheld tracking shot. The woman paces the stage singing with bigger gestures. The spotlight pulses with the music; patrons begin to stand up."
+    "value": "Slow handheld tracking shot. The woman paces slowly across the stage singing, small controlled gestures with her free hand. The spotlight pulses with the music; patrons begin to stand up. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 16 motion prompt",
    "color": "#232",
@@ -7823,10 +7823,10 @@
     }
    },
    "widgets_values": [
-    "Low wide shot. The woman stands center stage raising the microphone high with both hands, drawing a deep breath, then brings it to her lips to sing. Standing crowd silhouetted in front."
+    "Medium shot. The woman stands center stage holding the microphone with both hands close to her chest, draws a deep breath, then sings. The standing crowd is silhouetted in front. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Low wide shot. The woman stands center stage raising the microphone high with both hands, drawing a deep breath, then brings it to her lips to sing. Standing crowd silhouetted in front."
+    "value": "Medium shot. The woman stands center stage holding the microphone with both hands close to her chest, draws a deep breath, then sings. The standing crowd is silhouetted in front. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 17 motion prompt",
    "color": "#232",
@@ -8285,10 +8285,10 @@
     }
    },
    "widgets_values": [
-    "Slow-motion low-angle hero shot. The woman belts with full power, haze swirling dramatically around her. The crowd cheers with raised arms."
+    "Slow-motion low-angle shot. The woman belts with full power, the microphone steady at her lips, haze swirling around her. The crowd cheers behind her. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Slow-motion low-angle hero shot. The woman belts with full power, haze swirling dramatically around her. The crowd cheers with raised arms."
+    "value": "Slow-motion low-angle shot. The woman belts with full power, the microphone steady at her lips, haze swirling around her. The crowd cheers behind her. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 18 motion prompt",
    "color": "#232",
@@ -8747,10 +8747,10 @@
     }
    },
    "widgets_values": [
-    "Circular dolly orbiting the woman as she sings passionately, her bob hair swinging and gown sparkling, spotlight flaring through the haze."
+    "Slow orbit around the woman from the chest up as she sings passionately, her bob hair moving softly, spotlight flaring through the haze. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Circular dolly orbiting the woman as she sings passionately, her bob hair swinging and gown sparkling, spotlight flaring through the haze."
+    "value": "Slow orbit around the woman from the chest up as she sings passionately, her bob hair moving softly, spotlight flaring through the haze. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 19 motion prompt",
    "color": "#232",
@@ -9209,10 +9209,10 @@
     }
    },
    "widgets_values": [
-    "Wide symmetrical shot, slow push-in. The woman sings and gestures to the crowd; patrons sing along arm in arm, swaying together."
+    "Wide symmetrical shot, slow push-in. The woman sings on stage; patrons sing along arm in arm, swaying together slowly. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Wide symmetrical shot, slow push-in. The woman sings and gestures to the crowd; patrons sing along arm in arm, swaying together."
+    "value": "Wide symmetrical shot, slow push-in. The woman sings on stage; patrons sing along arm in arm, swaying together slowly. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 20 motion prompt",
    "color": "#232",
@@ -9671,10 +9671,10 @@
     }
    },
    "widgets_values": [
-    "Slow push-in close-up. The woman finishes the chorus line with a joyful, tearful smile, eyes glistening, then sings again softly."
+    "Slow push-in close-up on her face. The woman finishes the chorus line with a joyful, tearful smile, eyes glistening, then sings again softly. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Slow push-in close-up. The woman finishes the chorus line with a joyful, tearful smile, eyes glistening, then sings again softly."
+    "value": "Slow push-in close-up on her face. The woman finishes the chorus line with a joyful, tearful smile, eyes glistening, then sings again softly. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 21 motion prompt",
    "color": "#232",
@@ -10133,10 +10133,10 @@
     }
    },
    "widgets_values": [
-    "Static intimate close-up. The woman sings quietly with eyes closed, vulnerable and raw, in a single tight spotlight. Everything else is dark."
+    "Static intimate close-up on her face. The woman sings quietly with eyes closed, vulnerable and raw, in a single tight spotlight. Everything else is dark. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Static intimate close-up. The woman sings quietly with eyes closed, vulnerable and raw, in a single tight spotlight. Everything else is dark."
+    "value": "Static intimate close-up on her face. The woman sings quietly with eyes closed, vulnerable and raw, in a single tight spotlight. Everything else is dark. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 22 motion prompt",
    "color": "#232",
@@ -10595,10 +10595,10 @@
     }
    },
    "widgets_values": [
-    "Slow pan across the hushed crowd, hands over hearts, eyes closed, deeply moved, ending on the woman singing alone in the distant spotlight."
+    "Slow pan across the hushed crowd, faces moved, eyes closed, ending on the woman singing alone in the distant spotlight. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Slow pan across the hushed crowd, hands over hearts, eyes closed, deeply moved, ending on the woman singing alone in the distant spotlight."
+    "value": "Slow pan across the hushed crowd, faces moved, eyes closed, ending on the woman singing alone in the distant spotlight. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 23 motion prompt",
    "color": "#232",
@@ -11057,10 +11057,10 @@
     }
    },
    "widgets_values": [
-    "Low-angle push-in. The woman slowly raises her free hand upward while singing. The spotlight warms and widens; the crowd rises behind her."
+    "Slow low-angle push-in from the waist up. The woman sings and slowly raises her free hand to chest height, palm open. The spotlight warms and widens; the crowd rises behind her. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Low-angle push-in. The woman slowly raises her free hand upward while singing. The spotlight warms and widens; the crowd rises behind her."
+    "value": "Slow low-angle push-in from the waist up. The woman sings and slowly raises her free hand to chest height, palm open. The spotlight warms and widens; the crowd rises behind her. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 24 motion prompt",
    "color": "#232",
@@ -11519,10 +11519,10 @@
     }
    },
    "widgets_values": [
-    "Sweeping crane rise from stage level to a high wide angle. The woman sings in golden light while the whole crowd dances with arms raised and phone lights waving."
+    "Slow crane rise from stage level to a high wide angle. The woman sings in golden light while the whole crowd sways with phone lights glowing. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Sweeping crane rise from stage level to a high wide angle. The woman sings in golden light while the whole crowd dances with arms raised and phone lights waving."
+    "value": "Slow crane rise from stage level to a high wide angle. The woman sings in golden light while the whole crowd sways with phone lights glowing. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 25 motion prompt",
    "color": "#232",
@@ -11981,10 +11981,10 @@
     }
    },
    "widgets_values": [
-    "Arcing crane move from close to wide. The woman holds a long powerful final note, then the ecstatic crowd roars with raised arms. Golden particles drift."
+    "Slow push from medium to wide. The woman holds a long powerful final note, microphone steady at her lips, then the crowd cheers. Golden particles drift. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Arcing crane move from close to wide. The woman holds a long powerful final note, then the ecstatic crowd roars with raised arms. Golden particles drift."
+    "value": "Slow push from medium to wide. The woman holds a long powerful final note, microphone steady at her lips, then the crowd cheers. Golden particles drift. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 26 motion prompt",
    "color": "#232",
@@ -12443,10 +12443,10 @@
     }
    },
    "widgets_values": [
-    "Static medium shot. The woman lowers the microphone, eyes closed, small content smile. The spotlight slowly fades to black."
+    "Static medium shot. The woman slowly lowers the microphone to her chest, eyes closed, small content smile. The spotlight slowly fades to black. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    ],
    "widgets_values_named": {
-    "value": "Static medium shot. The woman lowers the microphone, eyes closed, small content smile. The spotlight slowly fades to black."
+    "value": "Static medium shot. The woman slowly lowers the microphone to her chest, eyes closed, small content smile. The spotlight slowly fades to black. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
    },
    "title": "Scene 27 motion prompt",
    "color": "#232",
@@ -15525,8 +15525,8 @@
     "version": 1,
     "state": {
      "lastGroupId": 10,
-     "lastNodeId": 1067,
-     "lastLinkId": 2643,
+     "lastNodeId": 1028,
+     "lastLinkId": 2683,
      "lastRerouteId": 0
     },
     "revision": 0,
@@ -15655,7 +15655,7 @@
       "name": "frames",
       "type": "INT",
       "linkIds": [
-       2641
+       2640
       ],
       "localized_name": "frames",
       "pos": [
@@ -15668,7 +15668,7 @@
       "name": "duration",
       "type": "FLOAT",
       "linkIds": [
-       2642
+       2650
       ],
       "localized_name": "duration",
       "pos": [
@@ -15795,10 +15795,10 @@
        }
       },
       "widgets_values": [
-       "still image with no motion, subtitles, text, scene change"
+       "still image with no motion, subtitles, text, scene change, distorted hands, extra fingers, fused fingers, missing fingers, morphing hands, melting hands, fast arm movement, motion blur"
       ],
       "widgets_values_named": {
-       "text": "still image with no motion, subtitles, text, scene change"
+       "text": "still image with no motion, subtitles, text, scene change, distorted hands, extra fingers, fused fingers, missing fingers, morphing hands, melting hands, fast arm movement, motion blur"
       },
       "color": "#232",
       "bgcolor": "#353"
@@ -15897,7 +15897,7 @@
         "name": "positive",
         "type": "CONDITIONING",
         "links": [
-         2509
+         2647
         ]
        },
        {
@@ -15905,7 +15905,7 @@
         "name": "negative",
         "type": "CONDITIONING",
         "links": [
-         2510
+         2648
         ]
        }
       ],
@@ -15955,7 +15955,7 @@
         "widget": {
          "name": "width"
         },
-        "link": 2101
+        "link": 2643
        },
        {
         "localized_name": "height",
@@ -15964,7 +15964,7 @@
         "widget": {
          "name": "height"
         },
-        "link": 2102
+        "link": 2644
        },
        {
         "localized_name": "length",
@@ -15973,7 +15973,7 @@
         "widget": {
          "name": "length"
         },
-        "link": 2641
+        "link": 2640
        }
       ],
       "outputs": [
@@ -16007,7 +16007,8 @@
        "height": 704,
        "length": 241,
        "batch_size": 1
-      }
+      },
+      "title": "Stage 1 latent (half size)"
      },
      {
       "id": 933,
@@ -16211,7 +16212,7 @@
         "name": "num_images.image_1",
         "shape": 7,
         "type": "IMAGE",
-        "link": 2078
+        "link": 2645
        }
       ],
       "outputs": [
@@ -16220,7 +16221,8 @@
         "name": "latent",
         "type": "LATENT",
         "links": [
-         2511
+         2655,
+         2657
         ]
        }
       ],
@@ -16271,7 +16273,9 @@
         "name": "",
         "type": "VAE",
         "links": [
-         2512
+         2666,
+         2667,
+         2681
         ]
        }
       ],
@@ -16311,7 +16315,7 @@
         "name": "",
         "type": "VAE",
         "links": [
-         2514
+         2652
         ]
        }
       ],
@@ -16351,7 +16355,7 @@
         "name": "",
         "type": "MODEL",
         "links": [
-         2521
+         2646
         ]
        }
       ],
@@ -16391,7 +16395,7 @@
         "name": "",
         "type": "AUDIO",
         "links": [
-         2583
+         2649
         ]
        }
       ],
@@ -16424,7 +16428,7 @@
         "localized_name": "images",
         "name": "images",
         "type": "IMAGE",
-        "link": 2640
+        "link": 2682
        },
        {
         "localized_name": "audio",
@@ -16579,10 +16583,10 @@
        }
       },
       "widgets_values": [
-       "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage"
+       "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage, holding the microphone steadily in one hand, her other hand relaxed, gentle natural movement"
       ],
       "widgets_values_named": {
-       "text": "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage"
+       "text": "a woman in a red beaded gown is singing passionately into a microphone on a nightclub stage, holding the microphone steadily in one hand, her other hand relaxed, gentle natural movement"
       },
       "color": "#232",
       "bgcolor": "#353"
@@ -16644,13 +16648,13 @@
        }
       },
       "widgets_values": [
-       11,
+       6,
        0.25,
        2.5,
        true
       ],
       "widgets_values_named": {
-       "nag_scale": 11,
+       "nag_scale": 6,
        "nag_alpha": 0.25,
        "nag_tau": 2.5,
        "inplace": true
@@ -16684,7 +16688,8 @@
         "name": "output_image",
         "type": "IMAGE",
         "links": [
-         2078
+         2641,
+         2669
         ]
        }
       ],
@@ -16699,10 +16704,10 @@
        }
       },
       "widgets_values": [
-       25
+       15
       ],
       "widgets_values_named": {
-       "img_compression": 25
+       "img_compression": 15
       }
      },
      {
@@ -16765,17 +16770,13 @@
         "localized_name": "width",
         "name": "width",
         "type": "INT",
-        "links": [
-         2101
-        ]
+        "links": []
        },
        {
         "localized_name": "height",
         "name": "height",
         "type": "INT",
-        "links": [
-         2102
-        ]
+        "links": []
        },
        {
         "localized_name": "mask",
@@ -16801,7 +16802,7 @@
        "crop",
        "0, 0, 0",
        "center",
-       32,
+       64,
        "cpu"
       ],
       "widgets_values_named": {
@@ -16811,9 +16812,10 @@
        "keep_proportion": "crop",
        "pad_color": "0, 0, 0",
        "crop_position": "center",
-       "divisible_by": 32,
+       "divisible_by": 64,
        "device": "cpu"
-      }
+      },
+      "title": "Resize start frame to FINAL size"
      },
      {
       "id": 892,
@@ -17038,94 +17040,6 @@
       }
      },
      {
-      "id": 978,
-      "type": "4944b5c3-502f-45bd-ba28-f90941e8055f",
-      "pos": [
-       980,
-       5860
-      ],
-      "size": [
-       300,
-       544
-      ],
-      "flags": {},
-      "order": 27,
-      "mode": 0,
-      "inputs": [
-       {
-        "localized_name": "model",
-        "name": "model",
-        "type": "MODEL",
-        "link": 2521
-       },
-       {
-        "localized_name": "positive",
-        "name": "positive",
-        "type": "CONDITIONING",
-        "link": 2509
-       },
-       {
-        "localized_name": "negative",
-        "name": "negative",
-        "type": "CONDITIONING",
-        "link": 2510
-       },
-       {
-        "localized_name": "latent",
-        "name": "latent",
-        "type": "LATENT",
-        "link": 2511
-       },
-       {
-        "localized_name": "vae",
-        "name": "vae",
-        "type": "VAE",
-        "link": 2512
-       },
-       {
-        "localized_name": "audio",
-        "name": "audio",
-        "type": "AUDIO",
-        "link": 2583
-       },
-       {
-        "label": "Audio VAE",
-        "localized_name": "audio_vae",
-        "name": "audio_vae",
-        "type": "VAE",
-        "link": 2514
-       },
-       {
-        "name": "duration",
-        "type": "FLOAT",
-        "widget": {
-         "name": "duration"
-        },
-        "link": 2642
-       }
-      ],
-      "outputs": [
-       {
-        "localized_name": "IMAGE",
-        "name": "IMAGE",
-        "type": "IMAGE",
-        "links": [
-         2640
-        ]
-       }
-      ],
-      "properties": {
-       "ue_properties": {
-        "widget_ue_connectable": {},
-        "version": "7.8",
-        "input_ue_unconnectable": {}
-       },
-       "previewExposures": []
-      },
-      "widgets_values": [],
-      "widgets_values_named": {}
-     },
-     {
       "id": 904,
       "type": "VAELoaderKJ",
       "pos": [
@@ -17171,6 +17085,1392 @@
        "device": "main_device",
        "weight_dtype": "bf16"
       }
+     },
+     {
+      "id": 1004,
+      "type": "ImageScaleBy",
+      "pos": [
+       -190,
+       6560
+      ],
+      "size": [
+       300,
+       90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+       {
+        "name": "image",
+        "localized_name": "image",
+        "type": "IMAGE",
+        "link": 2641
+       }
+      ],
+      "outputs": [
+       {
+        "name": "IMAGE",
+        "localized_name": "IMAGE",
+        "type": "IMAGE",
+        "links": [
+         2642,
+         2645
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "ImageScaleBy",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [
+       "lanczos",
+       0.5
+      ],
+      "widgets_values_named": {
+       "upscale_method": "lanczos",
+       "scale_by": 0.5
+      },
+      "title": "Stage 1: half-size start frame"
+     },
+     {
+      "id": 1005,
+      "type": "GetImageSize",
+      "pos": [
+       -190,
+       6680
+      ],
+      "size": [
+       300,
+       90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+       {
+        "name": "image",
+        "localized_name": "image",
+        "type": "IMAGE",
+        "link": 2642
+       }
+      ],
+      "outputs": [
+       {
+        "name": "width",
+        "localized_name": "width",
+        "type": "INT",
+        "links": [
+         2643
+        ]
+       },
+       {
+        "name": "height",
+        "localized_name": "height",
+        "type": "INT",
+        "links": [
+         2644
+        ]
+       },
+       {
+        "name": "batch_size",
+        "localized_name": "batch_size",
+        "type": "INT",
+        "links": []
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "GetImageSize",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+     },
+     {
+      "id": 1006,
+      "type": "CFGGuider",
+      "pos": [
+       1000,
+       5560
+      ],
+      "size": [
+       270,
+       106.66666666666667
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "model",
+        "name": "model",
+        "type": "MODEL",
+        "link": 2646
+       },
+       {
+        "localized_name": "positive",
+        "name": "positive",
+        "type": "CONDITIONING",
+        "link": 2647
+       },
+       {
+        "localized_name": "negative",
+        "name": "negative",
+        "type": "CONDITIONING",
+        "link": 2648
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "GUIDER",
+        "name": "GUIDER",
+        "type": "GUIDER",
+        "links": [
+         2659,
+         2675
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "CFGGuider",
+       "cnr_id": "comfy-core",
+       "enableTabs": false,
+       "hasSecondTab": false,
+       "secondTabOffset": 80,
+       "secondTabText": "Send Back",
+       "secondTabWidth": 65,
+       "tabWidth": 65,
+       "tabXOffset": 10,
+       "ver": "0.3.64",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [
+       1
+      ],
+      "widgets_values_named": {
+       "cfg": 1
+      },
+      "title": "CFG guider (cfg 1)"
+     },
+     {
+      "id": 1007,
+      "type": "TrimAudioDuration",
+      "pos": [
+       1000,
+       6300
+      ],
+      "size": [
+       300,
+       82
+      ],
+      "flags": {
+       "collapsed": false
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "audio",
+        "name": "audio",
+        "type": "AUDIO",
+        "link": 2649
+       },
+       {
+        "localized_name": "duration",
+        "name": "duration",
+        "type": "FLOAT",
+        "widget": {
+         "name": "duration"
+        },
+        "link": 2650
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "AUDIO",
+        "name": "AUDIO",
+        "type": "AUDIO",
+        "links": [
+         2651
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "TrimAudioDuration",
+       "cnr_id": "comfy-core",
+       "ver": "0.9.2",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [
+       0,
+       10
+      ],
+      "widgets_values_named": {
+       "start_index": 0,
+       "duration": 10
+      },
+      "title": "Trim vocals to scene length"
+     },
+     {
+      "id": 1008,
+      "type": "LTXVAudioVAEEncode",
+      "pos": [
+       1000,
+       6440
+      ],
+      "size": [
+       310,
+       46
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "audio",
+        "name": "audio",
+        "type": "AUDIO",
+        "link": 2651
+       },
+       {
+        "label": "Audio VAE",
+        "localized_name": "Audio VAE",
+        "name": "audio_vae",
+        "type": "VAE",
+        "link": 2652
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "Audio Latent",
+        "name": "Audio Latent",
+        "type": "LATENT",
+        "links": [
+         2653
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "LTXVAudioVAEEncode",
+       "cnr_id": "comfy-core",
+       "ver": "0.9.2",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values_named": {}
+     },
+     {
+      "id": 1009,
+      "type": "SolidMask",
+      "pos": [
+       1000,
+       6560
+      ],
+      "size": [
+       270,
+       106
+      ],
+      "flags": {
+       "collapsed": false
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+       {
+        "localized_name": "MASK",
+        "name": "MASK",
+        "type": "MASK",
+        "links": [
+         2654,
+         2671
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "SolidMask",
+       "cnr_id": "comfy-core",
+       "ver": "0.9.2",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [
+       0,
+       512,
+       512
+      ],
+      "widgets_values_named": {
+       "value": 0,
+       "width": 512,
+       "height": 512
+      },
+      "title": "Audio mask = 0 (keep the song)"
+     },
+     {
+      "id": 1010,
+      "type": "SetLatentNoiseMask",
+      "pos": [
+       1000,
+       6700
+      ],
+      "size": [
+       250,
+       50
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "samples",
+        "name": "samples",
+        "type": "LATENT",
+        "link": 2653
+       },
+       {
+        "localized_name": "mask",
+        "name": "mask",
+        "type": "MASK",
+        "link": 2654
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "LATENT",
+        "name": "LATENT",
+        "type": "LATENT",
+        "links": [
+         2656
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "SetLatentNoiseMask",
+       "cnr_id": "comfy-core",
+       "ver": "0.9.2",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values_named": {}
+     },
+     {
+      "id": 1011,
+      "type": "LTXVConcatAVLatent",
+      "pos": [
+       1000,
+       5700
+      ],
+      "size": [
+       260,
+       46
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "video_latent",
+        "name": "video_latent",
+        "type": "LATENT",
+        "link": 2655
+       },
+       {
+        "localized_name": "audio_latent",
+        "name": "audio_latent",
+        "type": "LATENT",
+        "link": 2656
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "latent",
+        "name": "latent",
+        "type": "LATENT",
+        "links": [
+         2662
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "LTXVConcatAVLatent",
+       "cnr_id": "comfy-core",
+       "ver": "0.8.0",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values_named": {}
+     },
+     {
+      "id": 1012,
+      "type": "RandomNoise",
+      "pos": [
+       1000,
+       5820
+      ],
+      "size": [
+       290,
+       82
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "noise_seed",
+        "name": "noise_seed",
+        "type": "INT",
+        "widget": {
+         "name": "noise_seed"
+        },
+        "link": null
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "NOISE",
+        "name": "NOISE",
+        "type": "NOISE",
+        "links": [
+         2658
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "RandomNoise",
+       "cnr_id": "comfy-core",
+       "enableTabs": false,
+       "hasSecondTab": false,
+       "secondTabOffset": 80,
+       "secondTabText": "Send Back",
+       "secondTabWidth": 65,
+       "tabWidth": 65,
+       "tabXOffset": 10,
+       "ver": "0.3.56",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [
+       44,
+       "fixed"
+      ],
+      "widgets_values_named": {
+       "noise_seed": 44,
+       "control_after_generate": "fixed"
+      },
+      "title": "Stage 1 noise"
+     },
+     {
+      "id": 1013,
+      "type": "KSamplerSelect",
+      "pos": [
+       1000,
+       5940
+      ],
+      "size": [
+       270,
+       68.88020833333334
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "sampler_name",
+        "name": "sampler_name",
+        "type": "COMBO",
+        "widget": {
+         "name": "sampler_name"
+        },
+        "link": null
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "SAMPLER",
+        "name": "SAMPLER",
+        "type": "SAMPLER",
+        "links": [
+         2660
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "KSamplerSelect",
+       "cnr_id": "comfy-core",
+       "enableTabs": false,
+       "hasSecondTab": false,
+       "secondTabOffset": 80,
+       "secondTabText": "Send Back",
+       "secondTabWidth": 65,
+       "tabWidth": 65,
+       "tabXOffset": 10,
+       "ver": "0.3.56",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [
+       "lcm"
+      ],
+      "widgets_values_named": {
+       "sampler_name": "lcm"
+      }
+     },
+     {
+      "id": 1014,
+      "type": "LTXVScheduler",
+      "pos": [
+       1000,
+       6060
+      ],
+      "size": [
+       270,
+       154
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "latent",
+        "name": "latent",
+        "shape": 7,
+        "type": "LATENT",
+        "link": 2657
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "SIGMAS",
+        "name": "SIGMAS",
+        "type": "SIGMAS",
+        "links": [
+         2661
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "LTXVScheduler",
+       "cnr_id": "comfy-core",
+       "ver": "0.8.0",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [
+       10,
+       2.05,
+       0.95,
+       true,
+       0.05
+      ],
+      "widgets_values_named": {
+       "steps": 10,
+       "max_shift": 2.05,
+       "base_shift": 0.95,
+       "stretch": true,
+       "terminal": 0.05
+      },
+      "title": "Stage 1 sigmas (10 steps)"
+     },
+     {
+      "id": 1015,
+      "type": "SamplerCustomAdvanced",
+      "pos": [
+       1380,
+       5700
+      ],
+      "size": [
+       410,
+       518
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "noise",
+        "name": "noise",
+        "type": "NOISE",
+        "link": 2658
+       },
+       {
+        "localized_name": "guider",
+        "name": "guider",
+        "type": "GUIDER",
+        "link": 2659
+       },
+       {
+        "localized_name": "sampler",
+        "name": "sampler",
+        "type": "SAMPLER",
+        "link": 2660
+       },
+       {
+        "localized_name": "sigmas",
+        "name": "sigmas",
+        "type": "SIGMAS",
+        "link": 2661
+       },
+       {
+        "localized_name": "latent_image",
+        "name": "latent_image",
+        "type": "LATENT",
+        "link": 2662
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "output",
+        "name": "output",
+        "type": "LATENT",
+        "links": [
+         2663
+        ]
+       },
+       {
+        "localized_name": "denoised_output",
+        "name": "denoised_output",
+        "type": "LATENT",
+        "links": []
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "SamplerCustomAdvanced",
+       "cnr_id": "comfy-core",
+       "enableTabs": false,
+       "hasSecondTab": false,
+       "secondTabOffset": 80,
+       "secondTabText": "Send Back",
+       "secondTabWidth": 65,
+       "tabWidth": 65,
+       "tabXOffset": 10,
+       "ver": "0.3.60",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values_named": {},
+      "title": "Stage 1 sample (half size)"
+     },
+     {
+      "id": 1016,
+      "type": "LTXVSeparateAVLatent",
+      "pos": [
+       1380,
+       5960
+      ],
+      "size": [
+       193.2916015625,
+       46
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "av_latent",
+        "name": "av_latent",
+        "type": "LATENT",
+        "link": 2663
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "video_latent",
+        "name": "video_latent",
+        "type": "LATENT",
+        "links": [
+         2664
+        ]
+       },
+       {
+        "localized_name": "audio_latent",
+        "name": "audio_latent",
+        "type": "LATENT",
+        "links": [
+         2670
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "LTXVSeparateAVLatent",
+       "cnr_id": "comfy-core",
+       "ver": "0.7.0",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values_named": {}
+     },
+     {
+      "id": 1017,
+      "type": "LatentUpscaleModelLoader",
+      "pos": [
+       1900,
+       5560
+      ],
+      "size": [
+       300,
+       90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+       {
+        "name": "LATENT_UPSCALE_MODEL",
+        "localized_name": "LATENT_UPSCALE_MODEL",
+        "type": "LATENT_UPSCALE_MODEL",
+        "links": [
+         2665
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "LatentUpscaleModelLoader",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [
+       "ltx-2-spatial-upscaler-x2-1.0.safetensors"
+      ],
+      "widgets_values_named": {
+       "model_name": "ltx-2-spatial-upscaler-x2-1.0.safetensors"
+      },
+      "title": "LTX-2 spatial upscaler x2"
+     },
+     {
+      "id": 1018,
+      "type": "LTXVLatentUpsampler",
+      "pos": [
+       1900,
+       5700
+      ],
+      "size": [
+       300,
+       90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+       {
+        "name": "samples",
+        "localized_name": "samples",
+        "type": "LATENT",
+        "link": 2664
+       },
+       {
+        "name": "upscale_model",
+        "localized_name": "upscale_model",
+        "type": "LATENT_UPSCALE_MODEL",
+        "link": 2665
+       },
+       {
+        "name": "vae",
+        "localized_name": "vae",
+        "type": "VAE",
+        "link": 2666
+       }
+      ],
+      "outputs": [
+       {
+        "name": "LATENT",
+        "localized_name": "LATENT",
+        "type": "LATENT",
+        "links": [
+         2668
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "LTXVLatentUpsampler",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [],
+      "widgets_values_named": {},
+      "title": "Stage 2: upscale latent 2x"
+     },
+     {
+      "id": 1019,
+      "type": "LTXVImgToVideoInplaceKJ",
+      "pos": [
+       1900,
+       5840
+      ],
+      "size": [
+       294.97395833333337,
+       146
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "vae",
+        "name": "vae",
+        "type": "VAE",
+        "link": 2667
+       },
+       {
+        "localized_name": "latent",
+        "name": "latent",
+        "type": "LATENT",
+        "link": 2668
+       },
+       {
+        "localized_name": "image_1",
+        "name": "num_images.image_1",
+        "shape": 7,
+        "type": "IMAGE",
+        "link": 2669
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "latent",
+        "name": "latent",
+        "type": "LATENT",
+        "links": [
+         2672
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "LTXVImgToVideoInplaceKJ",
+       "cnr_id": "comfyui-kjnodes",
+       "ver": "bb7227bfea7e95f35ecdecddf74caca87757cfc6",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [
+       "1",
+       1,
+       0
+      ],
+      "widgets_values_named": {
+       "num_images": "1",
+       "num_images.strength_1": 1,
+       "num_images.index_1": 0
+      },
+      "title": "Stage 2: first frame at full size"
+     },
+     {
+      "id": 1020,
+      "type": "SetLatentNoiseMask",
+      "pos": [
+       1900,
+       6000
+      ],
+      "size": [
+       250,
+       50
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "samples",
+        "name": "samples",
+        "type": "LATENT",
+        "link": 2670
+       },
+       {
+        "localized_name": "mask",
+        "name": "mask",
+        "type": "MASK",
+        "link": 2671
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "LATENT",
+        "name": "LATENT",
+        "type": "LATENT",
+        "links": [
+         2673
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "SetLatentNoiseMask",
+       "cnr_id": "comfy-core",
+       "ver": "0.9.2",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values_named": {}
+     },
+     {
+      "id": 1021,
+      "type": "LTXVConcatAVLatent",
+      "pos": [
+       1900,
+       6120
+      ],
+      "size": [
+       260,
+       46
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "video_latent",
+        "name": "video_latent",
+        "type": "LATENT",
+        "link": 2672
+       },
+       {
+        "localized_name": "audio_latent",
+        "name": "audio_latent",
+        "type": "LATENT",
+        "link": 2673
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "latent",
+        "name": "latent",
+        "type": "LATENT",
+        "links": [
+         2678
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "LTXVConcatAVLatent",
+       "cnr_id": "comfy-core",
+       "ver": "0.8.0",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values_named": {}
+     },
+     {
+      "id": 1022,
+      "type": "RandomNoise",
+      "pos": [
+       1900,
+       6240
+      ],
+      "size": [
+       290,
+       82
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "noise_seed",
+        "name": "noise_seed",
+        "type": "INT",
+        "widget": {
+         "name": "noise_seed"
+        },
+        "link": null
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "NOISE",
+        "name": "NOISE",
+        "type": "NOISE",
+        "links": [
+         2674
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "RandomNoise",
+       "cnr_id": "comfy-core",
+       "enableTabs": false,
+       "hasSecondTab": false,
+       "secondTabOffset": 80,
+       "secondTabText": "Send Back",
+       "secondTabWidth": 65,
+       "tabWidth": 65,
+       "tabXOffset": 10,
+       "ver": "0.3.56",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [
+       45,
+       "fixed"
+      ],
+      "widgets_values_named": {
+       "noise_seed": 45,
+       "control_after_generate": "fixed"
+      },
+      "title": "Stage 2 noise"
+     },
+     {
+      "id": 1023,
+      "type": "KSamplerSelect",
+      "pos": [
+       1900,
+       6360
+      ],
+      "size": [
+       270,
+       68.88020833333334
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "sampler_name",
+        "name": "sampler_name",
+        "type": "COMBO",
+        "widget": {
+         "name": "sampler_name"
+        },
+        "link": null
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "SAMPLER",
+        "name": "SAMPLER",
+        "type": "SAMPLER",
+        "links": [
+         2676
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "KSamplerSelect",
+       "cnr_id": "comfy-core",
+       "enableTabs": false,
+       "hasSecondTab": false,
+       "secondTabOffset": 80,
+       "secondTabText": "Send Back",
+       "secondTabWidth": 65,
+       "tabWidth": 65,
+       "tabXOffset": 10,
+       "ver": "0.3.56",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [
+       "euler"
+      ],
+      "widgets_values_named": {
+       "sampler_name": "euler"
+      }
+     },
+     {
+      "id": 1024,
+      "type": "ManualSigmas",
+      "pos": [
+       1900,
+       6480
+      ],
+      "size": [
+       300,
+       90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+       {
+        "name": "sigmas",
+        "localized_name": "sigmas",
+        "type": "STRING",
+        "widget": {
+         "name": "sigmas"
+        },
+        "link": null
+       }
+      ],
+      "outputs": [
+       {
+        "name": "SIGMAS",
+        "localized_name": "SIGMAS",
+        "type": "SIGMAS",
+        "links": [
+         2677
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "ManualSigmas",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [
+       "0.909375, 0.725, 0.421875, 0.0"
+      ],
+      "widgets_values_named": {
+       "sigmas": "0.909375, 0.725, 0.421875, 0.0"
+      },
+      "title": "Stage 2 refine sigmas"
+     },
+     {
+      "id": 1025,
+      "type": "SamplerCustomAdvanced",
+      "pos": [
+       2280,
+       5700
+      ],
+      "size": [
+       410,
+       518
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "noise",
+        "name": "noise",
+        "type": "NOISE",
+        "link": 2674
+       },
+       {
+        "localized_name": "guider",
+        "name": "guider",
+        "type": "GUIDER",
+        "link": 2675
+       },
+       {
+        "localized_name": "sampler",
+        "name": "sampler",
+        "type": "SAMPLER",
+        "link": 2676
+       },
+       {
+        "localized_name": "sigmas",
+        "name": "sigmas",
+        "type": "SIGMAS",
+        "link": 2677
+       },
+       {
+        "localized_name": "latent_image",
+        "name": "latent_image",
+        "type": "LATENT",
+        "link": 2678
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "output",
+        "name": "output",
+        "type": "LATENT",
+        "links": [
+         2679
+        ]
+       },
+       {
+        "localized_name": "denoised_output",
+        "name": "denoised_output",
+        "type": "LATENT",
+        "links": []
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "SamplerCustomAdvanced",
+       "cnr_id": "comfy-core",
+       "enableTabs": false,
+       "hasSecondTab": false,
+       "secondTabOffset": 80,
+       "secondTabText": "Send Back",
+       "secondTabWidth": 65,
+       "tabWidth": 65,
+       "tabXOffset": 10,
+       "ver": "0.3.60",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values_named": {},
+      "title": "Stage 2 refine (full size)"
+     },
+     {
+      "id": 1026,
+      "type": "LTXVSeparateAVLatent",
+      "pos": [
+       2280,
+       5960
+      ],
+      "size": [
+       193.2916015625,
+       46
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "av_latent",
+        "name": "av_latent",
+        "type": "LATENT",
+        "link": 2679
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "video_latent",
+        "name": "video_latent",
+        "type": "LATENT",
+        "links": [
+         2680
+        ]
+       },
+       {
+        "localized_name": "audio_latent",
+        "name": "audio_latent",
+        "type": "LATENT",
+        "links": []
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "LTXVSeparateAVLatent",
+       "cnr_id": "comfy-core",
+       "ver": "0.7.0",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values_named": {}
+     },
+     {
+      "id": 1027,
+      "type": "VAEDecodeTiled",
+      "pos": [
+       2280,
+       6100
+      ],
+      "size": [
+       270,
+       150
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+       {
+        "localized_name": "samples",
+        "name": "samples",
+        "type": "LATENT",
+        "link": 2680
+       },
+       {
+        "localized_name": "vae",
+        "name": "vae",
+        "type": "VAE",
+        "link": 2681
+       }
+      ],
+      "outputs": [
+       {
+        "localized_name": "IMAGE",
+        "name": "IMAGE",
+        "type": "IMAGE",
+        "links": [
+         2682
+        ]
+       }
+      ],
+      "properties": {
+       "Node name for S&R": "VAEDecodeTiled",
+       "cnr_id": "comfy-core",
+       "ver": "0.9.2",
+       "ue_properties": {
+        "widget_ue_connectable": {},
+        "version": "7.8",
+        "input_ue_unconnectable": {}
+       }
+      },
+      "widgets_values": [
+       1536,
+       128,
+       128,
+       16
+      ],
+      "widgets_values_named": {
+       "tile_size": 1536,
+       "overlap": 128,
+       "temporal_size": 128,
+       "temporal_overlap": 16
+      },
+      "title": "Decode (single 1536 tile)"
      }
     ],
     "groups": [
@@ -17293,84 +18593,12 @@
       "type": "CONDITIONING"
      },
      {
-      "id": 2101,
-      "origin_id": 923,
-      "origin_slot": 1,
-      "target_id": 855,
-      "target_slot": 0,
-      "type": "INT"
-     },
-     {
-      "id": 2102,
-      "origin_id": 923,
-      "origin_slot": 2,
-      "target_id": 855,
-      "target_slot": 1,
-      "type": "INT"
-     },
-     {
       "id": 2244,
       "origin_id": 820,
       "origin_slot": 0,
       "target_id": 933,
       "target_slot": 0,
       "type": "MODEL"
-     },
-     {
-      "id": 2521,
-      "origin_id": 979,
-      "origin_slot": 0,
-      "target_id": 978,
-      "target_slot": 0,
-      "type": "MODEL"
-     },
-     {
-      "id": 2509,
-      "origin_id": 927,
-      "origin_slot": 0,
-      "target_id": 978,
-      "target_slot": 1,
-      "type": "CONDITIONING"
-     },
-     {
-      "id": 2510,
-      "origin_id": 927,
-      "origin_slot": 1,
-      "target_id": 978,
-      "target_slot": 2,
-      "type": "CONDITIONING"
-     },
-     {
-      "id": 2511,
-      "origin_id": 842,
-      "origin_slot": 0,
-      "target_id": 978,
-      "target_slot": 3,
-      "type": "LATENT"
-     },
-     {
-      "id": 2512,
-      "origin_id": 962,
-      "origin_slot": 0,
-      "target_id": 978,
-      "target_slot": 4,
-      "type": "VAE"
-     },
-     {
-      "id": 2583,
-      "origin_id": 966,
-      "origin_slot": 0,
-      "target_id": 978,
-      "target_slot": 5,
-      "type": "AUDIO"
-     },
-     {
-      "id": 2514,
-      "origin_id": 964,
-      "origin_slot": 0,
-      "target_id": 978,
-      "target_slot": 6,
-      "type": "VAE"
      },
      {
       "id": 2588,
@@ -17387,14 +18615,6 @@
       "target_id": 842,
       "target_slot": 1,
       "type": "LATENT"
-     },
-     {
-      "id": 2078,
-      "origin_id": 821,
-      "origin_slot": 0,
-      "target_id": 842,
-      "target_slot": 2,
-      "type": "IMAGE"
      },
      {
       "id": 2353,
@@ -17526,14 +18746,6 @@
      },
      {
       "id": 2640,
-      "origin_id": 978,
-      "origin_slot": 0,
-      "target_id": 995,
-      "target_slot": 0,
-      "type": "IMAGE"
-     },
-     {
-      "id": 2641,
       "origin_id": -10,
       "origin_slot": 8,
       "target_id": 855,
@@ -17541,1055 +18753,345 @@
       "type": "INT"
      },
      {
+      "id": 2641,
+      "origin_id": 821,
+      "origin_slot": 0,
+      "target_id": 1004,
+      "target_slot": 0,
+      "type": "IMAGE"
+     },
+     {
       "id": 2642,
+      "origin_id": 1004,
+      "origin_slot": 0,
+      "target_id": 1005,
+      "target_slot": 0,
+      "type": "IMAGE"
+     },
+     {
+      "id": 2643,
+      "origin_id": 1005,
+      "origin_slot": 0,
+      "target_id": 855,
+      "target_slot": 0,
+      "type": "INT"
+     },
+     {
+      "id": 2644,
+      "origin_id": 1005,
+      "origin_slot": 1,
+      "target_id": 855,
+      "target_slot": 1,
+      "type": "INT"
+     },
+     {
+      "id": 2645,
+      "origin_id": 1004,
+      "origin_slot": 0,
+      "target_id": 842,
+      "target_slot": 2,
+      "type": "IMAGE"
+     },
+     {
+      "id": 2646,
+      "origin_id": 979,
+      "origin_slot": 0,
+      "target_id": 1006,
+      "target_slot": 0,
+      "type": "MODEL"
+     },
+     {
+      "id": 2647,
+      "origin_id": 927,
+      "origin_slot": 0,
+      "target_id": 1006,
+      "target_slot": 1,
+      "type": "CONDITIONING"
+     },
+     {
+      "id": 2648,
+      "origin_id": 927,
+      "origin_slot": 1,
+      "target_id": 1006,
+      "target_slot": 2,
+      "type": "CONDITIONING"
+     },
+     {
+      "id": 2649,
+      "origin_id": 966,
+      "origin_slot": 0,
+      "target_id": 1007,
+      "target_slot": 0,
+      "type": "AUDIO"
+     },
+     {
+      "id": 2650,
       "origin_id": -10,
       "origin_slot": 9,
-      "target_id": 978,
-      "target_slot": 7,
+      "target_id": 1007,
+      "target_slot": 1,
       "type": "FLOAT"
+     },
+     {
+      "id": 2651,
+      "origin_id": 1007,
+      "origin_slot": 0,
+      "target_id": 1008,
+      "target_slot": 0,
+      "type": "AUDIO"
+     },
+     {
+      "id": 2652,
+      "origin_id": 964,
+      "origin_slot": 0,
+      "target_id": 1008,
+      "target_slot": 1,
+      "type": "VAE"
+     },
+     {
+      "id": 2653,
+      "origin_id": 1008,
+      "origin_slot": 0,
+      "target_id": 1010,
+      "target_slot": 0,
+      "type": "LATENT"
+     },
+     {
+      "id": 2654,
+      "origin_id": 1009,
+      "origin_slot": 0,
+      "target_id": 1010,
+      "target_slot": 1,
+      "type": "MASK"
+     },
+     {
+      "id": 2655,
+      "origin_id": 842,
+      "origin_slot": 0,
+      "target_id": 1011,
+      "target_slot": 0,
+      "type": "LATENT"
+     },
+     {
+      "id": 2656,
+      "origin_id": 1010,
+      "origin_slot": 0,
+      "target_id": 1011,
+      "target_slot": 1,
+      "type": "LATENT"
+     },
+     {
+      "id": 2657,
+      "origin_id": 842,
+      "origin_slot": 0,
+      "target_id": 1014,
+      "target_slot": 0,
+      "type": "LATENT"
+     },
+     {
+      "id": 2658,
+      "origin_id": 1012,
+      "origin_slot": 0,
+      "target_id": 1015,
+      "target_slot": 0,
+      "type": "NOISE"
+     },
+     {
+      "id": 2659,
+      "origin_id": 1006,
+      "origin_slot": 0,
+      "target_id": 1015,
+      "target_slot": 1,
+      "type": "GUIDER"
+     },
+     {
+      "id": 2660,
+      "origin_id": 1013,
+      "origin_slot": 0,
+      "target_id": 1015,
+      "target_slot": 2,
+      "type": "SAMPLER"
+     },
+     {
+      "id": 2661,
+      "origin_id": 1014,
+      "origin_slot": 0,
+      "target_id": 1015,
+      "target_slot": 3,
+      "type": "SIGMAS"
+     },
+     {
+      "id": 2662,
+      "origin_id": 1011,
+      "origin_slot": 0,
+      "target_id": 1015,
+      "target_slot": 4,
+      "type": "LATENT"
+     },
+     {
+      "id": 2663,
+      "origin_id": 1015,
+      "origin_slot": 0,
+      "target_id": 1016,
+      "target_slot": 0,
+      "type": "LATENT"
+     },
+     {
+      "id": 2664,
+      "origin_id": 1016,
+      "origin_slot": 0,
+      "target_id": 1018,
+      "target_slot": 0,
+      "type": "LATENT"
+     },
+     {
+      "id": 2665,
+      "origin_id": 1017,
+      "origin_slot": 0,
+      "target_id": 1018,
+      "target_slot": 1,
+      "type": "LATENT_UPSCALE_MODEL"
+     },
+     {
+      "id": 2666,
+      "origin_id": 962,
+      "origin_slot": 0,
+      "target_id": 1018,
+      "target_slot": 2,
+      "type": "VAE"
+     },
+     {
+      "id": 2667,
+      "origin_id": 962,
+      "origin_slot": 0,
+      "target_id": 1019,
+      "target_slot": 0,
+      "type": "VAE"
+     },
+     {
+      "id": 2668,
+      "origin_id": 1018,
+      "origin_slot": 0,
+      "target_id": 1019,
+      "target_slot": 1,
+      "type": "LATENT"
+     },
+     {
+      "id": 2669,
+      "origin_id": 821,
+      "origin_slot": 0,
+      "target_id": 1019,
+      "target_slot": 2,
+      "type": "IMAGE"
+     },
+     {
+      "id": 2670,
+      "origin_id": 1016,
+      "origin_slot": 1,
+      "target_id": 1020,
+      "target_slot": 0,
+      "type": "LATENT"
+     },
+     {
+      "id": 2671,
+      "origin_id": 1009,
+      "origin_slot": 0,
+      "target_id": 1020,
+      "target_slot": 1,
+      "type": "MASK"
+     },
+     {
+      "id": 2672,
+      "origin_id": 1019,
+      "origin_slot": 0,
+      "target_id": 1021,
+      "target_slot": 0,
+      "type": "LATENT"
+     },
+     {
+      "id": 2673,
+      "origin_id": 1020,
+      "origin_slot": 0,
+      "target_id": 1021,
+      "target_slot": 1,
+      "type": "LATENT"
+     },
+     {
+      "id": 2674,
+      "origin_id": 1022,
+      "origin_slot": 0,
+      "target_id": 1025,
+      "target_slot": 0,
+      "type": "NOISE"
+     },
+     {
+      "id": 2675,
+      "origin_id": 1006,
+      "origin_slot": 0,
+      "target_id": 1025,
+      "target_slot": 1,
+      "type": "GUIDER"
+     },
+     {
+      "id": 2676,
+      "origin_id": 1023,
+      "origin_slot": 0,
+      "target_id": 1025,
+      "target_slot": 2,
+      "type": "SAMPLER"
+     },
+     {
+      "id": 2677,
+      "origin_id": 1024,
+      "origin_slot": 0,
+      "target_id": 1025,
+      "target_slot": 3,
+      "type": "SIGMAS"
+     },
+     {
+      "id": 2678,
+      "origin_id": 1021,
+      "origin_slot": 0,
+      "target_id": 1025,
+      "target_slot": 4,
+      "type": "LATENT"
+     },
+     {
+      "id": 2679,
+      "origin_id": 1025,
+      "origin_slot": 0,
+      "target_id": 1026,
+      "target_slot": 0,
+      "type": "LATENT"
+     },
+     {
+      "id": 2680,
+      "origin_id": 1026,
+      "origin_slot": 0,
+      "target_id": 1027,
+      "target_slot": 0,
+      "type": "LATENT"
+     },
+     {
+      "id": 2681,
+      "origin_id": 962,
+      "origin_slot": 0,
+      "target_id": 1027,
+      "target_slot": 1,
+      "type": "VAE"
+     },
+     {
+      "id": 2682,
+      "origin_id": 1027,
+      "origin_slot": 0,
+      "target_id": 995,
+      "target_slot": 0,
+      "type": "IMAGE"
      }
     ],
     "extra": {
      "workflowRendererVersion": "LG",
      "ue_links": []
-    }
-   },
-   {
-    "id": "4944b5c3-502f-45bd-ba28-f90941e8055f",
-    "version": 1,
-    "state": {
-     "lastGroupId": 10,
-     "lastNodeId": 1067,
-     "lastLinkId": 2681,
-     "lastRerouteId": 0
-    },
-    "revision": 0,
-    "config": {},
-    "name": "Basic Sampling",
-    "inputNode": {
-     "id": -10,
-     "bounding": [
-      1580,
-      6360,
-      120,
-      200
-     ]
-    },
-    "outputNode": {
-     "id": -20,
-     "bounding": [
-      3810,
-      6420,
-      120,
-      60
-     ]
-    },
-    "inputs": [
-     {
-      "id": "095605fe-aa96-44c0-8ece-ab406ecc566e",
-      "name": "model",
-      "type": "MODEL",
-      "linkIds": [
-       2270
-      ],
-      "localized_name": "model",
-      "pos": [
-       1680,
-       6380
-      ]
-     },
-     {
-      "id": "00ef4228-d536-4269-987a-5db5c5c29f0d",
-      "name": "positive",
-      "type": "CONDITIONING",
-      "linkIds": [
-       2046
-      ],
-      "localized_name": "positive",
-      "pos": [
-       1680,
-       6400
-      ]
-     },
-     {
-      "id": "c57fe9d2-e654-4851-b950-aa5100ce5a18",
-      "name": "negative",
-      "type": "CONDITIONING",
-      "linkIds": [
-       2047
-      ],
-      "localized_name": "negative",
-      "pos": [
-       1680,
-       6420
-      ]
-     },
-     {
-      "id": "f73fca0c-d075-410e-946d-6efb98e9c1e3",
-      "name": "latent",
-      "type": "LATENT",
-      "linkIds": [
-       2586,
-       2587
-      ],
-      "localized_name": "latent",
-      "shape": 7,
-      "pos": [
-       1680,
-       6440
-      ]
-     },
-     {
-      "id": "681563ae-f526-41eb-a68e-26869fa53337",
-      "name": "vae",
-      "type": "VAE",
-      "linkIds": [
-       2339
-      ],
-      "localized_name": "vae",
-      "pos": [
-       1680,
-       6460
-      ]
-     },
-     {
-      "id": "77440a70-096f-4c89-af98-53c46c6dc9d8",
-      "name": "audio",
-      "type": "AUDIO",
-      "linkIds": [
-       2580
-      ],
-      "localized_name": "audio",
-      "pos": [
-       1680,
-       6480
-      ]
-     },
-     {
-      "id": "af92e8b7-a2a5-466d-b7c5-3c09055bd0c4",
-      "name": "audio_vae",
-      "type": "VAE",
-      "linkIds": [
-       2398
-      ],
-      "localized_name": "audio_vae",
-      "label": "Audio VAE",
-      "pos": [
-       1680,
-       6500
-      ]
-     },
-     {
-      "id": "1e9fc3ae-1acf-4b24-afd0-ba08de7ada76",
-      "name": "duration",
-      "type": "FLOAT",
-      "linkIds": [
-       2581
-      ],
-      "pos": [
-       1680,
-       6520
-      ]
-     }
-    ],
-    "outputs": [
-     {
-      "id": "8274720e-ba8b-441d-a748-5f437467d2c3",
-      "name": "IMAGE",
-      "type": "IMAGE",
-      "linkIds": [
-       2172
-      ],
-      "localized_name": "IMAGE",
-      "pos": [
-       3830,
-       6440
-      ]
-     }
-    ],
-    "widgets": [],
-    "nodes": [
-     {
-      "id": 883,
-      "type": "SamplerCustomAdvanced",
-      "pos": [
-       2920,
-       6150
-      ],
-      "size": [
-       410,
-       518
-      ],
-      "flags": {},
-      "order": 7,
-      "mode": 0,
-      "inputs": [
-       {
-        "localized_name": "noise",
-        "name": "noise",
-        "type": "NOISE",
-        "link": 2161
-       },
-       {
-        "localized_name": "guider",
-        "name": "guider",
-        "type": "GUIDER",
-        "link": 2162
-       },
-       {
-        "localized_name": "sampler",
-        "name": "sampler",
-        "type": "SAMPLER",
-        "link": 2163
-       },
-       {
-        "localized_name": "sigmas",
-        "name": "sigmas",
-        "type": "SIGMAS",
-        "link": 2164
-       },
-       {
-        "localized_name": "latent_image",
-        "name": "latent_image",
-        "type": "LATENT",
-        "link": 2165
-       }
-      ],
-      "outputs": [
-       {
-        "localized_name": "output",
-        "name": "output",
-        "type": "LATENT",
-        "links": [
-         2037
-        ]
-       },
-       {
-        "localized_name": "denoised_output",
-        "name": "denoised_output",
-        "type": "LATENT",
-        "links": []
-       }
-      ],
-      "properties": {
-       "Node name for S&R": "SamplerCustomAdvanced",
-       "cnr_id": "comfy-core",
-       "enableTabs": false,
-       "hasSecondTab": false,
-       "secondTabOffset": 80,
-       "secondTabText": "Send Back",
-       "secondTabWidth": 65,
-       "tabWidth": 65,
-       "tabXOffset": 10,
-       "ver": "0.3.60",
-       "ue_properties": {
-        "widget_ue_connectable": {},
-        "version": "7.8",
-        "input_ue_unconnectable": {}
-       }
-      }
-     },
-     {
-      "id": 828,
-      "type": "CFGGuider",
-      "pos": [
-       2530,
-       6280
-      ],
-      "size": [
-       270,
-       106.66666666666667
-      ],
-      "flags": {},
-      "order": 5,
-      "mode": 0,
-      "inputs": [
-       {
-        "localized_name": "model",
-        "name": "model",
-        "type": "MODEL",
-        "link": 2270
-       },
-       {
-        "localized_name": "positive",
-        "name": "positive",
-        "type": "CONDITIONING",
-        "link": 2046
-       },
-       {
-        "localized_name": "negative",
-        "name": "negative",
-        "type": "CONDITIONING",
-        "link": 2047
-       }
-      ],
-      "outputs": [
-       {
-        "localized_name": "GUIDER",
-        "name": "GUIDER",
-        "type": "GUIDER",
-        "links": [
-         2162
-        ]
-       }
-      ],
-      "properties": {
-       "Node name for S&R": "CFGGuider",
-       "cnr_id": "comfy-core",
-       "enableTabs": false,
-       "hasSecondTab": false,
-       "secondTabOffset": 80,
-       "secondTabText": "Send Back",
-       "secondTabWidth": 65,
-       "tabWidth": 65,
-       "tabXOffset": 10,
-       "ver": "0.3.64",
-       "ue_properties": {
-        "widget_ue_connectable": {},
-        "version": "7.8",
-        "input_ue_unconnectable": {}
-       }
-      },
-      "widgets_values": [
-       1
-      ],
-      "widgets_values_named": {
-       "cfg": 1
-      }
-     },
-     {
-      "id": 825,
-      "type": "LTXVSeparateAVLatent",
-      "pos": [
-       3400,
-       6150
-      ],
-      "size": [
-       193.2916015625,
-       46
-      ],
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "inputs": [
-       {
-        "localized_name": "av_latent",
-        "name": "av_latent",
-        "type": "LATENT",
-        "link": 2037
-       }
-      ],
-      "outputs": [
-       {
-        "localized_name": "video_latent",
-        "name": "video_latent",
-        "type": "LATENT",
-        "links": [
-         2038
-        ]
-       },
-       {
-        "localized_name": "audio_latent",
-        "name": "audio_latent",
-        "type": "LATENT",
-        "links": []
-       }
-      ],
-      "properties": {
-       "Node name for S&R": "LTXVSeparateAVLatent",
-       "cnr_id": "comfy-core",
-       "ver": "0.7.0",
-       "ue_properties": {
-        "widget_ue_connectable": {},
-        "version": "7.8",
-        "input_ue_unconnectable": {}
-       }
-      }
-     },
-     {
-      "id": 944,
-      "type": "KSamplerSelect",
-      "pos": [
-       2530,
-       6440
-      ],
-      "size": [
-       270,
-       68.88020833333334
-      ],
-      "flags": {},
-      "order": 10,
-      "mode": 0,
-      "inputs": [
-       {
-        "localized_name": "sampler_name",
-        "name": "sampler_name",
-        "type": "COMBO",
-        "widget": {
-         "name": "sampler_name"
-        },
-        "link": null
-       }
-      ],
-      "outputs": [
-       {
-        "localized_name": "SAMPLER",
-        "name": "SAMPLER",
-        "type": "SAMPLER",
-        "links": [
-         2163
-        ]
-       }
-      ],
-      "properties": {
-       "Node name for S&R": "KSamplerSelect",
-       "cnr_id": "comfy-core",
-       "enableTabs": false,
-       "hasSecondTab": false,
-       "secondTabOffset": 80,
-       "secondTabText": "Send Back",
-       "secondTabWidth": 65,
-       "tabWidth": 65,
-       "tabXOffset": 10,
-       "ver": "0.3.56",
-       "ue_properties": {
-        "widget_ue_connectable": {},
-        "version": "7.8",
-        "input_ue_unconnectable": {}
-       }
-      },
-      "widgets_values": [
-       "lcm"
-      ],
-      "widgets_values_named": {
-       "sampler_name": "lcm"
-      }
-     },
-     {
-      "id": 939,
-      "type": "LTXVScheduler",
-      "pos": [
-       2530,
-       6550
-      ],
-      "size": [
-       270,
-       154
-      ],
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-       {
-        "localized_name": "latent",
-        "name": "latent",
-        "shape": 7,
-        "type": "LATENT",
-        "link": 2587
-       }
-      ],
-      "outputs": [
-       {
-        "localized_name": "SIGMAS",
-        "name": "SIGMAS",
-        "type": "SIGMAS",
-        "links": [
-         2164
-        ]
-       }
-      ],
-      "properties": {
-       "Node name for S&R": "LTXVScheduler",
-       "cnr_id": "comfy-core",
-       "ver": "0.8.0",
-       "ue_properties": {
-        "widget_ue_connectable": {},
-        "version": "7.8",
-        "input_ue_unconnectable": {}
-       }
-      },
-      "widgets_values": [
-       8,
-       2.05,
-       0.95,
-       true,
-       0.1
-      ],
-      "widgets_values_named": {
-       "steps": 8,
-       "max_shift": 2.05,
-       "base_shift": 0.95,
-       "stretch": true,
-       "terminal": 0.1
-      }
-     },
-     {
-      "id": 826,
-      "type": "VAEDecodeTiled",
-      "pos": [
-       3400,
-       6360
-      ],
-      "size": [
-       270,
-       150
-      ],
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "inputs": [
-       {
-        "localized_name": "samples",
-        "name": "samples",
-        "type": "LATENT",
-        "link": 2038
-       },
-       {
-        "localized_name": "vae",
-        "name": "vae",
-        "type": "VAE",
-        "link": 2339
-       }
-      ],
-      "outputs": [
-       {
-        "localized_name": "IMAGE",
-        "name": "IMAGE",
-        "type": "IMAGE",
-        "links": [
-         2172
-        ]
-       }
-      ],
-      "properties": {
-       "Node name for S&R": "VAEDecodeTiled",
-       "cnr_id": "comfy-core",
-       "ver": "0.9.2",
-       "ue_properties": {
-        "widget_ue_connectable": {},
-        "version": "7.8",
-        "input_ue_unconnectable": {}
-       }
-      },
-      "widgets_values": [
-       1024,
-       64,
-       128,
-       16
-      ],
-      "widgets_values_named": {
-       "tile_size": 1024,
-       "overlap": 64,
-       "temporal_size": 128,
-       "temporal_overlap": 16
-      }
-     },
-     {
-      "id": 863,
-      "type": "RandomNoise",
-      "pos": [
-       2520,
-       6140
-      ],
-      "size": [
-       290,
-       82
-      ],
-      "flags": {},
-      "order": 6,
-      "mode": 0,
-      "inputs": [
-       {
-        "localized_name": "noise_seed",
-        "name": "noise_seed",
-        "type": "INT",
-        "widget": {
-         "name": "noise_seed"
-        },
-        "link": null
-       }
-      ],
-      "outputs": [
-       {
-        "localized_name": "NOISE",
-        "name": "NOISE",
-        "type": "NOISE",
-        "links": [
-         2161
-        ]
-       }
-      ],
-      "properties": {
-       "Node name for S&R": "RandomNoise",
-       "cnr_id": "comfy-core",
-       "enableTabs": false,
-       "hasSecondTab": false,
-       "secondTabOffset": 80,
-       "secondTabText": "Send Back",
-       "secondTabWidth": 65,
-       "tabWidth": 65,
-       "tabXOffset": 10,
-       "ver": "0.3.56",
-       "ue_properties": {
-        "widget_ue_connectable": {},
-        "version": "7.8",
-        "input_ue_unconnectable": {}
-       }
-      },
-      "widgets_values": [
-       44,
-       "fixed"
-      ],
-      "widgets_values_named": {
-       "noise_seed": 44,
-       "control_after_generate": "fixed"
-      }
-     },
-     {
-      "id": 818,
-      "type": "SolidMask",
-      "pos": [
-       1850,
-       6740
-      ],
-      "size": [
-       270,
-       106
-      ],
-      "flags": {
-       "collapsed": false
-      },
-      "order": 0,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-       {
-        "localized_name": "MASK",
-        "name": "MASK",
-        "type": "MASK",
-        "links": [
-         2028
-        ]
-       }
-      ],
-      "properties": {
-       "Node name for S&R": "SolidMask",
-       "cnr_id": "comfy-core",
-       "ver": "0.9.2",
-       "ue_properties": {
-        "widget_ue_connectable": {},
-        "version": "7.8",
-        "input_ue_unconnectable": {}
-       }
-      },
-      "widgets_values": [
-       0,
-       512,
-       512
-      ],
-      "widgets_values_named": {
-       "value": 0,
-       "width": 512,
-       "height": 512
-      }
-     },
-     {
-      "id": 822,
-      "type": "LTXVConcatAVLatent",
-      "pos": [
-       2530,
-       6760
-      ],
-      "size": [
-       260,
-       46
-      ],
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "inputs": [
-       {
-        "localized_name": "video_latent",
-        "name": "video_latent",
-        "type": "LATENT",
-        "link": 2586
-       },
-       {
-        "localized_name": "audio_latent",
-        "name": "audio_latent",
-        "type": "LATENT",
-        "link": 2034
-       }
-      ],
-      "outputs": [
-       {
-        "localized_name": "latent",
-        "name": "latent",
-        "type": "LATENT",
-        "links": [
-         2165
-        ]
-       }
-      ],
-      "properties": {
-       "Node name for S&R": "LTXVConcatAVLatent",
-       "cnr_id": "comfy-core",
-       "ver": "0.8.0",
-       "ue_properties": {
-        "widget_ue_connectable": {},
-        "version": "7.8",
-        "input_ue_unconnectable": {}
-       }
-      }
-     },
-     {
-      "id": 991,
-      "type": "TrimAudioDuration",
-      "pos": [
-       1820,
-       6470
-      ],
-      "size": [
-       300,
-       82
-      ],
-      "flags": {
-       "collapsed": false
-      },
-      "order": 11,
-      "mode": 0,
-      "inputs": [
-       {
-        "localized_name": "audio",
-        "name": "audio",
-        "type": "AUDIO",
-        "link": 2580
-       },
-       {
-        "localized_name": "duration",
-        "name": "duration",
-        "type": "FLOAT",
-        "widget": {
-         "name": "duration"
-        },
-        "link": 2581
-       }
-      ],
-      "outputs": [
-       {
-        "localized_name": "AUDIO",
-        "name": "AUDIO",
-        "type": "AUDIO",
-        "links": [
-         2579
-        ]
-       }
-      ],
-      "properties": {
-       "Node name for S&R": "TrimAudioDuration",
-       "cnr_id": "comfy-core",
-       "ver": "0.9.2",
-       "ue_properties": {
-        "widget_ue_connectable": {},
-        "version": "7.8",
-        "input_ue_unconnectable": {}
-       }
-      },
-      "widgets_values": [
-       0,
-       10
-      ],
-      "widgets_values_named": {
-       "start_index": 0,
-       "duration": 10
-      }
-     },
-     {
-      "id": 907,
-      "type": "LTXVAudioVAEEncode",
-      "pos": [
-       1830,
-       6620
-      ],
-      "size": [
-       310,
-       46
-      ],
-      "flags": {},
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-       {
-        "localized_name": "audio",
-        "name": "audio",
-        "type": "AUDIO",
-        "link": 2579
-       },
-       {
-        "label": "Audio VAE",
-        "localized_name": "Audio VAE",
-        "name": "audio_vae",
-        "type": "VAE",
-        "link": 2398
-       }
-      ],
-      "outputs": [
-       {
-        "localized_name": "Audio Latent",
-        "name": "Audio Latent",
-        "type": "LATENT",
-        "links": [
-         2271
-        ]
-       }
-      ],
-      "properties": {
-       "Node name for S&R": "LTXVAudioVAEEncode",
-       "cnr_id": "comfy-core",
-       "ver": "0.9.2",
-       "ue_properties": {
-        "widget_ue_connectable": {},
-        "version": "7.8",
-        "input_ue_unconnectable": {}
-       }
-      }
-     },
-     {
-      "id": 817,
-      "type": "SetLatentNoiseMask",
-      "pos": [
-       2210,
-       6780
-      ],
-      "size": [
-       250,
-       50
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "inputs": [
-       {
-        "localized_name": "samples",
-        "name": "samples",
-        "type": "LATENT",
-        "link": 2271
-       },
-       {
-        "localized_name": "mask",
-        "name": "mask",
-        "type": "MASK",
-        "link": 2028
-       }
-      ],
-      "outputs": [
-       {
-        "localized_name": "LATENT",
-        "name": "LATENT",
-        "type": "LATENT",
-        "links": [
-         2034
-        ]
-       }
-      ],
-      "properties": {
-       "Node name for S&R": "SetLatentNoiseMask",
-       "cnr_id": "comfy-core",
-       "ver": "0.9.2",
-       "ue_properties": {
-        "widget_ue_connectable": {},
-        "version": "7.8",
-        "input_ue_unconnectable": {}
-       }
-      }
-     }
-    ],
-    "groups": [
-     {
-      "id": 9,
-      "title": "First Run",
-      "bounding": [
-       1760,
-       6000,
-       1990,
-       900
-      ],
-      "color": "#3f789e",
-      "flags": {}
-     }
-    ],
-    "links": [
-     {
-      "id": 2161,
-      "origin_id": 863,
-      "origin_slot": 0,
-      "target_id": 883,
-      "target_slot": 0,
-      "type": "NOISE"
-     },
-     {
-      "id": 2162,
-      "origin_id": 828,
-      "origin_slot": 0,
-      "target_id": 883,
-      "target_slot": 1,
-      "type": "GUIDER"
-     },
-     {
-      "id": 2163,
-      "origin_id": 944,
-      "origin_slot": 0,
-      "target_id": 883,
-      "target_slot": 2,
-      "type": "SAMPLER"
-     },
-     {
-      "id": 2164,
-      "origin_id": 939,
-      "origin_slot": 0,
-      "target_id": 883,
-      "target_slot": 3,
-      "type": "SIGMAS"
-     },
-     {
-      "id": 2165,
-      "origin_id": 822,
-      "origin_slot": 0,
-      "target_id": 883,
-      "target_slot": 4,
-      "type": "LATENT"
-     },
-     {
-      "id": 2037,
-      "origin_id": 883,
-      "origin_slot": 0,
-      "target_id": 825,
-      "target_slot": 0,
-      "type": "LATENT"
-     },
-     {
-      "id": 2038,
-      "origin_id": 825,
-      "origin_slot": 0,
-      "target_id": 826,
-      "target_slot": 0,
-      "type": "LATENT"
-     },
-     {
-      "id": 2034,
-      "origin_id": 817,
-      "origin_slot": 0,
-      "target_id": 822,
-      "target_slot": 1,
-      "type": "LATENT"
-     },
-     {
-      "id": 2271,
-      "origin_id": 907,
-      "origin_slot": 0,
-      "target_id": 817,
-      "target_slot": 0,
-      "type": "LATENT"
-     },
-     {
-      "id": 2028,
-      "origin_id": 818,
-      "origin_slot": 0,
-      "target_id": 817,
-      "target_slot": 1,
-      "type": "MASK"
-     },
-     {
-      "id": 2270,
-      "origin_id": -10,
-      "origin_slot": 0,
-      "target_id": 828,
-      "target_slot": 0,
-      "type": "MODEL"
-     },
-     {
-      "id": 2046,
-      "origin_id": -10,
-      "origin_slot": 1,
-      "target_id": 828,
-      "target_slot": 1,
-      "type": "CONDITIONING"
-     },
-     {
-      "id": 2047,
-      "origin_id": -10,
-      "origin_slot": 2,
-      "target_id": 828,
-      "target_slot": 2,
-      "type": "CONDITIONING"
-     },
-     {
-      "id": 2339,
-      "origin_id": -10,
-      "origin_slot": 4,
-      "target_id": 826,
-      "target_slot": 1,
-      "type": "VAE"
-     },
-     {
-      "id": 2398,
-      "origin_id": -10,
-      "origin_slot": 6,
-      "target_id": 907,
-      "target_slot": 1,
-      "type": "VAE"
-     },
-     {
-      "id": 2172,
-      "origin_id": 826,
-      "origin_slot": 0,
-      "target_id": -20,
-      "target_slot": 0,
-      "type": "IMAGE"
-     },
-     {
-      "id": 2579,
-      "origin_id": 991,
-      "origin_slot": 0,
-      "target_id": 907,
-      "target_slot": 0,
-      "type": "AUDIO"
-     },
-     {
-      "id": 2580,
-      "origin_id": -10,
-      "origin_slot": 5,
-      "target_id": 991,
-      "target_slot": 0,
-      "type": "AUDIO"
-     },
-     {
-      "id": 2581,
-      "origin_id": -10,
-      "origin_slot": 7,
-      "target_id": 991,
-      "target_slot": 1,
-      "type": "FLOAT"
-     },
-     {
-      "id": 2586,
-      "origin_id": -10,
-      "origin_slot": 3,
-      "target_id": 822,
-      "target_slot": 0,
-      "type": "LATENT"
-     },
-     {
-      "id": 2587,
-      "origin_id": -10,
-      "origin_slot": 3,
-      "target_id": 939,
-      "target_slot": 0,
-      "type": "LATENT"
-     }
-    ],
-    "extra": {
-     "workflowRendererVersion": "LG"
     }
    }
   ]

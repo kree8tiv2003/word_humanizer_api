@@ -47,7 +47,7 @@
  "6": {
   "class_type": "PrimitiveStringMultiline",
   "inputs": {
-   "value": "Tracking side dolly. The woman walks slowly across the stage while singing passionately, the spotlight sweeping to follow her. Crowd heads turn to follow her."
+   "value": "Slow tracking side dolly. The woman walks slowly across the stage singing, the microphone held steadily at her lips, her free arm relaxed at her side. The spotlight glides to follow her. Her hands move slowly and naturally and keep a steady grip on the microphone; smooth, gentle movement, no fast arm swings."
   },
   "_meta": {
    "title": "Scene 07 motion prompt"
@@ -102,7 +102,7 @@
  "11:922": {
   "class_type": "CLIPTextEncode",
   "inputs": {
-   "text": "still image with no motion, subtitles, text, scene change",
+   "text": "still image with no motion, subtitles, text, scene change, distorted hands, extra fingers, fused fingers, missing fingers, morphing hands, melting hands, fast arm movement, motion blur",
    "clip": [
     "11:951",
     0
@@ -150,12 +150,12 @@
   "class_type": "EmptyLTXVLatentVideo",
   "inputs": {
    "width": [
-    "11:923",
-    1
+    "11:1005",
+    0
    ],
    "height": [
-    "11:923",
-    2
+    "11:1005",
+    1
    ],
    "length": [
     "9",
@@ -164,7 +164,7 @@
    "batch_size": 1
   },
   "_meta": {
-   "title": "EmptyLTXVLatentVideo"
+   "title": "Stage 1 latent (half size)"
   }
  },
  "11:933": {
@@ -218,204 +218,12 @@
     0
    ],
    "num_images.image_1": [
-    "11:821",
+    "11:1004",
     0
    ]
   },
   "_meta": {
    "title": "LTXVImgToVideoInplaceKJ"
-  }
- },
- "11:978:883": {
-  "class_type": "SamplerCustomAdvanced",
-  "inputs": {
-   "noise": [
-    "11:978:863",
-    0
-   ],
-   "guider": [
-    "11:978:828",
-    0
-   ],
-   "sampler": [
-    "11:978:944",
-    0
-   ],
-   "sigmas": [
-    "11:978:939",
-    0
-   ],
-   "latent_image": [
-    "11:978:822",
-    0
-   ]
-  },
-  "_meta": {
-   "title": "SamplerCustomAdvanced"
-  }
- },
- "11:978:828": {
-  "class_type": "CFGGuider",
-  "inputs": {
-   "cfg": 1,
-   "model": [
-    "11:933",
-    0
-   ],
-   "positive": [
-    "11:927",
-    0
-   ],
-   "negative": [
-    "11:927",
-    1
-   ]
-  },
-  "_meta": {
-   "title": "CFGGuider"
-  }
- },
- "11:978:825": {
-  "class_type": "LTXVSeparateAVLatent",
-  "inputs": {
-   "av_latent": [
-    "11:978:883",
-    0
-   ]
-  },
-  "_meta": {
-   "title": "LTXVSeparateAVLatent"
-  }
- },
- "11:978:944": {
-  "class_type": "KSamplerSelect",
-  "inputs": {
-   "sampler_name": "lcm"
-  },
-  "_meta": {
-   "title": "KSamplerSelect"
-  }
- },
- "11:978:939": {
-  "class_type": "LTXVScheduler",
-  "inputs": {
-   "steps": 8,
-   "max_shift": 2.05,
-   "base_shift": 0.95,
-   "stretch": true,
-   "terminal": 0.1,
-   "latent": [
-    "11:842",
-    0
-   ]
-  },
-  "_meta": {
-   "title": "LTXVScheduler"
-  }
- },
- "11:978:826": {
-  "class_type": "VAEDecodeTiled",
-  "inputs": {
-   "tile_size": 1024,
-   "overlap": 64,
-   "temporal_size": 128,
-   "temporal_overlap": 16,
-   "samples": [
-    "11:978:825",
-    0
-   ],
-   "vae": [
-    "11:904",
-    0
-   ]
-  },
-  "_meta": {
-   "title": "VAEDecodeTiled"
-  }
- },
- "11:978:863": {
-  "class_type": "RandomNoise",
-  "inputs": {
-   "noise_seed": 44
-  },
-  "_meta": {
-   "title": "RandomNoise"
-  }
- },
- "11:978:818": {
-  "class_type": "SolidMask",
-  "inputs": {
-   "value": 0,
-   "width": 512,
-   "height": 512
-  },
-  "_meta": {
-   "title": "SolidMask"
-  }
- },
- "11:978:822": {
-  "class_type": "LTXVConcatAVLatent",
-  "inputs": {
-   "video_latent": [
-    "11:842",
-    0
-   ],
-   "audio_latent": [
-    "11:978:817",
-    0
-   ]
-  },
-  "_meta": {
-   "title": "LTXVConcatAVLatent"
-  }
- },
- "11:978:991": {
-  "class_type": "TrimAudioDuration",
-  "inputs": {
-   "start_index": 0,
-   "duration": [
-    "10",
-    0
-   ],
-   "audio": [
-    "11:890",
-    3
-   ]
-  },
-  "_meta": {
-   "title": "TrimAudioDuration"
-  }
- },
- "11:978:907": {
-  "class_type": "LTXVAudioVAEEncode",
-  "inputs": {
-   "audio": [
-    "11:978:991",
-    0
-   ],
-   "audio_vae": [
-    "11:895",
-    0
-   ]
-  },
-  "_meta": {
-   "title": "LTXVAudioVAEEncode"
-  }
- },
- "11:978:817": {
-  "class_type": "SetLatentNoiseMask",
-  "inputs": {
-   "samples": [
-    "11:978:907",
-    0
-   ],
-   "mask": [
-    "11:978:818",
-    0
-   ]
-  },
-  "_meta": {
-   "title": "SetLatentNoiseMask"
   }
  },
  "11:995": {
@@ -429,7 +237,7 @@
    "color_space": "sRGB",
    "codec": "none",
    "images": [
-    "11:978:826",
+    "11:1027",
     0
    ],
    "audio": [
@@ -472,7 +280,7 @@
  "11:820": {
   "class_type": "LTX2_NAG",
   "inputs": {
-   "nag_scale": 11,
+   "nag_scale": 6,
    "nag_alpha": 0.25,
    "nag_tau": 2.5,
    "inplace": true,
@@ -492,7 +300,7 @@
  "11:821": {
   "class_type": "LTXVPreprocess",
   "inputs": {
-   "img_compression": 25,
+   "img_compression": 15,
    "image": [
     "11:923",
     0
@@ -517,7 +325,7 @@
    "keep_proportion": "crop",
    "pad_color": "0, 0, 0",
    "crop_position": "center",
-   "divisible_by": 32,
+   "divisible_by": 64,
    "device": "cpu",
    "image": [
     "5",
@@ -525,7 +333,7 @@
    ]
   },
   "_meta": {
-   "title": "ImageResizeKJv2"
+   "title": "Resize start frame to FINAL size"
   }
  },
  "11:892": {
@@ -584,6 +392,375 @@
   },
   "_meta": {
    "title": "VAELoaderKJ"
+  }
+ },
+ "11:1004": {
+  "class_type": "ImageScaleBy",
+  "inputs": {
+   "upscale_method": "lanczos",
+   "scale_by": 0.5,
+   "image": [
+    "11:821",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "Stage 1: half-size start frame"
+  }
+ },
+ "11:1005": {
+  "class_type": "GetImageSize",
+  "inputs": {
+   "image": [
+    "11:1004",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "GetImageSize"
+  }
+ },
+ "11:1006": {
+  "class_type": "CFGGuider",
+  "inputs": {
+   "cfg": 1,
+   "model": [
+    "11:933",
+    0
+   ],
+   "positive": [
+    "11:927",
+    0
+   ],
+   "negative": [
+    "11:927",
+    1
+   ]
+  },
+  "_meta": {
+   "title": "CFG guider (cfg 1)"
+  }
+ },
+ "11:1007": {
+  "class_type": "TrimAudioDuration",
+  "inputs": {
+   "start_index": 0,
+   "duration": [
+    "10",
+    0
+   ],
+   "audio": [
+    "11:890",
+    3
+   ]
+  },
+  "_meta": {
+   "title": "Trim vocals to scene length"
+  }
+ },
+ "11:1008": {
+  "class_type": "LTXVAudioVAEEncode",
+  "inputs": {
+   "audio": [
+    "11:1007",
+    0
+   ],
+   "audio_vae": [
+    "11:895",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTXVAudioVAEEncode"
+  }
+ },
+ "11:1009": {
+  "class_type": "SolidMask",
+  "inputs": {
+   "value": 0,
+   "width": 512,
+   "height": 512
+  },
+  "_meta": {
+   "title": "Audio mask = 0 (keep the song)"
+  }
+ },
+ "11:1010": {
+  "class_type": "SetLatentNoiseMask",
+  "inputs": {
+   "samples": [
+    "11:1008",
+    0
+   ],
+   "mask": [
+    "11:1009",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "SetLatentNoiseMask"
+  }
+ },
+ "11:1011": {
+  "class_type": "LTXVConcatAVLatent",
+  "inputs": {
+   "video_latent": [
+    "11:842",
+    0
+   ],
+   "audio_latent": [
+    "11:1010",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTXVConcatAVLatent"
+  }
+ },
+ "11:1012": {
+  "class_type": "RandomNoise",
+  "inputs": {
+   "noise_seed": 44
+  },
+  "_meta": {
+   "title": "Stage 1 noise"
+  }
+ },
+ "11:1013": {
+  "class_type": "KSamplerSelect",
+  "inputs": {
+   "sampler_name": "lcm"
+  },
+  "_meta": {
+   "title": "KSamplerSelect"
+  }
+ },
+ "11:1014": {
+  "class_type": "LTXVScheduler",
+  "inputs": {
+   "steps": 10,
+   "max_shift": 2.05,
+   "base_shift": 0.95,
+   "stretch": true,
+   "terminal": 0.05,
+   "latent": [
+    "11:842",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "Stage 1 sigmas (10 steps)"
+  }
+ },
+ "11:1015": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "noise": [
+    "11:1012",
+    0
+   ],
+   "guider": [
+    "11:1006",
+    0
+   ],
+   "sampler": [
+    "11:1013",
+    0
+   ],
+   "sigmas": [
+    "11:1014",
+    0
+   ],
+   "latent_image": [
+    "11:1011",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "Stage 1 sample (half size)"
+  }
+ },
+ "11:1016": {
+  "class_type": "LTXVSeparateAVLatent",
+  "inputs": {
+   "av_latent": [
+    "11:1015",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTXVSeparateAVLatent"
+  }
+ },
+ "11:1017": {
+  "class_type": "LatentUpscaleModelLoader",
+  "inputs": {
+   "model_name": "ltx-2-spatial-upscaler-x2-1.0.safetensors"
+  },
+  "_meta": {
+   "title": "LTX-2 spatial upscaler x2"
+  }
+ },
+ "11:1018": {
+  "class_type": "LTXVLatentUpsampler",
+  "inputs": {
+   "samples": [
+    "11:1016",
+    0
+   ],
+   "upscale_model": [
+    "11:1017",
+    0
+   ],
+   "vae": [
+    "11:904",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "Stage 2: upscale latent 2x"
+  }
+ },
+ "11:1019": {
+  "class_type": "LTXVImgToVideoInplaceKJ",
+  "inputs": {
+   "num_images": "1",
+   "num_images.strength_1": 1,
+   "num_images.index_1": 0,
+   "vae": [
+    "11:904",
+    0
+   ],
+   "latent": [
+    "11:1018",
+    0
+   ],
+   "num_images.image_1": [
+    "11:821",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "Stage 2: first frame at full size"
+  }
+ },
+ "11:1020": {
+  "class_type": "SetLatentNoiseMask",
+  "inputs": {
+   "samples": [
+    "11:1016",
+    1
+   ],
+   "mask": [
+    "11:1009",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "SetLatentNoiseMask"
+  }
+ },
+ "11:1021": {
+  "class_type": "LTXVConcatAVLatent",
+  "inputs": {
+   "video_latent": [
+    "11:1019",
+    0
+   ],
+   "audio_latent": [
+    "11:1020",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTXVConcatAVLatent"
+  }
+ },
+ "11:1022": {
+  "class_type": "RandomNoise",
+  "inputs": {
+   "noise_seed": 45
+  },
+  "_meta": {
+   "title": "Stage 2 noise"
+  }
+ },
+ "11:1023": {
+  "class_type": "KSamplerSelect",
+  "inputs": {
+   "sampler_name": "euler"
+  },
+  "_meta": {
+   "title": "KSamplerSelect"
+  }
+ },
+ "11:1024": {
+  "class_type": "ManualSigmas",
+  "inputs": {
+   "sigmas": "0.909375, 0.725, 0.421875, 0.0"
+  },
+  "_meta": {
+   "title": "Stage 2 refine sigmas"
+  }
+ },
+ "11:1025": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "noise": [
+    "11:1022",
+    0
+   ],
+   "guider": [
+    "11:1006",
+    0
+   ],
+   "sampler": [
+    "11:1023",
+    0
+   ],
+   "sigmas": [
+    "11:1024",
+    0
+   ],
+   "latent_image": [
+    "11:1021",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "Stage 2 refine (full size)"
+  }
+ },
+ "11:1026": {
+  "class_type": "LTXVSeparateAVLatent",
+  "inputs": {
+   "av_latent": [
+    "11:1025",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "LTXVSeparateAVLatent"
+  }
+ },
+ "11:1027": {
+  "class_type": "VAEDecodeTiled",
+  "inputs": {
+   "tile_size": 1536,
+   "overlap": 128,
+   "temporal_size": 128,
+   "temporal_overlap": 16,
+   "samples": [
+    "11:1026",
+    0
+   ],
+   "vae": [
+    "11:904",
+    0
+   ]
+  },
+  "_meta": {
+   "title": "Decode (single 1536 tile)"
   }
  },
  "12": {

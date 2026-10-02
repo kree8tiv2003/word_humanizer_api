@@ -1,5 +1,5 @@
 {
- "id": "39a6307b-d6f4-448b-ab9c-e5f3f1373fb3",
+ "id": "f0eab75f-ce29-4d6e-9cae-5713f1884c39",
  "revision": 0,
  "last_node_id": 171,
  "last_link_id": 456,
@@ -87,11 +87,11 @@
     }
    },
    "widgets_values": [
-    "Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors",
+    "Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors",
     1.0
    ],
    "widgets_values_named": {
-    "lora_name": "Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors",
+    "lora_name": "Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors",
     "strength_model": 1.0
    }
   },
@@ -655,10 +655,10 @@
     }
    },
    "widgets_values": [
-    "Qwen-Image-Edit-2509 + Lightning 4-step LoRA (all core ComfyUI nodes).\n\nimage 1 = singer close-up, image 2 = wardrobe/character sheet, image 3 = the Scene 01 empty-stage plate, reused as the venue reference for every later scene so the club stays the same.\n\nModels:\n- diffusion_models/qwen_image_edit_2509_fp8_e4m3fn.safetensors (Comfy-Org/Qwen-Image-Edit_ComfyUI)\n- loras/Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors (lightx2v/Qwen-Image-Lightning)\n- text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors, vae/qwen_image_vae.safetensors (Comfy-Org/Qwen-Image_ComfyUI)\n\nChange a scene's KSampler seed to re-roll only that shot.\n"
+    "Qwen-Image-Edit-2509 + Lightning 8-step LoRA (all core ComfyUI nodes).\n\nimage 1 = singer close-up, image 2 = wardrobe/character sheet, image 3 = the Scene 01 empty-stage plate, reused as the venue reference for every later scene so the club stays the same.\n\nModels:\n- diffusion_models/qwen_image_edit_2509_fp8_e4m3fn.safetensors (Comfy-Org/Qwen-Image-Edit_ComfyUI)\n- loras/Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors (lightx2v/Qwen-Image-Lightning)\n- text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors, vae/qwen_image_vae.safetensors (Comfy-Org/Qwen-Image_ComfyUI)\n\nCheck every still's hands before rendering video: the LTX clip inherits whatever hand is in its first frame. Change a scene's KSampler seed to re-roll only that shot.\n"
    ],
    "widgets_values_named": {
-    "text": "Qwen-Image-Edit-2509 + Lightning 4-step LoRA (all core ComfyUI nodes).\n\nimage 1 = singer close-up, image 2 = wardrobe/character sheet, image 3 = the Scene 01 empty-stage plate, reused as the venue reference for every later scene so the club stays the same.\n\nModels:\n- diffusion_models/qwen_image_edit_2509_fp8_e4m3fn.safetensors (Comfy-Org/Qwen-Image-Edit_ComfyUI)\n- loras/Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors (lightx2v/Qwen-Image-Lightning)\n- text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors, vae/qwen_image_vae.safetensors (Comfy-Org/Qwen-Image_ComfyUI)\n\nChange a scene's KSampler seed to re-roll only that shot.\n"
+    "text": "Qwen-Image-Edit-2509 + Lightning 8-step LoRA (all core ComfyUI nodes).\n\nimage 1 = singer close-up, image 2 = wardrobe/character sheet, image 3 = the Scene 01 empty-stage plate, reused as the venue reference for every later scene so the club stays the same.\n\nModels:\n- diffusion_models/qwen_image_edit_2509_fp8_e4m3fn.safetensors (Comfy-Org/Qwen-Image-Edit_ComfyUI)\n- loras/Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors (lightx2v/Qwen-Image-Lightning)\n- text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors, vae/qwen_image_vae.safetensors (Comfy-Org/Qwen-Image_ComfyUI)\n\nCheck every still's hands before rendering video: the LTX clip inherits whatever hand is in its first frame. Change a scene's KSampler seed to re-roll only that shot.\n"
    },
    "title": "Scene stills",
    "color": "#222",
@@ -829,10 +829,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -971,7 +971,7 @@
    "widgets_values": [
     1001,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -979,7 +979,7 @@
    ],
    "widgets_values_named": {
     "seed": 1001,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -1204,10 +1204,10 @@
     }
    },
    "widgets_values": [
-    "The woman from image 1, wearing the red beaded mermaid gown from image 2, steps out of darkness into a single warm spotlight on the small nightclub stage from image 3, head bowed, silver drop earrings catching the light, hand reaching for the handheld microphone. Low-angle cinematic view, haze, candlelit patrons blurred in the foreground."
+    "The woman from image 1, wearing the red beaded mermaid gown from image 2, steps out of darkness into a single warm spotlight on the small nightclub stage from image 3, head bowed, silver drop earrings catching the light, hand reaching for the handheld microphone. Low-angle cinematic view, haze, candlelit patrons blurred in the foreground. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "The woman from image 1, wearing the red beaded mermaid gown from image 2, steps out of darkness into a single warm spotlight on the small nightclub stage from image 3, head bowed, silver drop earrings catching the light, hand reaching for the handheld microphone. Low-angle cinematic view, haze, candlelit patrons blurred in the foreground."
+    "prompt": "The woman from image 1, wearing the red beaded mermaid gown from image 2, steps out of darkness into a single warm spotlight on the small nightclub stage from image 3, head bowed, silver drop earrings catching the light, hand reaching for the handheld microphone. Low-angle cinematic view, haze, candlelit patrons blurred in the foreground. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 02 prompt",
    "color": "#232",
@@ -1291,10 +1291,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -1433,7 +1433,7 @@
    "widgets_values": [
     1002,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -1441,7 +1441,7 @@
    ],
    "widgets_values_named": {
     "seed": 1002,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -1614,10 +1614,10 @@
     }
    },
    "widgets_values": [
-    "Close-up of the woman from image 1 in the red beaded gown from image 2, eyes gently closed, singing softly into a handheld microphone under a tight warm spotlight, soft haze, shallow depth of field, dark blurred nightclub background from image 3, amber highlights and deep shadows."
+    "Close-up of the woman from image 1 in the red beaded gown from image 2, eyes gently closed, singing softly into a handheld microphone under a tight warm spotlight, soft haze, shallow depth of field, dark blurred nightclub background from image 3, amber highlights and deep shadows. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Close-up of the woman from image 1 in the red beaded gown from image 2, eyes gently closed, singing softly into a handheld microphone under a tight warm spotlight, soft haze, shallow depth of field, dark blurred nightclub background from image 3, amber highlights and deep shadows."
+    "prompt": "Close-up of the woman from image 1 in the red beaded gown from image 2, eyes gently closed, singing softly into a handheld microphone under a tight warm spotlight, soft haze, shallow depth of field, dark blurred nightclub background from image 3, amber highlights and deep shadows. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 03 prompt",
    "color": "#232",
@@ -1701,10 +1701,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -1843,7 +1843,7 @@
    "widgets_values": [
     1003,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -1851,7 +1851,7 @@
    ],
    "widgets_values_named": {
     "seed": 1003,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -2024,10 +2024,10 @@
     }
    },
    "widgets_values": [
-    "Medium shot of the woman from image 1 in the red beaded gown from image 2 under a single spotlight on the small stage from image 3, eyes open, one hand resting over her heart while she sings into the microphone, blurred silhouettes of patrons at candlelit tables in the dark foreground."
+    "Medium shot of the woman from image 1 in the red beaded gown from image 2 under a single spotlight on the small stage from image 3, eyes open, one hand resting over her heart while she sings into the microphone, blurred silhouettes of patrons at candlelit tables in the dark foreground. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Medium shot of the woman from image 1 in the red beaded gown from image 2 under a single spotlight on the small stage from image 3, eyes open, one hand resting over her heart while she sings into the microphone, blurred silhouettes of patrons at candlelit tables in the dark foreground."
+    "prompt": "Medium shot of the woman from image 1 in the red beaded gown from image 2 under a single spotlight on the small stage from image 3, eyes open, one hand resting over her heart while she sings into the microphone, blurred silhouettes of patrons at candlelit tables in the dark foreground. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 04 prompt",
    "color": "#232",
@@ -2111,10 +2111,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -2253,7 +2253,7 @@
    "widgets_values": [
     1004,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -2261,7 +2261,7 @@
    ],
    "widgets_values_named": {
     "seed": 1004,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -2434,10 +2434,10 @@
     }
    },
    "widgets_values": [
-    "Wide over-the-shoulder shot from behind seated patrons looking toward the small nightclub stage from image 3, where the woman from image 1 in the red beaded gown from image 2 sings under a lone spotlight. Heads and shoulders of an attentive, smiling crowd in warm neutral clothes fill the foreground, haze catches the beam, exposed brick, string lights."
+    "Wide over-the-shoulder shot from behind seated patrons looking toward the small nightclub stage from image 3, where the woman from image 1 in the red beaded gown from image 2 sings under a lone spotlight. Heads and shoulders of an attentive, smiling crowd in warm neutral clothes fill the foreground, haze catches the beam, exposed brick, string lights. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Wide over-the-shoulder shot from behind seated patrons looking toward the small nightclub stage from image 3, where the woman from image 1 in the red beaded gown from image 2 sings under a lone spotlight. Heads and shoulders of an attentive, smiling crowd in warm neutral clothes fill the foreground, haze catches the beam, exposed brick, string lights."
+    "prompt": "Wide over-the-shoulder shot from behind seated patrons looking toward the small nightclub stage from image 3, where the woman from image 1 in the red beaded gown from image 2 sings under a lone spotlight. Heads and shoulders of an attentive, smiling crowd in warm neutral clothes fill the foreground, haze catches the beam, exposed brick, string lights. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 05 prompt",
    "color": "#232",
@@ -2521,10 +2521,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -2663,7 +2663,7 @@
    "widgets_values": [
     1005,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -2671,7 +2671,7 @@
    ],
    "widgets_values_named": {
     "seed": 1005,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -2844,10 +2844,10 @@
     }
    },
    "widgets_values": [
-    "Close shot of the woman from image 1 in the red beaded gown from image 2 gripping the handheld microphone tightly near her lips, face lit by a warming spotlight, expression intensifying mid-lyric, dark hazy nightclub background from image 3, warm rim light, shallow focus."
+    "Tight close-up of the face of the woman from image 1, wearing the red beaded gown from image 2, singing with intensifying expression, the microphone held steady just below her lips, face lit by a warming spotlight, dark hazy nightclub background from image 3, warm rim light, shallow focus. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Close shot of the woman from image 1 in the red beaded gown from image 2 gripping the handheld microphone tightly near her lips, face lit by a warming spotlight, expression intensifying mid-lyric, dark hazy nightclub background from image 3, warm rim light, shallow focus."
+    "prompt": "Tight close-up of the face of the woman from image 1, wearing the red beaded gown from image 2, singing with intensifying expression, the microphone held steady just below her lips, face lit by a warming spotlight, dark hazy nightclub background from image 3, warm rim light, shallow focus. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 06 prompt",
    "color": "#232",
@@ -2931,10 +2931,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -3073,7 +3073,7 @@
    "widgets_values": [
     1006,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -3081,7 +3081,7 @@
    ],
    "widgets_values_named": {
     "seed": 1006,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -3254,10 +3254,10 @@
     }
    },
    "widgets_values": [
-    "Side view of the woman from image 1 in the red beaded mermaid gown from image 2 walking slowly across the small nightclub stage from image 3, singing passionately into the microphone, a spotlight following her, haze trails in the beam, crowd silhouettes turning to watch."
+    "Side view of the woman from image 1 in the red beaded mermaid gown from image 2 walking slowly across the small nightclub stage from image 3, singing passionately into the microphone, a spotlight following her, haze trails in the beam, crowd silhouettes turning to watch. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Side view of the woman from image 1 in the red beaded mermaid gown from image 2 walking slowly across the small nightclub stage from image 3, singing passionately into the microphone, a spotlight following her, haze trails in the beam, crowd silhouettes turning to watch."
+    "prompt": "Side view of the woman from image 1 in the red beaded mermaid gown from image 2 walking slowly across the small nightclub stage from image 3, singing passionately into the microphone, a spotlight following her, haze trails in the beam, crowd silhouettes turning to watch. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 07 prompt",
    "color": "#232",
@@ -3341,10 +3341,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -3483,7 +3483,7 @@
    "widgets_values": [
     1007,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -3491,7 +3491,7 @@
    ],
    "widgets_values_named": {
     "seed": 1007,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -3664,10 +3664,10 @@
     }
    },
    "widgets_values": [
-    "Low-angle shot from inside the crowd looking up at the woman from image 1 in the red beaded gown from image 2 at the edge of the small stage from image 3, leaning forward, free hand reaching toward the audience while singing into the microphone, spotlight haloing around her, raised hands of patrons reaching into frame."
+    "Low-angle medium shot from inside the crowd of the woman from image 1 in the red beaded gown from image 2 at the edge of the small stage from image 3, leaning slightly toward the audience while singing into the microphone, her free hand open and still, spotlight haloing around her, patrons looking up at her. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Low-angle shot from inside the crowd looking up at the woman from image 1 in the red beaded gown from image 2 at the edge of the small stage from image 3, leaning forward, free hand reaching toward the audience while singing into the microphone, spotlight haloing around her, raised hands of patrons reaching into frame."
+    "prompt": "Low-angle medium shot from inside the crowd of the woman from image 1 in the red beaded gown from image 2 at the edge of the small stage from image 3, leaning slightly toward the audience while singing into the microphone, her free hand open and still, spotlight haloing around her, patrons looking up at her. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 08 prompt",
    "color": "#232",
@@ -3751,10 +3751,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -3893,7 +3893,7 @@
    "widgets_values": [
     1008,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -3901,7 +3901,7 @@
    ],
    "widgets_values_named": {
     "seed": 1008,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -4074,10 +4074,10 @@
     }
    },
    "widgets_values": [
-    "Medium shot of the woman from image 1 in the red beaded gown from image 2 on the small stage from image 3, head tilted back slightly, one arm raised triumphantly, belting into the microphone, spotlight blooming wide and bright with lens flare through haze."
+    "Medium close-up of the woman from image 1 in the red beaded gown from image 2 on the small stage from image 3, head tilted back slightly, belting into the microphone, spotlight blooming wide and bright with soft lens flare through haze. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Medium shot of the woman from image 1 in the red beaded gown from image 2 on the small stage from image 3, head tilted back slightly, one arm raised triumphantly, belting into the microphone, spotlight blooming wide and bright with lens flare through haze."
+    "prompt": "Medium close-up of the woman from image 1 in the red beaded gown from image 2 on the small stage from image 3, head tilted back slightly, belting into the microphone, spotlight blooming wide and bright with soft lens flare through haze. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 09 prompt",
    "color": "#232",
@@ -4161,10 +4161,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -4303,7 +4303,7 @@
    "widgets_values": [
     1009,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -4311,7 +4311,7 @@
    ],
    "widgets_values_named": {
     "seed": 1009,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -4484,10 +4484,10 @@
     }
    },
    "widgets_values": [
-    "Wide shot of the entire small nightclub from image 3: the woman from image 1 in the red beaded gown from image 2 singing center stage in a wide bright spotlight, a standing crowd in warm neutral clothes with hands raised and phone flashlights glowing, singing along, warm haze."
+    "Wide shot of the entire small nightclub from image 3: the woman from image 1 in the red beaded gown from image 2 singing center stage in a wide bright spotlight, a standing crowd in warm neutral clothes with hands raised and phone flashlights glowing, singing along, warm haze. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Wide shot of the entire small nightclub from image 3: the woman from image 1 in the red beaded gown from image 2 singing center stage in a wide bright spotlight, a standing crowd in warm neutral clothes with hands raised and phone flashlights glowing, singing along, warm haze."
+    "prompt": "Wide shot of the entire small nightclub from image 3: the woman from image 1 in the red beaded gown from image 2 singing center stage in a wide bright spotlight, a standing crowd in warm neutral clothes with hands raised and phone flashlights glowing, singing along, warm haze. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 10 prompt",
    "color": "#232",
@@ -4571,10 +4571,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -4713,7 +4713,7 @@
    "widgets_values": [
     1010,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -4721,7 +4721,7 @@
    ],
    "widgets_values_named": {
     "seed": 1010,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -4894,10 +4894,10 @@
     }
    },
    "widgets_values": [
-    "Close-up of the woman from image 1 in the red beaded gown from image 2 singing with intense emotion under a bright spotlight, light glistening on her skin, eyes wide with passion, blurred joyful crowd at the edges of the frame, dark nightclub from image 3."
+    "Close-up of the woman from image 1 in the red beaded gown from image 2 singing with intense emotion under a bright spotlight, light glistening on her skin, eyes wide with passion, blurred joyful crowd at the edges of the frame, dark nightclub from image 3. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Close-up of the woman from image 1 in the red beaded gown from image 2 singing with intense emotion under a bright spotlight, light glistening on her skin, eyes wide with passion, blurred joyful crowd at the edges of the frame, dark nightclub from image 3."
+    "prompt": "Close-up of the woman from image 1 in the red beaded gown from image 2 singing with intense emotion under a bright spotlight, light glistening on her skin, eyes wide with passion, blurred joyful crowd at the edges of the frame, dark nightclub from image 3. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 11 prompt",
    "color": "#232",
@@ -4981,10 +4981,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -5123,7 +5123,7 @@
    "widgets_values": [
     1011,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -5131,7 +5131,7 @@
    ],
    "widgets_values_named": {
     "seed": 1011,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -5304,10 +5304,10 @@
     }
    },
    "widgets_values": [
-    "The woman from image 1 in the red beaded mermaid gown from image 2 turning gracefully on the small stage from image 3, arms open wide to an adoring crowd, gown sparkling in the spotlight, haze swirling."
+    "Waist-up shot of the woman from image 1 in the red beaded mermaid gown from image 2 on the small stage from image 3, singing into the microphone with a joyful expression, gown sparkling in the spotlight, haze swirling, adoring crowd blurred behind. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "The woman from image 1 in the red beaded mermaid gown from image 2 turning gracefully on the small stage from image 3, arms open wide to an adoring crowd, gown sparkling in the spotlight, haze swirling."
+    "prompt": "Waist-up shot of the woman from image 1 in the red beaded mermaid gown from image 2 on the small stage from image 3, singing into the microphone with a joyful expression, gown sparkling in the spotlight, haze swirling, adoring crowd blurred behind. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 12 prompt",
    "color": "#232",
@@ -5391,10 +5391,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -5533,7 +5533,7 @@
    "widgets_values": [
     1012,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -5541,7 +5541,7 @@
    ],
    "widgets_values_named": {
     "seed": 1012,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -5714,10 +5714,10 @@
     }
    },
    "widgets_values": [
-    "Medium front shot of the woman from image 1 in the red beaded gown from image 2 walking slowly toward the front of the small stage from image 3, softer warm spotlight, singing with quiet intensity while looking out at patrons at candlelit tables."
+    "Medium front shot of the woman from image 1 in the red beaded gown from image 2 walking slowly toward the front of the small stage from image 3, softer warm spotlight, singing with quiet intensity while looking out at patrons at candlelit tables. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Medium front shot of the woman from image 1 in the red beaded gown from image 2 walking slowly toward the front of the small stage from image 3, softer warm spotlight, singing with quiet intensity while looking out at patrons at candlelit tables."
+    "prompt": "Medium front shot of the woman from image 1 in the red beaded gown from image 2 walking slowly toward the front of the small stage from image 3, softer warm spotlight, singing with quiet intensity while looking out at patrons at candlelit tables. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 13 prompt",
    "color": "#232",
@@ -5801,10 +5801,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -5943,7 +5943,7 @@
    "widgets_values": [
     1013,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -5951,7 +5951,7 @@
    ],
    "widgets_values_named": {
     "seed": 1013,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -6124,10 +6124,10 @@
     }
    },
    "widgets_values": [
-    "Shot from behind and beside the woman from image 1 in the red beaded gown from image 2 crouching at the edge of the small stage from image 3, gently touching the outstretched hand of a smiling woman patron in a cream blouse, singing with a warm smile, soft spotlight spill."
+    "Shot from behind and beside the woman from image 1 in the red beaded gown from image 2 crouching at the edge of the small stage from image 3, gently touching the outstretched hand of a smiling woman patron in a cream blouse, singing with a warm smile, soft spotlight spill. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Shot from behind and beside the woman from image 1 in the red beaded gown from image 2 crouching at the edge of the small stage from image 3, gently touching the outstretched hand of a smiling woman patron in a cream blouse, singing with a warm smile, soft spotlight spill."
+    "prompt": "Shot from behind and beside the woman from image 1 in the red beaded gown from image 2 crouching at the edge of the small stage from image 3, gently touching the outstretched hand of a smiling woman patron in a cream blouse, singing with a warm smile, soft spotlight spill. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 14 prompt",
    "color": "#232",
@@ -6211,10 +6211,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -6353,7 +6353,7 @@
    "widgets_values": [
     1014,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -6361,7 +6361,7 @@
    ],
    "widgets_values_named": {
     "seed": 1014,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -6534,10 +6534,10 @@
     }
    },
    "widgets_values": [
-    "The woman from image 1 in the red beaded gown from image 2 standing and turning back toward center stage of the small nightclub from image 3, spotlight narrowing into a tighter focused beam around her, contemplative expression, warm rim light, haze."
+    "The woman from image 1 in the red beaded gown from image 2 standing and turning back toward center stage of the small nightclub from image 3, spotlight narrowing into a tighter focused beam around her, contemplative expression, warm rim light, haze. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "The woman from image 1 in the red beaded gown from image 2 standing and turning back toward center stage of the small nightclub from image 3, spotlight narrowing into a tighter focused beam around her, contemplative expression, warm rim light, haze."
+    "prompt": "The woman from image 1 in the red beaded gown from image 2 standing and turning back toward center stage of the small nightclub from image 3, spotlight narrowing into a tighter focused beam around her, contemplative expression, warm rim light, haze. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 15 prompt",
    "color": "#232",
@@ -6621,10 +6621,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -6763,7 +6763,7 @@
    "widgets_values": [
     1015,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -6771,7 +6771,7 @@
    ],
    "widgets_values_named": {
     "seed": 1015,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -6944,10 +6944,10 @@
     }
    },
    "widgets_values": [
-    "The woman from image 1 in the red beaded gown from image 2 pacing across the small stage from image 3 with expressive hand gestures while singing, spotlight pulsing, crowd in warm neutral clothes beginning to rise from their seats in the background."
+    "The woman from image 1 in the red beaded gown from image 2 pacing across the small stage from image 3 with expressive hand gestures while singing, spotlight pulsing, crowd in warm neutral clothes beginning to rise from their seats in the background. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "The woman from image 1 in the red beaded gown from image 2 pacing across the small stage from image 3 with expressive hand gestures while singing, spotlight pulsing, crowd in warm neutral clothes beginning to rise from their seats in the background."
+    "prompt": "The woman from image 1 in the red beaded gown from image 2 pacing across the small stage from image 3 with expressive hand gestures while singing, spotlight pulsing, crowd in warm neutral clothes beginning to rise from their seats in the background. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 16 prompt",
    "color": "#232",
@@ -7031,10 +7031,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -7173,7 +7173,7 @@
    "widgets_values": [
     1016,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -7181,7 +7181,7 @@
    ],
    "widgets_values_named": {
     "seed": 1016,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -7354,10 +7354,10 @@
     }
    },
    "widgets_values": [
-    "Low wide shot from crowd level of the woman from image 1 in the red beaded gown from image 2 standing center stage in the nightclub from image 3, both hands raised holding the microphone high, the entire standing crowd silhouetted in the foreground, bright anticipatory spotlight."
+    "Medium shot of the woman from image 1 in the red beaded gown from image 2 standing center stage in the nightclub from image 3, holding the microphone with both hands close to her chest, drawing a breath, the standing crowd silhouetted in the foreground, bright anticipatory spotlight. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Low wide shot from crowd level of the woman from image 1 in the red beaded gown from image 2 standing center stage in the nightclub from image 3, both hands raised holding the microphone high, the entire standing crowd silhouetted in the foreground, bright anticipatory spotlight."
+    "prompt": "Medium shot of the woman from image 1 in the red beaded gown from image 2 standing center stage in the nightclub from image 3, holding the microphone with both hands close to her chest, drawing a breath, the standing crowd silhouetted in the foreground, bright anticipatory spotlight. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 17 prompt",
    "color": "#232",
@@ -7441,10 +7441,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -7583,7 +7583,7 @@
    "widgets_values": [
     1017,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -7591,7 +7591,7 @@
    ],
    "widgets_values_named": {
     "seed": 1017,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -7764,10 +7764,10 @@
     }
    },
    "widgets_values": [
-    "Low-angle hero shot of the woman from image 1 in the red beaded gown from image 2 belting powerfully into the microphone under a blazing bright spotlight, haze swirling around her, crowd erupting with raised arms in soft focus behind her, nightclub from image 3."
+    "Low-angle hero shot of the woman from image 1 in the red beaded gown from image 2 belting powerfully into the microphone under a blazing bright spotlight, haze swirling around her, crowd erupting with raised arms in soft focus behind her, nightclub from image 3. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Low-angle hero shot of the woman from image 1 in the red beaded gown from image 2 belting powerfully into the microphone under a blazing bright spotlight, haze swirling around her, crowd erupting with raised arms in soft focus behind her, nightclub from image 3."
+    "prompt": "Low-angle hero shot of the woman from image 1 in the red beaded gown from image 2 belting powerfully into the microphone under a blazing bright spotlight, haze swirling around her, crowd erupting with raised arms in soft focus behind her, nightclub from image 3. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 18 prompt",
    "color": "#232",
@@ -7851,10 +7851,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -7993,7 +7993,7 @@
    "widgets_values": [
     1018,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -8001,7 +8001,7 @@
    ],
    "widgets_values_named": {
     "seed": 1018,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -8174,10 +8174,10 @@
     }
    },
    "widgets_values": [
-    "The woman from image 1 in the red beaded mermaid gown from image 2 singing passionately on the small stage from image 3, hair and gown in motion, bright spotlight flaring through haze, blurred energetic crowd around the stage."
+    "The woman from image 1 in the red beaded mermaid gown from image 2 singing passionately on the small stage from image 3, hair and gown in motion, bright spotlight flaring through haze, blurred energetic crowd around the stage. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "The woman from image 1 in the red beaded mermaid gown from image 2 singing passionately on the small stage from image 3, hair and gown in motion, bright spotlight flaring through haze, blurred energetic crowd around the stage."
+    "prompt": "The woman from image 1 in the red beaded mermaid gown from image 2 singing passionately on the small stage from image 3, hair and gown in motion, bright spotlight flaring through haze, blurred energetic crowd around the stage. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 19 prompt",
    "color": "#232",
@@ -8261,10 +8261,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -8403,7 +8403,7 @@
    "widgets_values": [
     1019,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -8411,7 +8411,7 @@
    ],
    "widgets_values_named": {
     "seed": 1019,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -8584,10 +8584,10 @@
     }
    },
    "widgets_values": [
-    "Wide symmetrical shot of the full, lively nightclub from image 3: the woman from image 1 in the red beaded gown from image 2 on the central stage under a bright spotlight, gesturing out toward patrons in warm neutral clothes singing along arm in arm, warm haze, string lights."
+    "Wide symmetrical shot of the full, lively nightclub from image 3: the woman from image 1 in the red beaded gown from image 2 on the central stage under a bright spotlight, gesturing out toward patrons in warm neutral clothes singing along arm in arm, warm haze, string lights. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Wide symmetrical shot of the full, lively nightclub from image 3: the woman from image 1 in the red beaded gown from image 2 on the central stage under a bright spotlight, gesturing out toward patrons in warm neutral clothes singing along arm in arm, warm haze, string lights."
+    "prompt": "Wide symmetrical shot of the full, lively nightclub from image 3: the woman from image 1 in the red beaded gown from image 2 on the central stage under a bright spotlight, gesturing out toward patrons in warm neutral clothes singing along arm in arm, warm haze, string lights. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 20 prompt",
    "color": "#232",
@@ -8671,10 +8671,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -8813,7 +8813,7 @@
    "widgets_values": [
     1020,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -8821,7 +8821,7 @@
    ],
    "widgets_values_named": {
     "seed": 1020,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -8994,10 +8994,10 @@
     }
    },
    "widgets_values": [
-    "Close-up of the woman from image 1 in the red beaded gown from image 2 with a joyful tearful smile, eyes glistening, holding the microphone near her lips under a warm steady spotlight, soft haze, dark blurred nightclub from image 3."
+    "Close-up of the woman from image 1 in the red beaded gown from image 2 with a joyful tearful smile, eyes glistening, holding the microphone near her lips under a warm steady spotlight, soft haze, dark blurred nightclub from image 3. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Close-up of the woman from image 1 in the red beaded gown from image 2 with a joyful tearful smile, eyes glistening, holding the microphone near her lips under a warm steady spotlight, soft haze, dark blurred nightclub from image 3."
+    "prompt": "Close-up of the woman from image 1 in the red beaded gown from image 2 with a joyful tearful smile, eyes glistening, holding the microphone near her lips under a warm steady spotlight, soft haze, dark blurred nightclub from image 3. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 21 prompt",
    "color": "#232",
@@ -9081,10 +9081,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -9223,7 +9223,7 @@
    "widgets_values": [
     1021,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -9231,7 +9231,7 @@
    ],
    "widgets_values_named": {
     "seed": 1021,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -9404,10 +9404,10 @@
     }
    },
    "widgets_values": [
-    "Close-up of the woman from image 1 in the red beaded gown from image 2 standing alone in a single tight spotlight on an otherwise dark stage from image 3, eyes closed, vulnerable raw expression, singing into the microphone, deep shadows, faint haze."
+    "Close-up of the woman from image 1 in the red beaded gown from image 2 standing alone in a single tight spotlight on an otherwise dark stage from image 3, eyes closed, vulnerable raw expression, singing into the microphone, deep shadows, faint haze. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Close-up of the woman from image 1 in the red beaded gown from image 2 standing alone in a single tight spotlight on an otherwise dark stage from image 3, eyes closed, vulnerable raw expression, singing into the microphone, deep shadows, faint haze."
+    "prompt": "Close-up of the woman from image 1 in the red beaded gown from image 2 standing alone in a single tight spotlight on an otherwise dark stage from image 3, eyes closed, vulnerable raw expression, singing into the microphone, deep shadows, faint haze. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 22 prompt",
    "color": "#232",
@@ -9491,10 +9491,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -9633,7 +9633,7 @@
    "widgets_values": [
     1022,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -9641,7 +9641,7 @@
    ],
    "widgets_values_named": {
     "seed": 1022,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -9814,10 +9814,10 @@
     }
    },
    "widgets_values": [
-    "Faces of a hushed, moved nightclub crowd in warm neutral clothing, some patrons with hands over their hearts and eyes closed, candlelight on their faces, and in the distance the woman from image 1 in the red beaded gown from image 2 singing alone under a single spotlight on the small stage from image 3."
+    "Faces of a hushed, moved nightclub crowd in warm neutral clothing, some patrons with hands over their hearts and eyes closed, candlelight on their faces, and in the distance the woman from image 1 in the red beaded gown from image 2 singing alone under a single spotlight on the small stage from image 3. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Faces of a hushed, moved nightclub crowd in warm neutral clothing, some patrons with hands over their hearts and eyes closed, candlelight on their faces, and in the distance the woman from image 1 in the red beaded gown from image 2 singing alone under a single spotlight on the small stage from image 3."
+    "prompt": "Faces of a hushed, moved nightclub crowd in warm neutral clothing, some patrons with hands over their hearts and eyes closed, candlelight on their faces, and in the distance the woman from image 1 in the red beaded gown from image 2 singing alone under a single spotlight on the small stage from image 3. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 23 prompt",
    "color": "#232",
@@ -9901,10 +9901,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -10043,7 +10043,7 @@
    "widgets_values": [
     1023,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -10051,7 +10051,7 @@
    ],
    "widgets_values_named": {
     "seed": 1023,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -10224,10 +10224,10 @@
     }
    },
    "widgets_values": [
-    "Low-angle shot of the woman from image 1 in the red beaded gown from image 2 on the small stage from image 3, slowly raising her free hand upward as she sings, spotlight beginning to warm and widen around her, silhouetted crowd rising in the background."
+    "Low-angle waist-up shot of the woman from image 1 in the red beaded gown from image 2 on the small stage from image 3, singing, her free hand raised to chest height with the palm open, spotlight warming and widening around her, silhouetted crowd rising in the background. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Low-angle shot of the woman from image 1 in the red beaded gown from image 2 on the small stage from image 3, slowly raising her free hand upward as she sings, spotlight beginning to warm and widen around her, silhouetted crowd rising in the background."
+    "prompt": "Low-angle waist-up shot of the woman from image 1 in the red beaded gown from image 2 on the small stage from image 3, singing, her free hand raised to chest height with the palm open, spotlight warming and widening around her, silhouetted crowd rising in the background. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 24 prompt",
    "color": "#232",
@@ -10311,10 +10311,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -10453,7 +10453,7 @@
    "widgets_values": [
     1024,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -10461,7 +10461,7 @@
    ],
    "widgets_values_named": {
     "seed": 1024,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -10634,10 +10634,10 @@
     }
    },
    "widgets_values": [
-    "High wide view over the nightclub from image 3 in full celebration: the woman from image 1 in the red beaded gown from image 2 under the brightest golden spotlight yet, haze glowing gold, the whole crowd on their feet with arms raised and phone lights glowing, singing along."
+    "High wide view over the nightclub from image 3 in full celebration: the woman from image 1 in the red beaded gown from image 2 under the brightest golden spotlight yet, haze glowing gold, the whole crowd on their feet with arms raised and phone lights glowing, singing along. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "High wide view over the nightclub from image 3 in full celebration: the woman from image 1 in the red beaded gown from image 2 under the brightest golden spotlight yet, haze glowing gold, the whole crowd on their feet with arms raised and phone lights glowing, singing along."
+    "prompt": "High wide view over the nightclub from image 3 in full celebration: the woman from image 1 in the red beaded gown from image 2 under the brightest golden spotlight yet, haze glowing gold, the whole crowd on their feet with arms raised and phone lights glowing, singing along. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 25 prompt",
    "color": "#232",
@@ -10721,10 +10721,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -10863,7 +10863,7 @@
    "widgets_values": [
     1025,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -10871,7 +10871,7 @@
    ],
    "widgets_values_named": {
     "seed": 1025,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -11044,10 +11044,10 @@
     }
    },
    "widgets_values": [
-    "The woman from image 1 in the red beaded gown from image 2 holding a powerful final high note, mouth open in full-voice belt, microphone raised, golden light particles and haze drifting, ecstatic roaring crowd with raised arms behind her, nightclub from image 3."
+    "The woman from image 1 in the red beaded gown from image 2 holding a powerful final high note, mouth open in full-voice belt, microphone raised, golden light particles and haze drifting, ecstatic roaring crowd with raised arms behind her, nightclub from image 3. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "The woman from image 1 in the red beaded gown from image 2 holding a powerful final high note, mouth open in full-voice belt, microphone raised, golden light particles and haze drifting, ecstatic roaring crowd with raised arms behind her, nightclub from image 3."
+    "prompt": "The woman from image 1 in the red beaded gown from image 2 holding a powerful final high note, mouth open in full-voice belt, microphone raised, golden light particles and haze drifting, ecstatic roaring crowd with raised arms behind her, nightclub from image 3. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 26 prompt",
    "color": "#232",
@@ -11131,10 +11131,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -11273,7 +11273,7 @@
    "widgets_values": [
     1026,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -11281,7 +11281,7 @@
    ],
    "widgets_values_named": {
     "seed": 1026,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
@@ -11454,10 +11454,10 @@
     }
    },
    "widgets_values": [
-    "Medium shot of the woman from image 1 in the red beaded gown from image 2 lowering the microphone slightly after her final note, eyes closed, a small content smile, spotlight dimming around her, warm afterglow haze, still reverent crowd silhouettes, dark nightclub from image 3."
+    "Medium shot of the woman from image 1 in the red beaded gown from image 2 lowering the microphone slightly after her final note, eyes closed, a small content smile, spotlight dimming around her, warm afterglow haze, still reverent crowd silhouettes, dark nightclub from image 3. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    ],
    "widgets_values_named": {
-    "prompt": "Medium shot of the woman from image 1 in the red beaded gown from image 2 lowering the microphone slightly after her final note, eyes closed, a small content smile, spotlight dimming around her, warm afterglow haze, still reverent crowd silhouettes, dark nightclub from image 3."
+    "prompt": "Medium shot of the woman from image 1 in the red beaded gown from image 2 lowering the microphone slightly after her final note, eyes closed, a small content smile, spotlight dimming around her, warm afterglow haze, still reverent crowd silhouettes, dark nightclub from image 3. Her right hand holds the microphone with a relaxed natural grip, five clearly separated fingers; her other hand rests calmly; anatomically correct hands."
    },
    "title": "Scene 27 prompt",
    "color": "#232",
@@ -11541,10 +11541,10 @@
     }
    },
    "widgets_values": [
-    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    ],
    "widgets_values_named": {
-    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render"
+    "prompt": "blurry, deformed face, extra fingers, different hairstyle, long hair, curly hair, different dress, blue dress, text, watermark, logo, cartoon, 3d render, bad hands, extra fingers, missing fingers, fused fingers, six fingers, mangled hands, deformed hands, two microphones, floating microphone"
    },
    "title": "negative",
    "color": "#322",
@@ -11683,7 +11683,7 @@
    "widgets_values": [
     1027,
     "fixed",
-    4,
+    8,
     1.0,
     "euler",
     "simple",
@@ -11691,7 +11691,7 @@
    ],
    "widgets_values_named": {
     "seed": 1027,
-    "steps": 4,
+    "steps": 8,
     "cfg": 1.0,
     "sampler_name": "euler",
     "scheduler": "simple",
