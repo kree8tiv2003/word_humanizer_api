@@ -337,3 +337,15 @@ def test_health_version_and_shutdown_guard(monkeypatch):
     assert c.post('/api/shutdown', headers={'X-Script-Studio': 'replace'}).status_code == 403   # only in the desktop app
     monkeypatch.setattr(appmod.userconfig, 'is_frozen', lambda: True)
     assert c.post('/api/shutdown').status_code == 403                                             # needs the header
+
+
+def test_stale_running_job_is_listed_as_stopped(tmp_path):
+    from script_studio.jobs import JobStore
+    old = JobStore(str(tmp_path))
+    job = old.create(Settings())
+    job.status, job.title = 'running', 'Saved mid-run'
+    old.save(job)
+    assert old.list()[0]['status'] == 'running'          # still running in this server
+    fresh = JobStore(str(tmp_path))                     # the server stopped and started again
+    assert fresh.list()[0]['status'] == 'error'
+    assert fresh.get(job.id).status == 'error'

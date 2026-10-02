@@ -4,6 +4,14 @@ const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const fmt = (t) => { t = Math.max(0, t || 0); const m = Math.floor(t / 60), s = (t - m * 60).toFixed(1).padStart(4, '0'); return `${m}:${s}`; };
 
+// fetch() rejects with a bare "Failed to fetch" when nothing answers on this computer's port:
+// the app was closed, crashed, or was replaced by an update while this tab stayed open.
+const OFFLINE = 'Script Studio is not running any more, so nothing was sent. Start it again from the Start menu ' +
+  '(or Applications), keep its small "Script Studio is running" window open, then reload this page.';
+async function api(url, opts) {
+  try { return await fetch(url, opts); } catch { throw new Error(OFFLINE); }
+}
+
 const state = { mode: 'story', inc: '10', docs: [], audio: null, jobId: null, job: null, rendered: new Map(), timer: null, config: {} };
 
 // ------------------------------------------------------------------ config & status
@@ -149,7 +157,7 @@ $('#goBtn').addEventListener('click', async () => {
   if (state.audio) fd.append('audio', state.audio);
   $('#goBtn').disabled = true; $('#goBtn').textContent = 'Uploading…';
   try {
-    const r = await fetch('/api/jobs', { method: 'POST', body: fd });
+    const r = await api('/api/jobs', { method: 'POST', body: fd });
     const d = await r.json();
     if (!r.ok) throw new Error(d.detail || 'Upload failed');
     openJob(d.id);
@@ -176,11 +184,13 @@ async function poll() {
   const id = state.jobId;
   let job;
   try {
-    const r = await fetch(`/api/jobs/${id}`);
+    const r = await api(`/api/jobs/${id}`);
     if (!r.ok) throw new Error((await r.json()).detail);
     job = await r.json();
   } catch (e) {
-    $('#stage').textContent = e.message; $('#progressBox').classList.add('error'); return;
+    $('#stage').textContent = e.message; $('#progressBox').classList.add('error');
+    if (e.message === OFFLINE && id === state.jobId) state.timer = setTimeout(poll, 5000);   // pick up again once it is back
+    return;
   }
   if (id !== state.jobId) return;
   state.job = job;
@@ -351,7 +361,8 @@ $$('.exports a').forEach((a) => a.addEventListener('click', () => {
 }));
 
 $('#resumeBtn').addEventListener('click', async () => {
-  const r = await fetch(`/api/jobs/${state.jobId}/resume`, { method: 'POST' });
+  let r;
+  try { r = await api(`/api/jobs/${state.jobId}/resume`, { method: 'POST' }); } catch (e) { alert(e.message); return; }
   if (r.ok) { $('#progressBox').classList.remove('error'); poll(); } else alert((await r.json()).detail);
 });
 

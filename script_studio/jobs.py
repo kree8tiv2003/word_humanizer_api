@@ -81,7 +81,14 @@ class JobStore:
                 try:
                     with open(os.path.join(self.root, name), encoding='utf-8') as f:
                         d = json.load(f)
-                    out.append({'id': d['id'], 'title': d.get('title') or 'Untitled', 'status': d['status'],
+                    status = d['status']
+                    with self.lock:
+                        live = self.jobs.get(d['id'])
+                    if live:
+                        status = live.status
+                    elif status in ('queued', 'running'):   # saved mid-run by a server that has since stopped
+                        status = 'error'
+                    out.append({'id': d['id'], 'title': d.get('title') or 'Untitled', 'status': status,
                                 'created': d['created'], 'mode': d['settings']['mode'], 'increment': d['settings']['increment']})
                 except Exception:
                     continue
