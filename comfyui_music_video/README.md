@@ -45,6 +45,8 @@ Hands distort because a hand is only about 2 latent pixels wide (LTX-2 compresse
 
 ## Run it
 ```bash
+# download the models (resumable): all of them (~95 GB), or just the upscaler with --only upscaler
+python3 tools/download_models.py /path/to/ComfyUI
 # copy input/* into ComfyUI/input, start ComfyUI, then:
 python3 tools/run_music_video.py --server http://127.0.0.1:8188
 # -> output/stills/*.png, output/clips/clip_XX.mp4, output/God_Inside_music_video.mp4 (3:06, 1280x704, 24 fps)
