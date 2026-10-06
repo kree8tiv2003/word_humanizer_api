@@ -1,0 +1,268 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "juggernautXL_ragnarokBy.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "x.jpg"
+    }
+  },
+  "3": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "pose_sheet.png"
+    }
+  },
+  "4": {
+    "class_type": "IPAdapterUnifiedLoaderFaceID",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "preset": "FACEID PLUS V2",
+      "lora_strength": 0.6,
+      "provider": "CUDA"
+    }
+  },
+  "5": {
+    "class_type": "IPAdapterFaceID",
+    "inputs": {
+      "model": [
+        "4",
+        0
+      ],
+      "ipadapter": [
+        "4",
+        1
+      ],
+      "image": [
+        "2",
+        0
+      ],
+      "weight": 0.85,
+      "weight_faceidv2": 1.0,
+      "weight_type": "linear",
+      "combine_embeds": "concat",
+      "start_at": 0.0,
+      "end_at": 1.0,
+      "embeds_scaling": "V only"
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "character design reference sheet, turnaround model sheet, same character in every panel, full body front view, three-quarter view, side view and back view, plus three head-and-shoulders close-ups with different expressions, consistent outfit and proportions, neutral plain light grey background, clean layout, realistic photographic character design, highly detailed face, detailed fabric and accessories, sharp focus, professional concept art"
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "different person, inconsistent outfit, extra limbs, extra fingers, deformed hands, bad anatomy, blurry, lowres, jpeg artifacts, watermark, text, logo, cropped, busy background, duplicate panels"
+    }
+  },
+  "8": {
+    "class_type": "ControlNetLoader",
+    "inputs": {
+      "control_net_name": "OpenPoseXL2.safetensors"
+    }
+  },
+  "9": {
+    "class_type": "ControlNetApplyAdvanced",
+    "inputs": {
+      "positive": [
+        "6",
+        0
+      ],
+      "negative": [
+        "7",
+        0
+      ],
+      "control_net": [
+        "8",
+        0
+      ],
+      "image": [
+        "3",
+        0
+      ],
+      "strength": 0.8,
+      "start_percent": 0.0,
+      "end_percent": 0.85,
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "10": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 1344,
+      "height": 768,
+      "batch_size": 1
+    }
+  },
+  "11": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "5",
+        0
+      ],
+      "positive": [
+        "9",
+        0
+      ],
+      "negative": [
+        "9",
+        1
+      ],
+      "latent_image": [
+        "10",
+        0
+      ],
+      "seed": 42,
+      "steps": 35,
+      "cfg": 5.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "12": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "11",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "13": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "12",
+        0
+      ],
+      "filename_prefix": "charsheet/base_1344"
+    }
+  },
+  "14": {
+    "class_type": "UpscaleModelLoader",
+    "inputs": {
+      "model_name": "4x-UltraSharp.pth"
+    }
+  },
+  "15": {
+    "class_type": "ImageUpscaleWithModel",
+    "inputs": {
+      "upscale_model": [
+        "14",
+        0
+      ],
+      "image": [
+        "12",
+        0
+      ]
+    }
+  },
+  "16": {
+    "class_type": "ImageScale",
+    "inputs": {
+      "image": [
+        "15",
+        0
+      ],
+      "upscale_method": "lanczos",
+      "width": 3840,
+      "height": 2160,
+      "crop": "disabled"
+    }
+  },
+  "17": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "highly detailed, sharp focus, fine skin and fabric texture, clean lines, realistic photographic character design"
+    }
+  },
+  "18": {
+    "class_type": "UltimateSDUpscale",
+    "inputs": {
+      "image": [
+        "16",
+        0
+      ],
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "17",
+        0
+      ],
+      "negative": [
+        "7",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ],
+      "upscale_by": 2.0,
+      "seed": 42,
+      "steps": 20,
+      "cfg": 5.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 0.22,
+      "upscale_model": [
+        "14",
+        0
+      ],
+      "mode_type": "Linear",
+      "tile_width": 1024,
+      "tile_height": 1024,
+      "mask_blur": 16,
+      "tile_padding": 64,
+      "seam_fix_mode": "Half Tile",
+      "seam_fix_denoise": 0.3,
+      "seam_fix_width": 64,
+      "seam_fix_mask_blur": 8,
+      "seam_fix_padding": 32,
+      "force_uniform_tiles": true,
+      "tiled_decode": true
+    }
+  },
+  "19": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "18",
+        0
+      ],
+      "filename_prefix": "charsheet/sheet_8k_7680x4320"
+    }
+  }
+}
